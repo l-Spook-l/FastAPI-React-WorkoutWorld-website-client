@@ -1,0 +1,15 @@
+.logo {
+  font-size: 48px;
+}
+
+.logoText {
+  font-size: 25px;
+  margin-left: 10px;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: whitesmoke;
+}
