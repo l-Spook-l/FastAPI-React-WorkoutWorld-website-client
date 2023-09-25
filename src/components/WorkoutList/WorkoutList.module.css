@@ -1,0 +1,11 @@
+.myContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+@media (max-width: 769px) {
+  .myContainer {
+    justify-content: space-between;
+  }
+}
