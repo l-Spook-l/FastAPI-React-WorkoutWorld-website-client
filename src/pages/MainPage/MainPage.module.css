@@ -1,0 +1,17 @@
+.sectionAboutUs {
+  display: flex;
+  justify-content: space-around;
+  background-color: black;
+  padding: 50px;
+}
+
+.imgAboutUs {
+  max-width: 700px;
+  max-height: 500px;
+}
+
+.textAboutUs {
+  max-width: 700px;
+  max-height: 700px;
+  color: aliceblue;
+}
