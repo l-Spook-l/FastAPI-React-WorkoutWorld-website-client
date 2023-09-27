@@ -1,15 +1,43 @@
-.logo {
-  font-size: 48px;
+.myNavbar {
+  display: flex;
+  justify-content: space-between;
+  height: 63px;
+  position: fixed;
+  background-color: rgb(3, 14, 24);
+  width: 100%;
+  top: 0;
+  z-index: 10;
 }
 
-.logoText {
+.logo {
   font-size: 25px;
   margin-left: 10px;
-}
-
-.logoContainer {
-  display: flex;
-  align-items: center;
   text-decoration: none;
   color: whitesmoke;
+}
+
+.menuNavbar {
+  display: flex;
+  justify-content: space-between;
+  max-width: 250px;
+  margin-right: 50px;
+} 
+
+.workouts,
+.profile,
+.login,
+.logout {
+  color: white;
+  text-decoration: none;
+  font-size: 1.3rem;
+  margin-left: 18px;
+  /* position: relative;
+   */
+}
+
+.logo:hover,
+.profile:hover,
+.login:hover,
+.logout:hover {
+  color: white;
 }
