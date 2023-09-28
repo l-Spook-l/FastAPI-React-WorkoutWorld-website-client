@@ -8,10 +8,39 @@
 .imgAboutUs {
   max-width: 700px;
   max-height: 500px;
+  border-radius: 8px;
 }
 
 .textAboutUs {
   max-width: 700px;
   max-height: 700px;
   color: aliceblue;
+}
+
+.sectionServices {
+  display: flex;
+  justify-content: space-around;
+  background-color: black;
+}
+
+.imgServices {
+  max-width: 700px;
+  max-height: 500px;
+  border-radius: 8px;
+}
+
+.sectionFitnessEquipment {
+  display: flex;
+  justify-content: space-around;
+  background-color: black;
+}
+
+.imgHomeGym {
+  max-width: 700px;
+  max-height: 500px;
+  border-radius: 8px;
+}
+
+.sectionReviews {
+  background-color: black;
 }
