@@ -21,51 +21,50 @@ const MainPageContactFrom = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form  className={style.containerForm} onSubmit={handleSubmit}>
       <Row>
         <Form.Group as={Col} md="6" className="mb-3" controlId="formName">
-          <Form.Label className={style.label}>Name</Form.Label>
+          <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter your name"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className={style.formStyle}
           />
         </Form.Group>
 
         <Form.Group as={Col} md="6" className="mb-3" controlId="formEmail">
-          <Form.Label className={style.label}>E-mail</Form.Label>
+          <Form.Label>E-mail</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter your e-mail"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className={style.formStyle}
           />
         </Form.Group>
       </Row>
 
       <Row>
         <Form.Group className="mb-3" controlId="formMessage">
-          <Form.Label className={style.label}>Message</Form.Label>
+          <Form.Label>Message</Form.Label>
           <Form.Control
             as="textarea"
-            rows={5}
+            rows={4}
             placeholder="Enter your message"
             name="message"
             value={formData.message}
             onChange={handleChange}
-            className={style.formStyle}
           />
         </Form.Group>
       </Row>
 
-      <Button variant="success" type="submit">
-        Send
-      </Button>
+      <Row className='d-flex'>
+        <button className={style.button} type="submit">
+          Send
+        </button>        
+      </Row>
     </Form>
   );
 };
