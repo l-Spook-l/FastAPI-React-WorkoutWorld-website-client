@@ -4,15 +4,19 @@ import style from './ReviewMainPage.module.css'
 
 const ReviewMainPage = () => {
   return (
-    <Carousel>
+    <Carousel className={style.carousel}>
       <Carousel.Item className={style.carouselItem}>
-        <p className={style.text}>
+      <Carousel.Caption className={style.carouselCaption}>
+      <p className={style.text}>
           I absolutely love WorkoutWorld! Their wide range of sports goods and 
           expertly designed workouts have helped me achieve my fitness goals. 
         </p>
         - Olivia
+      </Carousel.Caption>
       </Carousel.Item>
+
       <Carousel.Item className={style.carouselItem}>
+        <Carousel.Caption className={style.carouselCaption}>
         <p className={style.text}>
           WorkoutWorld is the best place to get everything you need for a 
           great workout! Their knowledgeable staff helped me create a personalized 
@@ -20,8 +24,11 @@ const ReviewMainPage = () => {
           Thank you WorkoutWorld!
         </p>
         - Emily
+        </Carousel.Caption>
       </Carousel.Item>
+
       <Carousel.Item className={style.carouselItem}>
+        <Carousel.Caption className={style.carouselCaption}>
         <p className={style.text}>
           I'm so grateful for WorkoutWorld! Their incredible workout creation and 
           wide range of sports goods have helped me achieve my fitness goals. 
@@ -29,6 +36,7 @@ const ReviewMainPage = () => {
           journey enjoyable and successful. Thank you WorkoutWorld!
         </p>
         - John 
+        </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
   )
