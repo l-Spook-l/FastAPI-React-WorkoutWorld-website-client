@@ -40,7 +40,7 @@ const MyPagination = observer(() => {
   }
 
   return (
-    <Pagination className="mt-2 ms-3 bg-dark">
+    <div className={style.container}>
       {pages.map((page, index) => (
         <button
           key={index}
@@ -55,7 +55,7 @@ const MyPagination = observer(() => {
           {page}
         </button>
       ))}
-    </Pagination>
+    </div>
   );
 });
 
