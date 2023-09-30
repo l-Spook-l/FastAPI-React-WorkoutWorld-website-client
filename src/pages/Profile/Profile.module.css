@@ -1,0 +1,30 @@
+.forContainer {
+  background-color: burlywood;
+}
+
+.alertMenu {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background-color:rgb(255, 255, 255);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  color: black;
+}
+
+.alertMenu:hover {
+  background-color:rgb(99, 214, 151);
+}
+
+.alertMenuActive {
+  background-color:rgb(99, 214, 151);
+}
+
+.blockWithMenu {
+  margin: 70px 0 210px 0;
+}
+
+@media (max-width: 769px) {
+  .blockWithMenu {
+    margin: 70px 0 20px 0;
+  }
+}
