@@ -6,6 +6,8 @@ import { Container, Nav, Navbar } from 'react-bootstrap'
 import { MAIN_ROUTE, PROFILE_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
 import style from "./NavBar.module.css";
 import { AiOutlineProfile, AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
+import FormLogin from "../Forms/FormLogin/FormLogin";
+import FormRegister from "../Forms/FormRegister/FormRegister";
 
 const NavBar = observer(() => {
   const { user } = useContext(Context)
@@ -20,16 +22,20 @@ const NavBar = observer(() => {
   const logOut = () => {
     user.setUser({});
     user.setIsAuth(false);
-    localStorage.setItem("token", null);
+    //localStorage.setItem("token", null);
   };
 
   const clickLogin = () => {
-    //setShowModal(true);
-    //setShowLogin(true);
-    user.setIsAuth(true)  // для теста
+    setShowModal(true);
+    setShowLogin(true);
+  };
+
+  const handleSwitchForm = () => {
+    setShowLogin(!showLogin);
   };
 
   return (
+    <Container fluid className={style.container}>
       <Navbar 
         collapseOnSelect
         //expand="lg"
@@ -65,36 +71,23 @@ const NavBar = observer(() => {
             }
           </div>
         </Nav>
-        {/* <div className={style.menuNavbar}>
-          <NavLink to={WORKOUTS_ROUTE}>
-            Workouts
-          </NavLink>
-          <Nav>wishlist</Nav>
-          <Nav>Profile</Nav>
-        </div> */}
-        {/* <div className="d-flex justify-content-center">
-          <Nav>
-            {user.isAuth ? 
-              <div>
-                <NavLink
-                  className={style.profile}
-                  to={{ pathname: PROFILE_ROUTE }}+
-                  state="userInfo"
-                >
-                  <AiOutlineProfile />
-                </NavLink>
-                <NavLink className={style.login} onClick={logOut} to={MAIN_ROUTE}>
-                  <AiOutlineLogout />
-                </NavLink>
-              </div>
-             : 
-              <NavLink className={style.logout} onClick={clickLogin}>
-                <AiOutlineLogin />
-              </NavLink>
-            }
-            </Nav>
-        </div> */}
+        
       </Navbar>
+      {showLogin ? 
+        <FormLogin
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          onSwitchForm={handleSwitchForm}
+        />
+       : 
+        <FormRegister
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          onSwitchForm={handleSwitchForm}
+        />
+      }
+    </Container>
+      
       
   )
 })

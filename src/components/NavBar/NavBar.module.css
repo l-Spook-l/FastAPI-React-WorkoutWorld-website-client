@@ -1,3 +1,8 @@
+.container {
+  margin: 0;
+  padding: 0;
+}
+
 .myNavbar {
   display: flex;
   justify-content: space-between;
@@ -31,8 +36,12 @@
   text-decoration: none;
   font-size: 1.3rem;
   margin-left: 18px;
-  /* position: relative;
-   */
+  transition: text-decoration 0.3s;
+}
+
+.workouts:hover {
+  color: white;
+  text-decoration: underline; 
 }
 
 .logo:hover,
