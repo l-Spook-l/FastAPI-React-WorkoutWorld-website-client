@@ -1,13 +1,18 @@
-import {MAIN_ROUTE, PROFILE_ROUTE, WORKOUTS_ROUTE, WORKOUT_ROUTE } from './utils/consts'
+import {CREATE_WORKOUT_ROUTE, MAIN_ROUTE, PROFILE_ROUTE, WORKOUTS_ROUTE, WORKOUT_ROUTE } from './utils/consts'
 import MainPage from './pages/MainPage/MainPage'
 import WorkoutsPage from './pages/WorkoutsPage/WorkoutsPage'
 import ProfilePage from './pages/Profile/Profile'
 import WorkoutPage from './pages/WorkoutPage/WorkoutPage'
+import CreateWorkoutPage from './pages/CreateWorkoutPage/CreateWorkoutPage'
 
 export const authRoutes = [
   {
     path: PROFILE_ROUTE,
     Component: ProfilePage
+  },
+  {
+    path: CREATE_WORKOUT_ROUTE,
+    Component: CreateWorkoutPage
   }
 ]
 
