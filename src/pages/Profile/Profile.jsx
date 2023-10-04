@@ -28,6 +28,9 @@ const Profile = observer(() => {
       case "userInfo":
         //setView(<UserInfo />);
         break;
+      case "createWorkouts":
+        //setView(<Basket />);
+        break;
       case "basket":
         //setView(<Basket />);
         break;
@@ -59,6 +62,12 @@ const Profile = observer(() => {
               <span>{user.user.email}</span>
             </Alert>
             <hr />
+            <Alert
+              className={`${style.alertMenu} ${activeTab === "createWorkouts" ? style.alertMenuActive : ""}`}
+              onClick={() => blurHandler("createWorkouts")}
+            >
+              Creation workouts
+            </Alert>
             <Alert
               className={`${style.alertMenu} ${activeTab === "basket" ? style.alertMenuActive : ""}`}
               onClick={() => blurHandler("basket")}
