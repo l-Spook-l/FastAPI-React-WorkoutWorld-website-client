@@ -13,6 +13,18 @@ export const fetchOneWorkout = async(workout_id) => {
   return response.data
 }
 
+export const fetchMyCreatedWorkouts = async(user_id) => {
+  const response = await $host.get(`workouts/user-created-workouts/${user_id}`)
+  console.log('fetchMyCreatedWorkouts response', response)
+  return response.data
+}
+
+export const fetchMyWorkouts = async(user_id) => {
+  const response = await $host.get(`workouts/user-workouts/${user_id}`)
+  console.log('fetchMyWorkouts response', response)
+  return response.data
+}
+
 export const fetchSets = async(exercise, user) => {
   const response = await $host.get(`workouts/sets/${exercise}/${user}`)
   console.log('fetchSets response', response)
