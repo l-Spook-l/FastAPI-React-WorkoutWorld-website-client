@@ -27,7 +27,7 @@ const App = observer(() => {
       // Обработка других ошибок, возникших при выполнении запроса
     }).finally(() => setLoading(false))
 
-  }, [])
+  }, [user.isAuth])
 
   if (loading) {
     return <Spinner animation='grow'/>
