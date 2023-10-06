@@ -1,20 +1,18 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
-import { Pagination } from "react-bootstrap";
 import style from "./MyPagination.module.css";
 import { Context } from "../..";
 
 const MyPagination = observer(() => {
   const { workout } = useContext(Context);
 
-  const limit = 12;
-
-  const pagesCount = Math.ceil(workout.totalCount / limit);
+  const pagesCount = Math.ceil(workout.totalCount / workout.limit);
   let pages = [];
 
   const selectPage = (page) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     workout.setPage(page);
+    workout.setSkip(workout.limit * (page - 1))
   };
 
   if (pagesCount <= 8 ) {
