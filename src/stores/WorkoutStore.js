@@ -7,7 +7,9 @@ export default class WorkoutStore {
     this._selectedWorkout = []
 
     this._page = 1
-    this._totalCount = 300
+    this._totalCount = 0
+    this._skip = 0
+    this._limit = 0
 
     makeAutoObservable(this)
   }
@@ -18,12 +20,17 @@ export default class WorkoutStore {
   setSelectedWorkout(workout) {
     this._selectedWorkout = workout
   }
-
   setPage(page) {
     this._page = page
   }
   setTotalCount(count) {
     this._totalCount = count
+  }
+  setSkip(skip) {
+    this._skip = skip
+  }
+  setLimit(limit) {
+    this._limit = limit
   }
 
   get workouts() {
@@ -32,12 +39,17 @@ export default class WorkoutStore {
   get selectedWorkout() {
     return this._selectedWorkout
   }
-
   get page() {
     return this._page
   }
   get totalCount() {
     return this._totalCount
+  }
+  get skip() {
+    return this._skip
+  }
+  get limit() {
+    return this._limit
   }
 
 }
