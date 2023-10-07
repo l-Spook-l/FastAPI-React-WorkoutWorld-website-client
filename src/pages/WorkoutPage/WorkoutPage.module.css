@@ -1,0 +1,29 @@
+/* WorkoutPage.module.css */
+
+.workoutContainer {
+  margin-top: 20px;
+}
+
+.workoutCard {
+  height: 100%;
+  margin-bottom: 20px;
+}
+
+.workoutTitle{
+  display: flex;
+  justify-content: space-between;
+}
+
+.workoutCardText {
+  height: 150px;
+  overflow: hidden;
+}
+
+.exerciseList {
+  list-style: none;
+  padding: 0;
+}
+
+.exerciseListItem {
+  margin-bottom: 8px;
+}
