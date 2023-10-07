@@ -1,40 +1,72 @@
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Container, Form, Button, Col, Row, Card } from 'react-bootstrap';
+import { createExercise, createWorkout } from '../../http/workoutAPI';
+import { Context } from "../..";
 
 const CreateWorkoutPage = observer(() => {
+  const { user } = useContext(Context)
+
+  const [confirm, setConfirm] = useState(false)
+
+  // Общая проверка валидации формы
+  const [formValidError, setFormValidError] = useState(false);
+
+  // создаем обьект тренировки
   const [workoutData, setWorkoutData] = useState({
     title: '',
     description: '',
+    totalTime: '1',
     exercises: [],
   });
 
   // добавляем значение в обьект workoutData меняя сосояние
   // ...prevData - добавляем что уже было
-  const handleInputChange = (el) => {
+  const inputChange = (el) => {
     const { name, value } = el.target;
-    setWorkoutData((prevData) => ({ ...prevData, [name]: value }));  // [name] - ключемм будет именно значение в переменной, а без [] будет - 'name'
+    setWorkoutData((prevData) => ({ ...prevData, [name]: value }));  // [name] - ключем будет именно значение в переменной, а без [] будет - 'name'
   };
 
   // добавляем упражнение в обьект как обьект ))
   // ...prevData.exercises - добавляем что уже было
-  const handleAddExercise = () => {
+  const addExercise = () => {
     setWorkoutData((prevData) => ({
       ...prevData,
-      exercises: [...prevData.exercises, { name: '', sets: 1, photo: '', video: '' }],
+      exercises: [...prevData.exercises, { name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, photo: '', video: '' }],
     }));
+    setConfirm(true)
   };
 
-  const handleExerciseChange = (index, property, value) => {
+  // отвечает за поля упражнения
+  const exerciseChange = (index, property, value) => {
     const updatedExercises = [...workoutData.exercises];
     updatedExercises[index][property] = value;
     setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }));
   };
 
-  const handleRemoveExercise = (index) => {
+  // удалить упражнение
+  const removeExercise = (index) => {
     const updatedExercises = [...workoutData.exercises];
     updatedExercises.splice(index, 1);
-    setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }));
+    setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }))
+    updatedExercises.length < 1 && setConfirm(false)  // если ничего нет в массив кнопка не активна
+  };
+
+  // сохраняем тренировку
+  const submitCreateWorkout = () => {
+    const checkDataWorkout = Object.values(workoutData).slice(0, -1).every((value) => value !== '')
+    const checkDataExercise = workoutData.exercises.every((el) => Object.values(el).slice(0, -2).every((value) => value !== ''))
+
+    if (!checkDataWorkout || !checkDataExercise) {
+      setFormValidError(true) 
+    } else {
+      setFormValidError(false)
+      createWorkout(workoutData.title, user.user.id, workoutData.description, 'medium', workoutData.totalTime)
+      .then((data) => 
+      workoutData.exercises.map((exercise) => 
+        createExercise( exercise.name, data.workout_ID, exercise.description, exercise.sets, exercise.maximumRepetitions, exercise.restTime, exercise.photo, exercise.video)
+      ))
+    }
   };
 
   return (
@@ -48,7 +80,7 @@ const CreateWorkoutPage = observer(() => {
               placeholder="Enter title"
               name="title"
               value={workoutData.title}
-              onChange={handleInputChange}
+              onChange={inputChange}
             />
           </Form.Group>
 
@@ -60,9 +92,20 @@ const CreateWorkoutPage = observer(() => {
               placeholder="Enter description"
               name="description"
               value={workoutData.description}
-              onChange={handleInputChange}
+              onChange={inputChange}
             />
         </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Total time (minutes)</Form.Label>
+            <Form.Control
+                type="number"
+                placeholder="Enter workout total time"
+                name="totalTime"
+                value={workoutData.totalTime}
+                onChange={inputChange}
+            />
+          </Form.Group>
         <h2>Exercises</h2>
 
         {workoutData.exercises.map((exercise, index) => 
@@ -72,116 +115,119 @@ const CreateWorkoutPage = observer(() => {
                 <Form.Label column sm="2">
                   Name
                 </Form.Label>
-                <Col sm="10">
+                <Col md={5}>
                   <Form.Control
                     type="text"
                     placeholder="Enter exercise name"
                     value={exercise.name}
-                    onChange={(e) => handleExerciseChange(index, 'name', e.target.value)}
+                    onChange={(e) => exerciseChange(index, 'name', e.target.value)}
                   />
                 </Col>
               </Form.Group>
-              <Button variant="danger" onClick={() => handleRemoveExercise(index)}>
+
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm="2">Description</Form.Label>
+                <Col md={5}>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    placeholder="Enter description"
+                    name="description"
+                    value={exercise.description}
+                    onChange={(e) => exerciseChange(index, 'description', e.target.value)}
+                  />
+                </Col>
+            </Form.Group>
+
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm="2">
+                  Sets
+                </Form.Label>
+                <Col md={5}>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter number of sets"
+                    value={exercise.sets}
+                    onChange={(e) => exerciseChange(index, 'sets', e.target.value)}
+                  />
+                </Col>
+              </Form.Group>
+
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm="2">
+                  Maximum repetitions
+                </Form.Label>
+                <Col md={5}>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter maximum repetitions"
+                    value={exercise.maximumRepetitions}
+                    onChange={(e) => exerciseChange(index, 'maximumRepetitions', e.target.value)}
+                  />
+                </Col>
+              </Form.Group>
+
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm="2">
+                  Rest time
+                </Form.Label>
+                <Col md={5}>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter rest time"
+                    value={exercise.restTime}
+                    onChange={(e) => exerciseChange(index, 'restTime', e.target.value)}
+                  />
+                </Col>
+              </Form.Group>
+
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm="2">
+                  Photo
+                </Form.Label>
+                <Col md={5}>
+                  <Form.Control
+                    type="file"
+                    placeholder="Enter photo URL"
+                    value={exercise.photo}
+                    onChange={(e) => exerciseChange(index, 'photo', e.target.value)}
+                  />
+                </Col> Optional
+              </Form.Group>
+
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm="2">
+                  Video
+                </Form.Label>
+                <Col md={5}>
+                  <Form.Control
+                    type="file"
+                    placeholder="Enter video URL"
+                    value={exercise.video}
+                    onChange={(e) => exerciseChange(index, 'video', e.target.value)}
+                  />
+                </Col> Optional
+              </Form.Group>
+
+              <Button variant="danger" onClick={() => removeExercise(index)}>
                 Remove Exercise
               </Button>
             </Card.Body>
           </Card>
         )}
 
-        <Button variant="primary" onClick={handleAddExercise}>
+        <Button variant="primary" onClick={addExercise}>
           Add Exercise
         </Button>
 
-       
-
-        <Button variant="primary" type="submit" className="mt-3">
+        <Button className="" disabled={!confirm} variant={confirm ? undefined : "success"} onClick={submitCreateWorkout}>
           Create Workout
         </Button>
+        {formValidError && <p>Fill in all fields!</p>}
 
       </Form>
     </Container>
   )
-  
-
-
-  
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Здесь вы можете отправить workoutData на сервер или выполнить другие действия
-  //   console.log('Submitted data:', workoutData);
-  // };
-
-  // return (
-  //   <Container className="mt-5">
-  //     <h1>Create Workout</h1>
-  //     <Form onSubmit={handleSubmit}>
-  
-  //       {workoutData.exercises.map((exercise, index) => (
-  //         <Card key={index} className="mb-3">
-  //           <Card.Body>
-  //             <Form.Group as={Row} className="mb-3">
-  //               <Form.Label column sm="2">
-  //                 Name
-  //               </Form.Label>
-  //               <Col sm="10">
-  //                 <Form.Control
-  //                   type="text"
-  //                   placeholder="Enter exercise name"
-  //                   value={exercise.name}
-  //                   onChange={(e) => handleExerciseChange(index, 'name', e.target.value)}
-  //                 />
-  //               </Col>
-  //             </Form.Group>
-
-  //             <Form.Group as={Row} className="mb-3">
-  //               <Form.Label column sm="2">
-  //                 Sets
-  //               </Form.Label>
-  //               <Col sm="10">
-  //                 <Form.Control
-  //                   type="number"
-  //                   placeholder="Enter number of sets"
-  //                   value={exercise.sets}
-  //                   onChange={(e) => handleExerciseChange(index, 'sets', e.target.value)}
-  //                 />
-  //               </Col>
-  //             </Form.Group>
-
-  //             <Form.Group as={Row} className="mb-3">
-  //               <Form.Label column sm="2">
-  //                 Photo
-  //               </Form.Label>
-  //               <Col sm="10">
-  //                 <Form.Control
-  //                   type="text"
-  //                   placeholder="Enter photo URL"
-  //                   value={exercise.photo}
-  //                   onChange={(e) => handleExerciseChange(index, 'photo', e.target.value)}
-  //                 />
-  //               </Col>
-  //             </Form.Group>
-
-  //             <Form.Group as={Row} className="mb-3">
-  //               <Form.Label column sm="2">
-  //                 Video
-  //               </Form.Label>
-  //               <Col sm="10">
-  //                 <Form.Control
-  //                   type="text"
-  //                   placeholder="Enter video URL"
-  //                   value={exercise.video}
-  //                   onChange={(e) => handleExerciseChange(index, 'video', e.target.value)}
-  //                 />
-  //               </Col>
-  //             </Form.Group>
-  //           </Card.Body>
-  //         </Card>
-  //       ))}
-
-  //     </Form>
-  //   </Container>
-  // );
 });
 
 export default CreateWorkoutPage;
