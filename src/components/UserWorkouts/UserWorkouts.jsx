@@ -5,6 +5,8 @@ import { observer } from 'mobx-react-lite'
 import { fetchMyWorkouts } from '../../http/workoutAPI'
 import { Context } from '../..'
 import WorkoutItem from '../WorkoutItem/WorkoutItem'
+import { NavLink } from 'react-router-dom'
+import { CREATE_WORKOUT_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
 
 const UserWorkouts = observer(() => {
   const { user } = useContext(Context)
@@ -23,9 +25,23 @@ const UserWorkouts = observer(() => {
 
   return (
     <Container className={style.myContainer}>
-      {workout.userWorkouts.data.map((el) => 
-        <WorkoutItem key={el.Workout.id} workout={el.Workout}/>
-      )}
+      <h2>My workouts</h2>
+      {workout.userWorkouts.data.length === 0
+        ?
+        <span>
+          You don't have any workouts yet.
+          <NavLink to={CREATE_WORKOUT_ROUTE}>Create your own </NavLink>
+            or 
+          <NavLink to={WORKOUTS_ROUTE}> add an existing one</NavLink>.
+        </span>
+        :
+        <div className={style.contentSection}>
+        {workout.userWorkouts.data.map((el) => 
+          <WorkoutItem key={el.Workout.id} workout={el.Workout}/>
+        )}
+        </div>
+      }
+      
     </Container>
   )
 })

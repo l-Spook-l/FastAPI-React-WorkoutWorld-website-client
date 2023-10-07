@@ -1,15 +1,15 @@
 .myContainer {
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start; */
+  margin-top: 20px;
+}
+
+.contentSection {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* background-color: burlywood; */
 }
 
 @media (max-width: 769px) {
-  .myContainer {
+  .contentSection {
     justify-content: space-between;
   }
 }
