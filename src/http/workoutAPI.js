@@ -2,7 +2,7 @@ import { $host } from "./index"
 
 
 export const fetchWorkouts = async(skip) => {
-  const response = await $host.get(`workouts/`, {params: {skip:skip}})
+  const response = await $host.get('workouts/', {params: {skip:skip}})
   console.log('fetchWorkouts response', response)
   return response.data
 }
@@ -13,18 +13,14 @@ export const fetchOneWorkout = async(workout_id) => {
   return response.data
 }
 
-export const fetchMyCreatedWorkouts = async(user_id) => {
-  const response = await $host.get(`workouts/user-created-workouts/${user_id}`)
+// изменить host - на auhost
+export const fetchMyWorkouts = async(user_id) => {
+  const response = await $host.get('workouts/user-workouts/', {params: {user_id:user_id}})
   console.log('fetchMyCreatedWorkouts response', response)
   return response.data
 }
 
-export const fetchMyWorkouts = async(user_id) => {
-  const response = await $host.get(`workouts/user-workouts/${user_id}`)
-  console.log('fetchMyWorkouts response', response)
-  return response.data
-}
-
+// изменить host - на auhost
 export const fetchSets = async(exercise, user) => {
   const response = await $host.get(`workouts/sets/${exercise}/${user}`)
   console.log('fetchSets response', response)
@@ -33,19 +29,42 @@ export const fetchSets = async(exercise, user) => {
 
 // изменить host - на auhost
 export const createWorkout = async(name, user_id, description, difficulty='test', total_time) => {
-  const response = await $host.post(`workouts/create_workout/`, {name, user_id, description, difficulty, total_time})
+  const response = await $host.post('workouts/create_workout/', {name, user_id, description, difficulty, total_time})
   console.log('createWorkout response', response)
   return response.data
 }
 
+// изменить host - на auhost
 export const createExercise = async(name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo) => {
-  const response = await $host.post(`workouts/create_exercise/`, {name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo})
+  const response = await $host.post('workouts/create_exercise/', {name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo})
   console.log('createExercise response', response)
   return response.data
 }
 
+// изменить host - на auhost
 export const createSet = async(exercise_id, user_id, count, weight) => {
-  const response = await $host.post(`workouts/create_set/`, {exercise_id, user_id, count, weight})
+  const response = await $host.post('workouts/create_set/', {exercise_id, user_id, count, weight})
   console.log('createSet response', response)
+  return response.data
+}
+
+// изменить host - на auhost
+export const updateWorkout = async(name, workout_id, description, difficulty, total_time='0') => {
+  const response = await $host.post('workouts/workout/update/', {name, workout_id, description, difficulty, total_time})
+  console.log('updateWorkout response', response)
+  return response.data
+}
+
+// изменить host - на auhost
+export const updateExercise = async(name, exercise_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo) => {
+  const response = await $host.post('workouts/exercise/update/', {name, exercise_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo})
+  console.log('updateExercise response', response)
+  return response.data
+}
+
+// изменить host - на auhost
+export const updateSet = async(exercise_id, count, weight) => {
+  const response = await $host.post('workouts/set/update/', {exercise_id, count, weight})
+  console.log('updateSet response', response)
   return response.data
 }
