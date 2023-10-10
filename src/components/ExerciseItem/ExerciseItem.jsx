@@ -45,9 +45,18 @@ const ExerciseItem = observer(
           : <h3>{exerciseDescription}</h3>
           }
         <Row>
-          <Col md={4}>numberOfSets: {numberOfSets}</Col>
-          <Col md={4}>maximumRepetitions: {maximumRepetitions}</Col>
-          <Col md={4}>restTime: {restTime}</Col>
+          <Col md={4}>numberOfSets: 
+            {editExercise
+            ? <input type="text" value={exerciseNumberOfSets} onChange={(el) => setExerciseNumberOfSets(el.target.value)} />
+            : exerciseNumberOfSets
+            }
+          </Col>
+          <Col md={4}>maximumRepetitions: 
+            {maximumRepetitions}
+          </Col>
+          <Col md={4}>restTime: 
+            {restTime}
+          </Col>
         </Row>
       </Card.Body>
     </Card>
