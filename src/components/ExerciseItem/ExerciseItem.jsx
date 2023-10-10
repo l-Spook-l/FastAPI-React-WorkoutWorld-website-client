@@ -4,9 +4,10 @@ import { Card, Col, Row } from 'react-bootstrap'
 import { Context } from '../..'
 import { AiFillEdit, AiOutlineCheck} from "react-icons/ai";
 import style from './ExerciseItem.module.css'
+import { updateExercise } from '../../http/workoutAPI';
 
 const ExerciseItem = observer(
-  ({ name, description, numberOfSets, maximumRepetitions, restTime }) => {
+  ({ exerciseId, name, description, numberOfSets, maximumRepetitions, restTime }) => {
   
   const { user } = useContext(Context)
   const { workout } = useContext(Context)
@@ -18,6 +19,11 @@ const ExerciseItem = observer(
   const [exerciseNumberOfSets, setExerciseNumberOfSets] = useState(numberOfSets)
   const [exerciseMaximumRepetitions, setExerciseMaximumRepetitions] = useState(maximumRepetitions)
   const [exerciseRestTime, setExerciseRestTime] = useState(restTime)
+
+  const updateParamExercise = () => {
+    updateExercise(exerciseId, exerciseName, exerciseDescription, exerciseNumberOfSets, exerciseMaximumRepetitions, exerciseRestTime)
+    setEditExercise(false)
+  }
 
   return (
     <Card>
@@ -31,8 +37,11 @@ const ExerciseItem = observer(
             <button onClick={() => setEditExercise(true)}><AiFillEdit/></button>
           }
         </div>
-        <p>description: {description}</p>
-        
+        <p>description:</p>
+        {editExercise
+          ? <input type="text" value={exerciseDescription} onChange={(el) => setExerciseDescription(el.target.value)} />
+          : <h3>{exerciseDescription}</h3>
+          }
         <Row>
           <Col md={4}>numberOfSets: {numberOfSets}</Col>
           <Col md={4}>maximumRepetitions: {maximumRepetitions}</Col>
