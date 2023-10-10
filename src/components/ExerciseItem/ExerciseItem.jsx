@@ -52,7 +52,10 @@ const ExerciseItem = observer(
             }
           </Col>
           <Col md={4}>maximumRepetitions: 
-            {maximumRepetitions}
+            {editExercise
+              ? <input type="text" value={exerciseMaximumRepetitions} onChange={(el) => setExerciseMaximumRepetitions(el.target.value)} />
+              : exerciseMaximumRepetitions
+            }
           </Col>
           <Col md={4}>restTime: 
             {restTime}
