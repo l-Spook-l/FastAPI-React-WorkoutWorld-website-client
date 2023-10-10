@@ -58,7 +58,10 @@ const ExerciseItem = observer(
             }
           </Col>
           <Col md={4}>restTime: 
-            {restTime}
+            {editExercise
+              ? <input type="text" value={exerciseRestTime} onChange={(el) => setExerciseRestTime(el.target.value)} />
+              : exerciseRestTime
+            }
           </Col>
         </Row>
       </Card.Body>
