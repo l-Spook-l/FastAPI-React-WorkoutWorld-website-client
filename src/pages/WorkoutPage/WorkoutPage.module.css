@@ -1,12 +1,15 @@
 /* WorkoutPage.module.css */
 
 .workoutContainer {
-  margin-top: 20px;
+  margin-top: 30px;
+  background-color: aqua;
 }
 
 .workoutCard {
+  width: 1000px;
   height: 100%;
-  margin-bottom: 20px;
+  margin: auto;
+  background-color: burlywood;
 }
 
 .workoutTitle{
