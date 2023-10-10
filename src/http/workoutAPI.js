@@ -49,22 +49,22 @@ export const createSet = async(exercise_id, user_id, count, weight) => {
 }
 
 // изменить host - на auhost
-export const updateWorkout = async(name, workout_id, description, difficulty, total_time='0') => {
-  const response = await $host.post('workouts/workout/update/', {name, workout_id, description, difficulty, total_time})
+export const updateWorkout = async(name, workout_id, description, difficulty) => {
+  const response = await $host.patch(`workouts/workout/update/${workout_id}`, {name, description, difficulty})
   console.log('updateWorkout response', response)
   return response.data
 }
 
 // изменить host - на auhost
 export const updateExercise = async(name, exercise_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo) => {
-  const response = await $host.post('workouts/exercise/update/', {name, exercise_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo})
+  const response = await $host.patch(`workouts/exercise/update/${exercise_id}`, {name, description, number_of_sets, maximum_repetitions, rest_time, video, photo})
   console.log('updateExercise response', response)
   return response.data
 }
 
 // изменить host - на auhost
-export const updateSet = async(exercise_id, count, weight) => {
-  const response = await $host.post('workouts/set/update/', {exercise_id, count, weight})
+export const updateSet = async(set_id, count, weight) => {
+  const response = await $host.patch(`workouts/set/update/${set_id}`, { count, weight})
   console.log('updateSet response', response)
   return response.data
 }
