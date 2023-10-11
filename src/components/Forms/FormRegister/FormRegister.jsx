@@ -51,15 +51,14 @@ const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
     })
     .catch((error) => {
       console.log("error register", error)
-      // switch (Object.keys(error.response.data)[0]) {
-      //   case "email":
-      //     setEmailError(error.response.data['email'][0][0].toUpperCase() + error.response.data['email'][0].slice(1))
-      //     break
-      //   case "password":
-      //     setPasswordError(error.response.data['password'][0][0].toUpperCase() + error.response.data['password'][0].slice(1))
-      //     break
-      }
-   // }
+      switch (Object.keys(error.response.data)[0]) {
+        case "email":
+          setEmailError(error.response.data['email'][0][0].toUpperCase() + error.response.data['email'][0].slice(1))
+          break
+        case "password":
+          setPasswordError(error.response.data['password'][0][0].toUpperCase() + error.response.data['password'][0].slice(1))
+          break
+      }}
     );
   };
 
@@ -174,7 +173,7 @@ const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
               name="username"
               type="text"
               placeholder="Enter username"
-              value={firstName}
+              value={username}
               onChange={(e) => usernameHandler(e)}
             />
             {usernameDirty && usernameError && (

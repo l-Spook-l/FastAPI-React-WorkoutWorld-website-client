@@ -39,7 +39,7 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
       setLoginError(false)
       onHide()
     })
-    .catch(() => {
+    .catch((data) => {
       setLoginError(true)
     });
   };
