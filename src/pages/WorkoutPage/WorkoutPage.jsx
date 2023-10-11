@@ -47,6 +47,8 @@ const WorkoutPage = observer(() => {
     setEditWorkout(false)
   }
 
+  console.log('user', user.isAuth)
+
   return (
     <Container className={style.workoutContainer}>
       <h1>Workout</h1>
@@ -61,10 +63,11 @@ const WorkoutPage = observer(() => {
                 : <Card.Title>{workoutName}</Card.Title>
                 }
                 <button>Start workout</button>
-                {(user.user.id === workout.selectedWorkout.data.Workout.user_id) && 
-                  editWorkout
-                  ?  <button onClick={() => updateParamWorkout()}><AiOutlineCheck/></button>
-                  :  <button onClick={() => setEditWorkout(true)}><AiFillEdit/></button>
+                {user.isAuth && 
+                  (user.user.id === workout.selectedWorkout.data.Workout.user_id) && 
+                    (editWorkout
+                    ?  <button onClick={() => updateParamWorkout()}><AiOutlineCheck/></button>
+                    :  <button onClick={() => setEditWorkout(true)}><AiFillEdit/></button>)
                 }
               </div>
 
@@ -81,9 +84,11 @@ const WorkoutPage = observer(() => {
 
               <div className={style.exerciseTitle}>
                 <Card.Text>Exercises:</Card.Text>
-                {showFormAddExercise 
-                ? <button onClick={() => setShowFormAddExercise(false)}><AiOutlineClose/></button>
-                : <button className={style.addNewExercise} onClick={() => setShowFormAddExercise(true)}>+</button>
+                {user.isAuth && 
+                  (user.user.id === workout.selectedWorkout.data.Workout.user_id) && 
+                    (showFormAddExercise 
+                      ? <button onClick={() => setShowFormAddExercise(false)}><AiOutlineClose/></button>
+                      : <button className={style.addNewExercise} onClick={() => setShowFormAddExercise(true)}>+</button>)
                 }
               </div>
 
