@@ -6,8 +6,9 @@ import { fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
 import { Breadcrumb, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { MAIN_ROUTE } from '../../utils/consts'
 import ExerciseItem from '../../components/ExerciseItem/ExerciseItem'
-import { AiFillEdit, AiOutlineCheck} from "react-icons/ai";
+import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import style from './WorkoutPage.module.css'
+import FormCreateExercise from '../../components/Forms/FormCreateExercise/FormCreateExercise'
 
 const WorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -19,6 +20,8 @@ const WorkoutPage = observer(() => {
   const [loading, setLoading] = useState(true);
   
   const [editWorkout, setEditWorkout] = useState(false)
+  
+  const [showFormAddExercise, setShowFormAddExercise] = useState(false)
 
   const [workoutName, setWorkoutName] = useState('')
   const [workoutDifficulty, setWorkoutDifficulty] = useState('')
@@ -51,6 +54,7 @@ const WorkoutPage = observer(() => {
         <Col md={8}>
           <Card className={style.workoutCard}>
             <Card.Body>
+
               <div className={style.workoutTitle}>
                 {editWorkout
                 ? <input type="text" value={workoutName} onChange={(el) => setWorkoutName(el.target.value)} />
@@ -63,16 +67,28 @@ const WorkoutPage = observer(() => {
                   :  <button onClick={() => setEditWorkout(true)}><AiFillEdit/></button>
                 }
               </div>
+
               {editWorkout
                 ? <input type="text" value={workoutDifficulty} onChange={(el) => setWorkoutDifficulty(el.target.value)} />
                 : <Card.Subtitle className="mb-2 text-muted">difficulty: {workoutDifficulty}</Card.Subtitle>
               }
+
               <p>description: </p>
               {editWorkout
                 ? <input type="text" value={workoutDescription} onChange={(el) => setWorkoutDescription(el.target.value)} />
                 : <Card.Text className={style.workoutCardText}>{workoutDescription}</Card.Text>
               }
-              <Card.Text>Exercises:</Card.Text>
+
+              <div className={style.exerciseTitle}>
+                <Card.Text>Exercises:</Card.Text>
+                {showFormAddExercise 
+                ? <button onClick={() => setShowFormAddExercise(false)}><AiOutlineClose/></button>
+                : <button className={style.addNewExercise} onClick={() => setShowFormAddExercise(true)}>+</button>
+                }
+              </div>
+
+              <FormCreateExercise showForm={showFormAddExercise} workoutId={workout_id} />
+
               <ul className={style.exerciseList}>
                 {workout.selectedWorkout.data.Workout.exercise.map((exercise) => 
                   <div key={exercise.id}>

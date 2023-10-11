@@ -22,6 +22,15 @@
   overflow: hidden;
 }
 
+.exerciseTitle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.addNewExercise {
+  font-size: 30px;
+}
+
 .exerciseList {
   list-style: none;
   padding: 0;
