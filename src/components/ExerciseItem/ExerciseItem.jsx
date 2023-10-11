@@ -21,7 +21,7 @@ const ExerciseItem = observer(
   const [exerciseRestTime, setExerciseRestTime] = useState(restTime)
 
   const updateParamExercise = () => {
-    //updateExercise(exerciseId, exerciseName, exerciseDescription, exerciseNumberOfSets, exerciseMaximumRepetitions, exerciseRestTime)
+    updateExercise(exerciseId, exerciseName, exerciseDescription, exerciseNumberOfSets, exerciseMaximumRepetitions, exerciseRestTime)
     setEditExercise(false)
   }
 
@@ -31,12 +31,13 @@ const ExerciseItem = observer(
         <div className={style.titleSection}>
           {editExercise
           ? <input type="text" value={exerciseName} onChange={(el) => setExerciseName(el.target.value)} />
-          : <h3>{name}</h3>
+          : <h3>{exerciseName}</h3>
           }
-          {(user.user.id === workout.selectedWorkout.data.Workout.user_id) && 
-            editExercise
-            ? <button onClick={() => updateParamExercise()}><AiOutlineCheck/></button>
-            : <button onClick={() => setEditExercise(true)}><AiFillEdit/></button>
+          {user.isAuth && 
+            (user.user.id === workout.selectedWorkout.data.Workout.user_id) && 
+              (editExercise
+              ? <button onClick={() => updateParamExercise()}><AiOutlineCheck/></button>
+              : <button onClick={() => setEditExercise(true)}><AiFillEdit/></button>)
           }
         </div>
         <p>description:</p>
