@@ -4,7 +4,7 @@ import { Context } from '../..'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
 import { Breadcrumb, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
-import { MAIN_ROUTE } from '../../utils/consts'
+import { ACTIVE_WORKOUT_ROUTE, MAIN_ROUTE } from '../../utils/consts'
 import ExerciseItem from '../../components/ExerciseItem/ExerciseItem'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import style from './WorkoutPage.module.css'
@@ -42,12 +42,21 @@ const WorkoutPage = observer(() => {
     return <Spinner animation="grow" />;
   }
 
+  const editParamWorkout = () => {
+    workout.setEditWorkout(true)
+    setEditWorkout(true)
+  }
+
   const updateParamWorkout = () => {
     updateWorkout(workoutName, workout_id, workoutDescription, workoutDifficulty)
     setEditWorkout(false)
+    workout.setEditWorkout(false)
   }
 
-  console.log('user', user.isAuth)
+  const closeParamWorkout = () => {
+    setEditWorkout(false)
+    workout.setEditWorkout(false)
+  }
 
   return (
     <Container className={style.workoutContainer}>
@@ -62,12 +71,16 @@ const WorkoutPage = observer(() => {
                 ? <input type="text" value={workoutName} onChange={(el) => setWorkoutName(el.target.value)} />
                 : <Card.Title>{workoutName}</Card.Title>
                 }
-                <button>Start workout</button>
+                <NavLink to={`${ACTIVE_WORKOUT_ROUTE}/${workout_id}`}>Start workout</NavLink>
                 {user.isAuth && 
                   (user.user.id === workout.selectedWorkout.data.Workout.user_id) && 
                     (editWorkout
-                    ?  <button onClick={() => updateParamWorkout()}><AiOutlineCheck/></button>
-                    :  <button onClick={() => setEditWorkout(true)}><AiFillEdit/></button>)
+                      ?  
+                      <div>
+                        <button onClick={() => updateParamWorkout()}><AiOutlineCheck/></button>
+                        <button onClick={() => closeParamWorkout()}><AiOutlineClose/></button>
+                      </div>
+                      :  <button onClick={() => editParamWorkout()}><AiFillEdit/></button>)
                 }
               </div>
 
@@ -84,11 +97,10 @@ const WorkoutPage = observer(() => {
 
               <div className={style.exerciseTitle}>
                 <Card.Text>Exercises:</Card.Text>
-                {user.isAuth && 
-                  (user.user.id === workout.selectedWorkout.data.Workout.user_id) && 
-                    (showFormAddExercise 
-                      ? <button onClick={() => setShowFormAddExercise(false)}><AiOutlineClose/></button>
-                      : <button className={style.addNewExercise} onClick={() => setShowFormAddExercise(true)}>+</button>)
+                {workout.editWorkout && 
+                  (showFormAddExercise 
+                    ? <button onClick={() => setShowFormAddExercise(false)}><AiOutlineClose/></button>
+                    : <button className={style.addNewExercise} onClick={() => setShowFormAddExercise(true)}>+</button>)
                 }
               </div>
 
