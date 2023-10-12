@@ -1,0 +1,54 @@
+.titleWorkout {
+  background-color: aqua;
+  height: 100px;
+}
+
+.mainSection {
+  background-color: blanchedalmond;
+  display: flex;
+  height: 100%;
+}
+
+.exercisesSection {
+  background-color: burlywood;
+  width: 200px;
+  height: 700px;
+}
+
+.alertMenu {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background-color:rgb(255, 255, 255);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  color: black;
+}
+
+.alertMenu:hover {
+  background-color:rgb(99, 214, 151);
+}
+
+.alertMenuActive {
+  background-color:rgb(99, 214, 151);
+}
+
+.blockWithMenu {
+  margin: 30px 0 230px 0;
+}
+
+.contentBlock {
+  background-color: cadetblue;
+}
+
+.exerciseInfo {
+  background-color: chartreuse;
+  width: 1000px;
+  height: 1000px;
+}
+
+@media (max-width: 769px) {
+  .blockWithMenu {
+    margin: 30px 0 20px 0;
+  }
+}
+
