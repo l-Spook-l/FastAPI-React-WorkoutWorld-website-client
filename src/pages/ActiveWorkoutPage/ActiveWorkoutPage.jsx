@@ -4,41 +4,55 @@ import { Alert, Container, Spinner } from 'react-bootstrap'
 import { Context } from "../..";
 import style from './ActiveWorkoutPage.module.css'
 import { useParams } from 'react-router-dom';
-import { fetchOneWorkout } from '../../http/workoutAPI';
-import ExerciseInfo from '../../components/ExerciseInfo/ExerciseInfo';
+import { fetchOneWorkout, fetchSets } from '../../http/workoutAPI';
+import ExerciseItem from '../../components/ExerciseItem/ExerciseItem';
 
 const ActiveWorkoutPage = observer(() => {
+  const { user } = useContext(Context)
   const { workout } = useContext(Context)
+
   const { workout_id }  = useParams();
 
   const [activeTab, setActiveTab] = useState(0);
+  const [exerciseData, setExerciseData] = useState({})
+  const [sets, setSets] = useState([])
 
-// =============== заменить наверно  на redis или что-то еще, т.к. иногда будет 2 загрузки =====
-const [loading, setLoading] = useState(true);
+  // =============== заменить наверно  на redis или что-то еще, т.к. иногда будет 2 загрузки =====
+  const [loading, setLoading] = useState(true);
 
-const [workoutName, setWorkoutName] = useState('')
-const [workoutDifficulty, setWorkoutDifficulty] = useState('')
-const [workoutDescription, setWorkoutDescription] = useState('')
+  const [workoutName, setWorkoutName] = useState('')
+  const [workoutDifficulty, setWorkoutDifficulty] = useState('')
+  const [workoutDescription, setWorkoutDescription] = useState('')
 
-useEffect(() => {
-  fetchOneWorkout(workout_id)
-  .then((data) => {
-    workout.setSelectedWorkout(data)
-    setWorkoutName(data.data.Workout.name)
-    setWorkoutDifficulty(data.data.Workout.difficulty)
-    setWorkoutDescription(data.data.Workout.description)
-  })
-  .finally(() => setLoading(false))
-},[workout_id])
+  useEffect(() => {
+    fetchOneWorkout(workout_id)
+    .then((data) => {
+      workout.setSelectedWorkout(data)
+      setWorkoutName(data.data.Workout.name)
+      setWorkoutDifficulty(data.data.Workout.difficulty)
+      setWorkoutDescription(data.data.Workout.description)
 
-if (loading) {
-  return <Spinner animation="grow" />;
-}
-// ======================================================================================
+      setExerciseData(data.data.Workout.exercise[0])
+      data.data.Workout.exercise.map((exercise, index) => console.log('exercise', exercise, 'exercise.id', exercise.id))
+      const arrayOfIds = data.data.Workout.exercise.map((el) => el.id)  // создаем массив из id упражнений
+      console.log('array', arrayOfIds)
+      fetchSets(user.user.id, arrayOfIds).then((data) => console.log('data', data))
 
-  const selectExercise = (exerciseId) => {
+    }).finally(() => setLoading(false))
+  },[workout_id])
 
+  if (loading) {
+    return <Spinner animation="grow" />;
   }
+  // ======================================================================================
+
+  const selectExercise = (index, exercise) => {
+    setActiveTab(index)
+    setExerciseData(exercise)
+  }
+
+  // console.log('exerciseData', exerciseData)
+  console.log('sets', sets)
 
   return (
     <Container>
@@ -49,15 +63,14 @@ if (loading) {
             <Alert 
               className={`${style.alertMenu} ${activeTab === index ? style.alertMenuActive : ""}`}
               key={exercise.id}
-              onClick={() => setActiveTab(index)}
+              onClick={() => selectExercise(index, exercise)}
               >
-              {/* <button className={style.exerciseButton} onClick={selectExercise}>{exercise.name}</button> */}
               {exercise.name}
             </Alert>
           )}
         </div>
         <div className={style.exerciseInfo}>
-          <ExerciseInfo />
+          <ExerciseItem exercise={exerciseData}/>
         </div>
       </div>
     </Container>
