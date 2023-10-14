@@ -2,39 +2,52 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
 import { Context } from '../..'
 import style from './ExerciseItem.module.css'
+import { Card, Col, Container, Row } from 'react-bootstrap'
 
 const ExerciseInfo = observer(({ exercise, sets }) => {
   const {user} = useContext(Context)
 
   return (
-    <div className={style.container}>
+    <Container className={style.container}>
       <p>{exercise.name}</p>
       <p>{exercise.description}</p>
-      <div className={style.exerciseSection}>
-        <div className={style.exerciseTitle}>
-          <div>
+      <Card className={style.exerciseSection}>
+        <Card.Title className={style.exerciseTitle}>
+          <Col className={style.blockInTitle}>
             <p>Sets</p>
             <p>{exercise.number_of_sets}</p>
-          </div>
-          <div>
+          </Col>
+          <Col  className={style.blockInTitle}>
             <p>Repetitions</p>
             <p>{exercise.maximum_repetitions}</p>
-          </div>
-          <div>
-            <p>Rest time</p>
+          </Col>
+          <Col  className={style.blockInTitle}>
+            <p>Rest time (sec)</p>
             <p>{exercise.rest_time}</p>
-          </div>
-        </div>
+          </Col>
+        </Card.Title>
         <div className={style.setSection}>
           {sets.map((set) => 
-            <div  key={set.Set.id}>
-              <p>{set.Set.count}</p>
-              <p>{set.Set.weight}</p>
+            <div key={set.Set.id} className={style.set}>
+              <Col className={style.blockInSet}>
+                <p>{set.Set.count}</p>
+                /
+                <p>{set.Set.weight} kg</p>
+              </Col>
+              <Col className={style.blockInSet}>
+                <p>{set.Set.count}</p>
+                /
+                <p>{set.Set.weight} kg</p>
+              </Col>
+              <Col className={style.blockInSet}>
+                <button >Save</button>
+              </Col>
             </div>
           )}
         </div>
-      </div>
-    </div>
+        <button className={style.buttonSave}>Save exercise</button>
+      </Card>
+    </Container>
   )
 })
 
