@@ -33,10 +33,8 @@ const ActiveWorkoutPage = observer(() => {
       setWorkoutDescription(data.data.Workout.description)
 
       setExerciseData(data.data.Workout.exercise[0])
-      data.data.Workout.exercise.map((exercise, index) => console.log('exercise', exercise, 'exercise.id', exercise.id))
       const arrayOfIds = data.data.Workout.exercise.map((el) => el.id)  // создаем массив из id упражнений
-      console.log('array', arrayOfIds)
-      fetchSets(user.user.id, arrayOfIds).then((data) => console.log('data', data))
+      fetchSets(user.user.id, arrayOfIds).then((data) => setSets(data.data))
 
     }).finally(() => setLoading(false))
   },[workout_id])
@@ -51,7 +49,6 @@ const ActiveWorkoutPage = observer(() => {
     setExerciseData(exercise)
   }
 
-  // console.log('exerciseData', exerciseData)
   console.log('sets', sets)
 
   return (
