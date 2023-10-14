@@ -1,4 +1,18 @@
-.titleSection {
+.container {
+  background-color: cornsilk;
+}
+
+.exerciseSection {
+  background-color: rgb(182, 48, 74);
+  height: 500px;
+}
+
+.exerciseTitle {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  background-color: rgb(128, 96, 73);
+}
+
+.setSection {
+    
 }
