@@ -28,8 +28,8 @@ export const fetchSets = async(user_id, exercise_ids) => {
 }
 
 // изменить host - на auhost
-export const createWorkout = async(name, user_id, description, difficulty='test', total_time) => {
-  const response = await $host.post('workouts/create_workout/', {name, user_id, description, difficulty, total_time})
+export const createWorkout = async(name, user_id, description, is_public, difficulty, total_time) => {
+  const response = await $host.post('workouts/create_workout/', {name, user_id, description, is_public, difficulty, total_time})
   console.log('createWorkout response', response)
   return response.data
 }
