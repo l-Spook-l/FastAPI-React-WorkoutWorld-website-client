@@ -1,36 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import style from './RestIntervalTimer.module.css'
 
-const RestIntervalTimer = ({ initialSeconds }) => {
-  const [seconds, setSeconds] = useState(initialSeconds);
-  const [progress, setProgress] = useState(100);
-  const [isActive, setIsActive] = useState(true); // Добавили состояние для активации/деактивации таймера
+const RestIntervalTimer = ({ active, initialSeconds }) => {
+  const [seconds, setSeconds] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [isActive, setIsActive] = useState(false); // Добавили состояние для активации/деактивации таймера
+
+
+  useEffect(() => {
+    setIsActive(active)
+    setSeconds(initialSeconds)
+    setProgress(0)
+  }, [active, initialSeconds])
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (isActive && seconds > 0) {
         setSeconds((prevSeconds) => prevSeconds - 1);
-        const newProgress = (seconds / initialSeconds) * 100;
+        const newProgress = 100 - (seconds / initialSeconds) * 100;
         setProgress(newProgress);
       } else {
         clearInterval(interval);
         setIsActive(false)
-        //onFinish();
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [seconds, initialSeconds, isActive]);
+  }, [seconds, isActive]);
 
-  const handleStop = () => {
-    setIsActive(false); // Устанавливаем таймер в неактивное состояние
-  };
-
-  const finish = () => {
-
+  const skipRest = () => {
+    setIsActive(false)
+    setProgress(0)
+    setSeconds(initialSeconds)
   }
-
-
+  
   return (
     <div>
       <div>
@@ -44,43 +47,10 @@ const RestIntervalTimer = ({ initialSeconds }) => {
             }}
           />
         </div>
-        <button onClick={handleStop}>Stop</button>
-        <button onClick={finish}>Finish</button>
+        <button onClick={skipRest}>Skip the rest</button>
       </div>
     </div>
   );
 };
 
 export default RestIntervalTimer;
-
-// import React, { useState, useEffect } from 'react';
-// import style from './RestIntervalTimer.module.css'
-
-
-// const RestIntervalTimer = ({ initialSeconds, onFinish }) => {
-//   const [seconds, setSeconds] = useState(initialSeconds);
-
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       if (seconds > 0) {
-//         setSeconds((prevSeconds) => prevSeconds - 1);
-//       } else {
-//         clearInterval(interval);
-//         onFinish();
-//       }
-//     }, 1000);
-
-//     return () => clearInterval(interval);
-//   }, [seconds, onFinish]);
-
-//   const progress = (initialSeconds - seconds) / initialSeconds * 100;
-
-//   return (
-//             <div className={style.countdownTimer}>
-//       <p>Time: {seconds} seconds</p>
-//       <div className={style.progressBar} style={{ width: `${progress}%` }} />
-//     </div>
-//   );
-// };
-
-// export default RestIntervalTimer;
