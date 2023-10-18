@@ -3,17 +3,17 @@ import React, { useContext } from 'react'
 import { Context } from '../..'
 import WorkoutItem from '../WorkoutItem/WorkoutItem'
 import style from "./WorkoutList.module.css"
+import { Container } from 'react-bootstrap'
 
 const WorkoutList = observer(() => {
   const { workout } = useContext(Context)
   
   return (
-    <div className={style.myContainer}>
-      WorkoutList
+    <Container className={style.myContainer}>
       {workout.workouts.data.map((el) => 
         <WorkoutItem key={el.Workout.id} workout={el.Workout}/>
       )}
-    </div>
+    </Container>
   )
 })
 
