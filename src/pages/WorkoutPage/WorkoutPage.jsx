@@ -5,7 +5,7 @@ import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
 import { Breadcrumb, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { ACTIVE_WORKOUT_ROUTE, MAIN_ROUTE } from '../../utils/consts'
-import ExerciseItem from '../../components/ExerciseItem/ExerciseItem'
+import ExerciseInfo from '../../components/ExerciseInfo/ExerciseInfo'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import style from './WorkoutPage.module.css'
 import FormCreateExercise from '../../components/Forms/FormCreateExercise/FormCreateExercise'
@@ -24,7 +24,7 @@ const WorkoutPage = observer(() => {
   const [showFormAddExercise, setShowFormAddExercise] = useState(false)
 
   const [workoutName, setWorkoutName] = useState('')
-  const [workoutDifficulty, setWorkoutDifficulty] = useState('')
+  const [workoutDifficulty, setWorkoutDifficulty] = useState('')  // пока убрана возвожность (перевести)
   const [workoutDescription, setWorkoutDescription] = useState('')
 
   useEffect(() => {
@@ -84,10 +84,10 @@ const WorkoutPage = observer(() => {
                 }
               </div>
 
-              {editWorkout
+              {/* {editWorkout
                 ? <input type="text" value={workoutDifficulty} onChange={(el) => setWorkoutDifficulty(el.target.value)} />
                 : <Card.Subtitle className="mb-2 text-muted">difficulty: {workoutDifficulty}</Card.Subtitle>
-              }
+              } */}
 
               <p>description: </p>
               {editWorkout
@@ -109,7 +109,7 @@ const WorkoutPage = observer(() => {
               <ul className={style.exerciseList}>
                 {workout.selectedWorkout.data.Workout.exercise.map((exercise) => 
                   <div key={exercise.id}>
-                    <ExerciseItem
+                    <ExerciseInfo
                       key={exercise.id}
                       exerciseId={exercise.id}
                       name={exercise.name}
