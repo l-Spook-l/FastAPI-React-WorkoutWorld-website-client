@@ -20,12 +20,18 @@ export const fetchMyWorkouts = async(user_id) => {
   return response.data
 }
 
-// изменить host - на auhost  ОЩИБКА
+// изменить host - на auhost  ОШИБКА
 export const fetchSets = async(user_id, exercise_ids) => {
   const response = await $host.get(`workouts/sets?user_id=${user_id}&exercise_ids=${exercise_ids.join('&exercise_ids=')}`)
   console.log('fetchSets response', response)
   return response.data
 }
+
+// export const fetchAddUserWorkout = async(user_id) => {
+//   const response = await $host.get(`workouts/get-added-user-workouts/${user_id}`)
+//   console.log('fetchAddUserWorkout response', response)
+//   return response.data
+// }
 
 // изменить host - на auhost
 export const createWorkout = async(name, user_id, description, is_public, difficulty, total_time) => {
@@ -45,6 +51,12 @@ export const createExercise = async(name, workout_id, description, number_of_set
 export const createSet = async(exercise_id, user_id, count, weight) => {
   const response = await $host.post('workouts/create_set/', {exercise_id, user_id, count, weight})
   console.log('createSet response', response)
+  return response.data
+}
+
+export const addWorkoutToUser = async(user_id, workout_id) => {
+  const response = await $host.post(`workouts/add-workout-to-user/${user_id}/${workout_id}`)
+  console.log('addWorkoutToUser response', response)
   return response.data
 }
 
@@ -68,3 +80,4 @@ export const updateSet = async(set_id, count, weight) => {
   console.log('updateSet response', response)
   return response.data
 }
+
