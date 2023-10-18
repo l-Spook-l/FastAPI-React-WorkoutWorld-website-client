@@ -12,7 +12,7 @@ import imgHomeGym from '../../assets/home gym.png'
 import ReviewMainPage from '../../components/Sliders/ReviewMainPage/ReviewMainPage';
 import MainPageContactFrom from '../../components/Forms/MainPageContactFrom/MainPageContactFrom';
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
-import { WORKOUTS_ROUTE } from '../../utils/consts';
+import { SHOP_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts';
 
 const MainPage = observer(() => {
 
@@ -65,7 +65,7 @@ const MainPage = observer(() => {
                 </p>
               </div>
             </NavLink>
-            <NavLink className={style.imgContainer}>
+            <NavLink className={style.imgContainer} to={SHOP_ROUTE}>
               <Image className={style.imgServices} src={imgSportsGoodsStore}/>
               <div className={style.overlay}>
                 <h3 className={style.textOnImgServices}>Sports Goods Store</h3>
