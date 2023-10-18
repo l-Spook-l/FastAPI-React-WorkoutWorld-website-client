@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { Context } from '../..'
 import style from "./WorkoutItem.module.css"
 import { WORKOUT_ROUTE } from '../../utils/consts'
-import { AiFillEdit} from "react-icons/ai";
+import { IoIosAddCircleOutline} from "react-icons/io";
 
 
 const WorkoutItem = observer(({ workout }) => {
@@ -17,21 +17,20 @@ const WorkoutItem = observer(({ workout }) => {
 
   // },[])
 
+  const addWorkout = () => {
+
+  }
+
   return (
     <div>
       <Card className={style.myCard}>
         <Card.Body>
-          <div>
           <NavLink className={style.nameWorkout} to={`${WORKOUT_ROUTE}/${workout.id}`}>
             {workout.name}
           </NavLink>
-          {(user.user.id === workout.user_id) && 
-          <NavLink>
-            <AiFillEdit/>
-          </NavLink>
+          {user.user.isAuth && 
+            ((workout.user_id !== user.user.id) && <p onClick={addWorkout}><IoIosAddCircleOutline/></p>)
           }
-          </div>
-          
           <div>
             Description
             <p>{workout.description}</p>
