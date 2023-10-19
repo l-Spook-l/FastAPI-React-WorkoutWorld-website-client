@@ -24,7 +24,8 @@ const WorkoutPage = observer(() => {
   const [showFormAddExercise, setShowFormAddExercise] = useState(false)
 
   const [workoutName, setWorkoutName] = useState('')
-  const [workoutDifficulty, setWorkoutDifficulty] = useState('')  // пока убрана возвожность (перевести)
+  //const [workoutDifficulty, setWorkoutDifficulty] = useState('')  // пока убрана возвожность (перевести)
+  const [workoutIsPublic, setWorkoutIsPublic] = useState('')
   const [workoutDescription, setWorkoutDescription] = useState('')
 
   useEffect(() => {
@@ -32,7 +33,8 @@ const WorkoutPage = observer(() => {
     .then((data) => {
       workout.setSelectedWorkout(data)
       setWorkoutName(data.data.Workout.name)
-      setWorkoutDifficulty(data.data.Workout.difficulty)
+      setWorkoutIsPublic(data.data.Workout.is_public)
+      //setWorkoutDifficulty(data.data.Workout.difficulty)
       setWorkoutDescription(data.data.Workout.description)
     })
     .finally(() => setLoading(false))
@@ -48,7 +50,7 @@ const WorkoutPage = observer(() => {
   }
 
   const updateParamWorkout = () => {
-    updateWorkout(workoutName, workout_id, workoutDescription, workoutDifficulty)
+    updateWorkout(workoutName, workout_id, workoutDescription, workoutIsPublic)
     setEditWorkout(false)
     workout.setEditWorkout(false)
   }
@@ -57,6 +59,8 @@ const WorkoutPage = observer(() => {
     setEditWorkout(false)
     workout.setEditWorkout(false)
   }
+
+  console.log('qwewq', workoutIsPublic)
 
   return (
     <Container className={style.workoutContainer}>
@@ -88,6 +92,10 @@ const WorkoutPage = observer(() => {
                 ? <input type="text" value={workoutDifficulty} onChange={(el) => setWorkoutDifficulty(el.target.value)} />
                 : <Card.Subtitle className="mb-2 text-muted">difficulty: {workoutDifficulty}</Card.Subtitle>
               } */}
+              {editWorkout
+                ? <input type="checkbox" checked={workoutIsPublic} onChange={(el) => setWorkoutIsPublic(!workoutIsPublic)} />
+                : <Card.Subtitle className="mb-2">Status: {workoutIsPublic ? 'Public' : 'Non-public'}</Card.Subtitle>
+              }
 
               <p>description: </p>
               {editWorkout
