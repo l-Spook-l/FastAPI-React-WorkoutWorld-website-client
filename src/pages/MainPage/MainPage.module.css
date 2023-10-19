@@ -82,6 +82,18 @@
   font-size: 20px;
 }
 
+.fitnessEquipmentTitle {
+  text-decoration: none;
+  color: aliceblue;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.fitnessEquipmentTitle:hover {
+  color: aliceblue;
+  text-decoration:underline
+}
+
 .imgContainer:hover .overlay {
   transform: translateY(0); /* При наведении возвращаем текст в исходное положение */
 }

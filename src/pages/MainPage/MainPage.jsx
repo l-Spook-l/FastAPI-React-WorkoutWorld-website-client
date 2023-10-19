@@ -78,7 +78,7 @@ const MainPage = observer(() => {
         </div>
         <div className={style.sectionFitnessEquipment}>
           <div className={style.textFitnessEquipment}>
-            <h2>Fitness Equipment Sales</h2>
+            <NavLink className={style.fitnessEquipmentTitle} to={SHOP_ROUTE}>Fitness Equipment Sales</NavLink>
             <p>
               Get the best quality sports goods and fitness equipment for your workouts at our store. 
               We offer a wide range of products to meet all your fitness needs, from weights and 
