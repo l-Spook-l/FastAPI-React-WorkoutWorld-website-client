@@ -48,8 +48,8 @@ export const createExercise = async(name, workout_id, description, number_of_set
 }
 
 // изменить host - на auhost
-export const createSet = async(exercise_id, user_id, count, weight) => {
-  const response = await $host.post('workouts/create_set/', {exercise_id, user_id, count, weight})
+export const createSet = async(number_sets, exercise_id, user_id, repetition, weight) => {
+  const response = await $host.post(`workouts/create_set?number_sets=${number_sets}`, {exercise_id, user_id, repetition, weight})
   console.log('createSet response', response)
   return response.data
 }
