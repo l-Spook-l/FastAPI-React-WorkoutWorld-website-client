@@ -9,6 +9,7 @@ import ExerciseInfo from '../../components/ExerciseInfo/ExerciseInfo'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import style from './WorkoutPage.module.css'
 import FormCreateExercise from '../../components/Forms/FormCreateExercise/FormCreateExercise'
+import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal'
 
 const WorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -27,6 +28,7 @@ const WorkoutPage = observer(() => {
   //const [workoutDifficulty, setWorkoutDifficulty] = useState('')  // пока убрана возвожность (перевести)
   const [workoutIsPublic, setWorkoutIsPublic] = useState('')
   const [workoutDescription, setWorkoutDescription] = useState('')
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetchOneWorkout(workout_id)
@@ -60,7 +62,18 @@ const WorkoutPage = observer(() => {
     workout.setEditWorkout(false)
   }
 
-  console.log('qwewq', workoutIsPublic)
+  const editStatusWorkout = () => {
+    setShowModal(true);
+  }
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const changeStatusWorkout = () => {
+    setWorkoutIsPublic(!workoutIsPublic)
+    setShowModal(false);
+  }
 
   return (
     <Container className={style.workoutContainer}>
@@ -92,8 +105,9 @@ const WorkoutPage = observer(() => {
                 ? <input type="text" value={workoutDifficulty} onChange={(el) => setWorkoutDifficulty(el.target.value)} />
                 : <Card.Subtitle className="mb-2 text-muted">difficulty: {workoutDifficulty}</Card.Subtitle>
               } */}
+
               {editWorkout
-                ? <input type="checkbox" checked={workoutIsPublic} onChange={(el) => setWorkoutIsPublic(!workoutIsPublic)} />
+                ? <input type="checkbox" checked={workoutIsPublic} onChange={(el) => editStatusWorkout()} />
                 : <Card.Subtitle className="mb-2">Status: {workoutIsPublic ? 'Public' : 'Non-public'}</Card.Subtitle>
               }
 
@@ -133,6 +147,7 @@ const WorkoutPage = observer(() => {
           </Card>
         </Col>
       </Row>
+      <DeleteConfirmationModal show={showModal} onClose={closeModal} changeStatus={changeStatusWorkout} />
     </Container>
   )
 })
