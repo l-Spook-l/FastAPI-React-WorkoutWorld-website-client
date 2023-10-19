@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 import { Container, Form, Button, Col, Row, Card } from 'react-bootstrap';
-import { createExercise, createWorkout } from '../../http/workoutAPI';
+import { createExercise, createSet, createWorkout } from '../../http/workoutAPI';
 import { Context } from "../..";
 
 const CreateWorkoutPage = observer(() => {
@@ -16,6 +16,7 @@ const CreateWorkoutPage = observer(() => {
   const [workoutData, setWorkoutData] = useState({
     title: '',
     description: '',
+    isPublic: false,
     totalTime: '1',
     exercises: [],
   });
@@ -23,8 +24,10 @@ const CreateWorkoutPage = observer(() => {
   // добавляем значение в обьект workoutData меняя сосояние
   // ...prevData - добавляем что уже было
   const inputChange = (el) => {
-    const { name, value } = el.target;
-    setWorkoutData((prevData) => ({ ...prevData, [name]: value }));  // [name] - ключем будет именно значение в переменной, а без [] будет - 'name'
+    const { name, value, checked } = el.target;
+    // eсли это чекбокс, используем значение checked
+    const newValue = el.target.type === 'checkbox' ? checked : value;
+    setWorkoutData((prevData) => ({ ...prevData, [name]: newValue }));  // [name] - ключем будет именно значение в переменной, а без [] будет - 'name'
   };
 
   // добавляем упражнение в обьект как обьект ))
@@ -54,6 +57,7 @@ const CreateWorkoutPage = observer(() => {
 
   // сохраняем тренировку
   const submitCreateWorkout = () => {
+    // проверяем если ли пустые поля
     const checkDataWorkout = Object.values(workoutData).slice(0, -1).every((value) => value !== '')
     const checkDataExercise = workoutData.exercises.every((el) => Object.values(el).slice(0, -2).every((value) => value !== ''))
 
@@ -61,13 +65,23 @@ const CreateWorkoutPage = observer(() => {
       setFormValidError(true) 
     } else {
       setFormValidError(false)
-      createWorkout(workoutData.title, user.user.id, workoutData.description, 'medium', workoutData.totalTime)
+      createWorkout(workoutData.title, user.user.id, workoutData.description, workoutData.isPublic, 'medium', workoutData.totalTime)
       .then((data) => 
       workoutData.exercises.map((exercise) => 
-        createExercise( exercise.name, data.workout_ID, exercise.description, exercise.sets, exercise.maximumRepetitions, exercise.restTime, exercise.photo, exercise.video)
+        createExercise( 
+          exercise.name, 
+          data.workout_ID, 
+          exercise.description, 
+          exercise.sets, 
+          exercise.maximumRepetitions, 
+          exercise.restTime, 
+          exercise.photo, 
+          exercise.video).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0))
       ))
     }
   };
+
+  // console.log('workoutData', workoutData)x
 
   return (
     <Container>
@@ -75,14 +89,24 @@ const CreateWorkoutPage = observer(() => {
       <Form>
         <Form.Group className="mb-3">
           <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter title"
-              name="title"
-              value={workoutData.title}
-              onChange={inputChange}
-            />
-          </Form.Group>
+          <Form.Control
+            type="text"
+            placeholder="Enter title"
+            name="title"
+            value={workoutData.title}
+            onChange={inputChange}
+          />
+        </Form.Group>
+          
+        <Form.Group controlId="formIsPublic">
+          <Form.Check
+            type="checkbox"
+            label="Публичная тренировка"
+            name='isPublic'
+            checked={workoutData.isPublic}
+            onChange={inputChange}
+          />
+        </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Description</Form.Label>

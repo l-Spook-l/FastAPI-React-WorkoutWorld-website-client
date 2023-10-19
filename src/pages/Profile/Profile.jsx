@@ -4,6 +4,8 @@ import style from './Profile.module.css'
 import { observer } from 'mobx-react-lite'
 import { Context } from "../..";
 import { useLocation } from 'react-router-dom';
+import UserWorkouts from '../../components/UserWorkouts/UserWorkouts';
+import UserInfo from '../../components/UserInfo/UserInfo';
 
 const Profile = observer(() => {
   const { user } = useContext(Context);
@@ -14,8 +16,7 @@ const Profile = observer(() => {
 
   const [activeTab, setActiveTab] = useState("userInfo");
 
-  //const [view, setView] = useState(<UserInfo />);
-  const [view, setView] = useState('userInfo');
+  const [view, setView] = useState(<UserInfo />);
 
   // useEffect(() => {
   //   window.scrollTo(0, 0);
@@ -26,10 +27,10 @@ const Profile = observer(() => {
     setActiveTab(tab);
     switch (tab) {
       case "userInfo":
-        //setView(<UserInfo />);
+        setView(<UserInfo />);
         break;
-      case "createWorkouts":
-        //setView(<Basket />);
+      case "my workouts":
+        setView(<UserWorkouts />);
         break;
       case "basket":
         //setView(<Basket />);
@@ -63,10 +64,10 @@ const Profile = observer(() => {
             </Alert>
             <hr />
             <Alert
-              className={`${style.alertMenu} ${activeTab === "createWorkouts" ? style.alertMenuActive : ""}`}
-              onClick={() => blurHandler("createWorkouts")}
+              className={`${style.alertMenu} ${activeTab === "my workouts" ? style.alertMenuActive : ""}`}
+              onClick={() => blurHandler("my workouts")}
             >
-              Creation workouts
+              My workouts
             </Alert>
             <Alert
               className={`${style.alertMenu} ${activeTab === "basket" ? style.alertMenuActive : ""}`}
@@ -100,7 +101,7 @@ const Profile = observer(() => {
             </Alert>
           </Nav>
         </Col>
-        <Col md={9}>{view}</Col>
+        <Col md={9} className={style.contentBlock}>{view}</Col>
       </Row>
     </Container>
   )

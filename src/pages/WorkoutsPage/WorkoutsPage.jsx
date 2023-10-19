@@ -21,14 +21,26 @@ const WorkoutsPage = observer(() => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    fetchWorkouts().then((data) => {
-      workout.setWorkouts(data)
-    }).finally(() => setLoading(false))
+    workout.setPage(1)
+    // fetchWorkouts().then((data) => {
+    //   workout.setWorkouts(data)
+    // }).finally(() => setLoading(false))
   }, [])
+
+  useEffect(() => {
+    fetchWorkouts(workout.skip).then((data) => {
+      workout.setWorkouts(data)
+      workout.setTotalCount(data.total_count)
+      workout.setSkip(data.skip)
+      workout.setLimit(data.limit)
+    }).finally(() => setLoading(false))
+  }, [workout.page])
   
   if (loading) {
     return <Spinner animation='grow'/>
   }
+
+  console.log('WorkoutsPage workout', workout)
 
   return (
     <Container fluid className={style.container}>

@@ -20,11 +20,15 @@
 }
 
 .blockWithMenu {
-  margin: 70px 0 210px 0;
+  margin: 30px 0 230px 0;
+}
+
+.contentBlock {
+  background-color: cadetblue;
 }
 
 @media (max-width: 769px) {
   .blockWithMenu {
-    margin: 70px 0 20px 0;
+    margin: 30px 0 20px 0;
   }
 }

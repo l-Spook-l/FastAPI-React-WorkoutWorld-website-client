@@ -1,5 +1,7 @@
 .titleWorkout {
   background-color: aqua;
+  display: flex;
+  justify-content: space-around;
   height: 100px;
 }
 
@@ -40,7 +42,7 @@
   background-color: cadetblue;
 }
 
-.exerciseInfo {
+.exerciseItem {
   background-color: chartreuse;
   width: 1000px;
   height: 1000px;
