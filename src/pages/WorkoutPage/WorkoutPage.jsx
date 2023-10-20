@@ -30,6 +30,8 @@ const WorkoutPage = observer(() => {
   const [workoutDescription, setWorkoutDescription] = useState('')
   const [showModal, setShowModal] = useState(false);
 
+  const [updatePage, setUpdatePage] = useState(false)
+
   useEffect(() => {
     fetchOneWorkout(workout_id)
     .then((data) => {
@@ -40,7 +42,7 @@ const WorkoutPage = observer(() => {
       setWorkoutDescription(data.data.Workout.description)
     })
     .finally(() => setLoading(false))
-  },[workout_id])
+  },[workout_id, updatePage])
 
   if (loading) {
     return <Spinner animation="grow" />;
@@ -55,6 +57,7 @@ const WorkoutPage = observer(() => {
     updateWorkout(workoutName, workout_id, workoutDescription, workoutIsPublic)
     setEditWorkout(false)
     workout.setEditWorkout(false)
+    setUpdatePage(!updatePage)
   }
 
   const closeParamWorkout = () => {
@@ -148,7 +151,7 @@ const WorkoutPage = observer(() => {
           </Card>
         </Col>
       </Row>
-      <ChangeStatusModal show={showModal} onClose={closeModal} changeStatus={changeStatusWorkout} />
+      <ChangeStatusModal show={showModal} status={workoutIsPublic} onClose={closeModal} changeStatus={changeStatusWorkout} />
     </Container>
   )
 })
