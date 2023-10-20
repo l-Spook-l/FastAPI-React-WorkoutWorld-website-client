@@ -9,7 +9,7 @@ import ExerciseInfo from '../../components/ExerciseInfo/ExerciseInfo'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import style from './WorkoutPage.module.css'
 import FormCreateExercise from '../../components/Forms/FormCreateExercise/FormCreateExercise'
-import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal'
+import ChangeStatusModal from '../../components/Modals/ChangeStatusModal/ChangeStatusModal'
 
 const WorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -82,14 +82,15 @@ const WorkoutPage = observer(() => {
         <Col md={8}>
           <Card className={style.workoutCard}>
             <Card.Body>
-
               <div className={style.workoutTitle}>
                 {editWorkout
                 ? <input type="text" value={workoutName} onChange={(el) => setWorkoutName(el.target.value)} />
                 : <Card.Title>{workoutName}</Card.Title>
                 }
+
                 <NavLink to={`${ACTIVE_WORKOUT_ROUTE}/${workout_id}`}>Start workout</NavLink>
-                {user.isAuth && 
+                
+                {(user.isAuth && !workout.selectedWorkout.data.Workout.is_public) &&
                   (user.user.id === workout.selectedWorkout.data.Workout.user_id) && 
                     (editWorkout
                       ?  
@@ -100,7 +101,7 @@ const WorkoutPage = observer(() => {
                       :  <button onClick={() => editParamWorkout()}><AiFillEdit/></button>)
                 }
               </div>
-
+              {/* блок для сложности тренировки */}
               {/* {editWorkout
                 ? <input type="text" value={workoutDifficulty} onChange={(el) => setWorkoutDifficulty(el.target.value)} />
                 : <Card.Subtitle className="mb-2 text-muted">difficulty: {workoutDifficulty}</Card.Subtitle>
@@ -147,7 +148,7 @@ const WorkoutPage = observer(() => {
           </Card>
         </Col>
       </Row>
-      <DeleteConfirmationModal show={showModal} onClose={closeModal} changeStatus={changeStatusWorkout} />
+      <ChangeStatusModal show={showModal} onClose={closeModal} changeStatus={changeStatusWorkout} />
     </Container>
   )
 })
