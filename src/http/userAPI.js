@@ -1,13 +1,10 @@
 import jwt_decode from "jwt-decode";
 import { $authHost, $host } from "./index";
-//import { createBasketForUser, createWishListForUser } from "./productAPI";
 
 export const registration = async (first_name, last_name, email, password, username, phone=0) => {
   //console.log('registration', first_name, last_name, email, password, username)
   const response = await $host.post("auth/register/", { email, password, username, first_name, last_name, phone });  // Ответ от сервера
   //console.log("регистрация response", response);
-  //createBasketForUser({user: response.data.id})  // создаем корзину
-  //createWishListForUser({user: response.data.id})  // создаем список желаний 
   return response.data
 };
 
@@ -39,19 +36,25 @@ export const login = async ( username, password ) => {
 // Проверка токена на валидность
 // Получение данных о пользователя, если токен не валиден ничего не получим
 export const check = async () => {
-  console.log("check in userAPI is work")
+  //console.log("check in userAPI is work")
   localStorage.setItem("token", localStorage.getItem("token"));
-  console.log("check in userAPI ", jwt_decode(localStorage.getItem("token")))
-  console.log("check in userAPI is work token")
+  //console.log("check in userAPI ", jwt_decode(localStorage.getItem("token")))
+  //console.log("check in userAPI is work token")
 
-  const userId = jwt_decode(localStorage.getItem("token")).user_id
+  //const userId = jwt_decode(localStorage.getItem("token")).user_id
   //const response = await $authHost.get(`api/v1/user-info/${userId}/`);
   const response = await $authHost.get(`protected-route`);
 
-  console.log("check auth/users/me/ token test", `Bearer ${localStorage.getItem("token")}`);
-  console.log("check auth/users/me/ response user-info", response);
-  console.log("check auth/users/me/ response.data user-info", response.data);
+  //console.log("check auth/users/me/ token test", `Bearer ${localStorage.getItem("token")}`);
+  //console.log("check auth/users/me/ response user-info", response);
+  //console.log("check auth/users/me/ response.data user-info", response.data);
 
   //return response.data.results[0]
   return response.data
 };
+
+export const updateUserData = async (data) => {
+  const response = await $authHost.patch(`/users/me`, data);
+  console.log("updateUserData response", response);
+  return response.data
+}
