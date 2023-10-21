@@ -6,6 +6,7 @@ export default class WorkoutStore {
     this._workouts = []  // масив для получение тренировок
     this._selectedWorkout = []
     this._userWorkouts = []
+    this._addedWorkouts = []
     this._editWorkout = false
 
     this._page = 1
@@ -24,6 +25,9 @@ export default class WorkoutStore {
   }
   setUserWorkouts(userWorkouts) {
     this._userWorkouts = userWorkouts
+  }
+  setAddedWorkouts(addedWorkouts) {
+    this._addedWorkouts = addedWorkouts
   }
   setEditWorkout(bool) {
     this._editWorkout = bool
@@ -49,6 +53,9 @@ export default class WorkoutStore {
   }
   get userWorkouts() {
     return this._userWorkouts
+  }
+  get addedWorkouts() {
+    return this._addedWorkouts
   }
   get editWorkout() {
     return this._editWorkout
