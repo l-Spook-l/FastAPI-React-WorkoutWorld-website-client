@@ -7,6 +7,7 @@ import Footer from './components/Footer/Footer'
 import { Context } from '.'
 import { check } from './http/userAPI'
 import { Spinner } from 'react-bootstrap'
+import { fetchAddUserWorkout } from './http/workoutAPI'
 
 
 const App = observer(() => {
@@ -16,14 +17,17 @@ const App = observer(() => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    console.log('начал работать useEffect check', user)
+    //console.log('начал работать useEffect check', user)
 
     check().then((data) => {
-      console.log('qqqqqqqqqqqqqqq', data)
+      //console.log('qqqqqqqqqqqqqqq', data)
       user.setUser(data)
       user.setIsAuth(true)
+      fetchAddUserWorkout(user.user.id).then((data) => {
+        workout.setAddedWorkouts(data)      
+      })
     }).catch((error) => {
-      console.log('Error login', error);
+      //console.log('Error login', error);
       // Обработка других ошибок, возникших при выполнении запроса
     }).finally(() => setLoading(false))
 
