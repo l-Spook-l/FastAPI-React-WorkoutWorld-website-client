@@ -2,14 +2,15 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../..'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
-import { fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
+import { addWorkoutToUser, createSet, fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
 import { Breadcrumb, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
-import { ACTIVE_WORKOUT_ROUTE, MAIN_ROUTE } from '../../utils/consts'
+import { ACTIVE_WORKOUT_ROUTE, MAIN_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
 import ExerciseInfo from '../../components/ExerciseInfo/ExerciseInfo'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import style from './WorkoutPage.module.css'
 import FormCreateExercise from '../../components/Forms/FormCreateExercise/FormCreateExercise'
 import ChangeStatusModal from '../../components/Modals/ChangeStatusModal/ChangeStatusModal'
+import { IoIosAddCircleOutline } from 'react-icons/io'
 
 const WorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -29,6 +30,7 @@ const WorkoutPage = observer(() => {
   const [workoutIsPublic, setWorkoutIsPublic] = useState('')
   const [workoutDescription, setWorkoutDescription] = useState('')
   const [showModal, setShowModal] = useState(false);
+  const [workoutAlreadyAdded, setWorkoutAlreadyAdded] = useState([])
 
   const [updatePage, setUpdatePage] = useState(false)
 
@@ -42,10 +44,14 @@ const WorkoutPage = observer(() => {
       setWorkoutDescription(data.data.Workout.description)
     })
     .finally(() => setLoading(false))
-  },[workout_id, updatePage])
+  },[workout_id, updatePage, user.isAuth])
 
   if (loading) {
     return <Spinner animation="grow" />;
+  }
+
+  if (user.isAuth) {
+    setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
   }
 
   const editParamWorkout = () => {
@@ -78,8 +84,36 @@ const WorkoutPage = observer(() => {
     setShowModal(false);
   }
 
+  const addWorkout = () => {
+    addWorkoutToUser(user.user.id, workout.selectedWorkout.data.Workout.id)
+
+    workout.selectedWorkout.data.Workout.exercise.map((exercise) => 
+      createSet(exercise.number_of_sets, exercise.id, user.user.id, 0, 0)
+    )
+  }
+
+  // console.log('add swowow1', workout.addedWorkouts.workouts)
+  // console.log('testese', ((workout.selectedWorkout.data.Workout.user_id !== user.user.id) || 
+  // (workout.addedWorkouts.workouts.some((el) => el.id === workout.selectedWorkout.data.Workout.id))))
+  // console.log('add swowow2', workout.selectedWorkout.data.Workout.user_id, 'SS', user.user.id)
+  // workout.addedWorkouts.workouts.some((el) => console.log('eellele', el.Workout.id === workout.selectedWorkout.data.Workout.id))
+  // const workoutAlreadyAdded = workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id)
+  // console.log('add swowow3', workoutAlreadyAdded)
+  // console.log('add swowow4', workout.addedWorkouts.workouts)
+  // console.log('add swowow5', workout.addedWorkouts.workouts)
+
+
   return (
     <Container className={style.workoutContainer}>
+      <Breadcrumb className="mt-2">
+        <Breadcrumb.Item onClick={() => navigate(MAIN_ROUTE)}>
+          Home
+        </Breadcrumb.Item>
+        <Breadcrumb.Item onClick={() => navigate(WORKOUTS_ROUTE)}>
+          Workouts
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>{workoutName}</Breadcrumb.Item>
+      </Breadcrumb>
       <h1>Workout</h1>
       <Row>
         <Col md={8}>
@@ -90,8 +124,8 @@ const WorkoutPage = observer(() => {
                 ? <input type="text" value={workoutName} onChange={(el) => setWorkoutName(el.target.value)} />
                 : <Card.Title>{workoutName}</Card.Title>
                 }
-
-                <NavLink to={`${ACTIVE_WORKOUT_ROUTE}/${workout_id}`}>Start workout</NavLink>
+                
+                {user.isAuth && <NavLink to={`${ACTIVE_WORKOUT_ROUTE}/${workout_id}`}>Start workout</NavLink>}
                 
                 {(user.isAuth && !workout.selectedWorkout.data.Workout.is_public) &&
                   (user.user.id === workout.selectedWorkout.data.Workout.user_id) && 
@@ -103,6 +137,13 @@ const WorkoutPage = observer(() => {
                       </div>
                       :  <button onClick={() => editParamWorkout()}><AiFillEdit/></button>)
                 }
+
+                {user.isAuth &&
+                  (((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && false) &&
+                  <button className={style.buttonAddWorkout} onClick={addWorkout}><IoIosAddCircleOutline/></button>
+                  )
+                }
+
               </div>
               {/* блок для сложности тренировки */}
               {/* {editWorkout
