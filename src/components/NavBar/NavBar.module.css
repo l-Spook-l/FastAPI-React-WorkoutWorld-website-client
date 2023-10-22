@@ -34,11 +34,11 @@
   font-size: 1.3rem;
 }
 
-.dropdownItem {
-  /* border: 1px solid rgba(0, 0, 0, 0.25);
+/* .dropdownItem {
+  border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 5px;
-  padding: 2px; */
-}
+  padding: 2px;
+} */
 
 .dropdownItem:active {
   background-color: rgb(18, 19, 19);

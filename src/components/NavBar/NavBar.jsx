@@ -56,7 +56,8 @@ const NavBar = observer(() => {
             <NavLink NavLink className={style.workouts} to={WORKOUTS_ROUTE}>
               Workouts
             </NavLink>
-            <NavDropdown
+            {user.isAuth &&
+              <NavDropdown
               title={
                 <span className={style.dropdownMenuTitle}>My workouts</span>
               }
@@ -82,6 +83,7 @@ const NavBar = observer(() => {
                   </NavLink>
                 </NavDropdown.Item>
             </NavDropdown>
+            }
             {user.isAuth ? 
               <div>
                 <NavLink
