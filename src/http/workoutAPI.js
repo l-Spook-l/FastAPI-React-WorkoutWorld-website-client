@@ -1,4 +1,4 @@
-import { $host } from "./index"
+import { $authHost, $host } from "./index"
 
 
 export const fetchWorkouts = async(skip) => {
@@ -15,7 +15,7 @@ export const fetchOneWorkout = async(workout_id) => {
 
 // изменить host - на auhost
 export const fetchMyWorkouts = async(user_id) => {
-  const response = await $host.get('workouts/user-workouts/', {params: {user_id:user_id}})
+  const response = await $authHost.get('workouts/user-workouts/', {params: {user_id:user_id}})
   console.log('fetchMyCreatedWorkouts response', response)
   return response.data
 }
@@ -27,57 +27,62 @@ export const fetchSets = async(user_id, exercise_ids) => {
   return response.data
 }
 
-// export const fetchAddUserWorkout = async(user_id) => {
-//   const response = await $host.get(`workouts/get-added-user-workouts/${user_id}`)
-//   console.log('fetchAddUserWorkout response', response)
-//   return response.data
-// }
+export const fetchAddUserWorkout = async(user_id) => {
+  const response = await $authHost.get(`workouts/get-user-added-workouts/${user_id}`)
+  console.log('fetchAddUserWorkout response', response)
+  return response.data
+}
 
 // изменить host - на auhost
 export const createWorkout = async(name, user_id, description, is_public, difficulty, total_time) => {
-  const response = await $host.post('workouts/create_workout/', {name, user_id, description, is_public, difficulty, total_time})
+  const response = await $authHost.post('workouts/create_workout/', {name, user_id, description, is_public, difficulty, total_time})
   console.log('createWorkout response', response)
   return response.data
 }
 
 // изменить host - на auhost
 export const createExercise = async(name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo) => {
-  const response = await $host.post('workouts/create_exercise/', {name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo})
+  const response = await $authHost.post('workouts/create_exercise/', {name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo})
   console.log('createExercise response', response)
   return response.data
 }
 
 // изменить host - на auhost
 export const createSet = async(number_sets, exercise_id, user_id, repetition, weight) => {
-  const response = await $host.post(`workouts/create_set?number_sets=${number_sets}`, {exercise_id, user_id, repetition, weight})
+  const response = await $authHost.post(`workouts/create_set?number_sets=${number_sets}`, {exercise_id, user_id, repetition, weight})
   console.log('createSet response', response)
   return response.data
 }
 
 export const addWorkoutToUser = async(user_id, workout_id) => {
-  const response = await $host.post(`workouts/add-workout-to-user/${user_id}/${workout_id}`)
+  const response = await $authHost.post(`workouts/add-workout-to-user/${user_id}/${workout_id}`)
   console.log('addWorkoutToUser response', response)
   return response.data
 }
 
 // изменить host - на auhost
-export const updateWorkout = async(name, workout_id, description, difficulty) => {
-  const response = await $host.patch(`workouts/workout/update/${workout_id}`, {name, description, difficulty})
+export const updateWorkout = async(name, workout_id, description, is_public) => {
+  const response = await $authHost.patch(`workouts/workout/update/${workout_id}`, {name, description, is_public})
   console.log('updateWorkout response', response)
   return response.data
 }
 
 // изменить host - на auhost
 export const updateExercise = async(exercise_id, name, description, number_of_sets, maximum_repetitions, rest_time, video, photo) => {
-  const response = await $host.patch(`workouts/exercise/update/${exercise_id}`, {name, description, number_of_sets, maximum_repetitions, rest_time, video, photo})
+  const response = await $authHost.patch(`workouts/exercise/update/${exercise_id}`, {name, description, number_of_sets, maximum_repetitions, rest_time, video, photo})
   console.log('updateExercise response', response)
   return response.data
 }
 
 // изменить host - на auhost
-export const updateSet = async(set_id, count, weight) => {
-  const response = await $host.patch(`workouts/set/update/${set_id}`, {count, weight})
+export const updateSet = async(set_id, repetition, weight) => {
+  const response = await $authHost.patch(`workouts/set/update/${set_id}`, {repetition, weight})
   console.log('updateSet response', response)
   return response.data
 }
 
+export const deleteAddedWorkout = async(workout_id, user_id) => {
+  const response = await $authHost.delete(`workouts/delete/added-workout/`, {workout_id, user_id})
+  console.log('deleteAddedWorkout response', response)
+  return response.data
+}
