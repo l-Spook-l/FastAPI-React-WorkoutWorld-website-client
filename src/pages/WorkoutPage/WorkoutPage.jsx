@@ -31,7 +31,7 @@ const WorkoutPage = observer(() => {
   const [workoutIsPublic, setWorkoutIsPublic] = useState('')
   const [workoutDescription, setWorkoutDescription] = useState('')
   const [showModal, setShowModal] = useState(false);
-  const [workoutAlreadyAdded, setWorkoutAlreadyAdded] = useState([])
+  // const [workoutAlreadyAdded, setWorkoutAlreadyAdded] = useState(false)
 
   const [updatePage, setUpdatePage] = useState(false)
 
@@ -51,9 +51,9 @@ const WorkoutPage = observer(() => {
     return <Spinner animation="grow" />;
   }
 
-  if (user.isAuth && workout.addedWorkouts.workouts.length < 0) {
-    setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
-  }
+  // if (user.isAuth && workout.addedWorkouts.workouts.length === 0) {
+  //   setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
+  // }
 
   const editParamWorkout = () => {
     workout.setEditWorkout(true)
@@ -94,7 +94,7 @@ const WorkoutPage = observer(() => {
   }
 
   const deleteWorkout = () => {
-    if (user.user.id === workout.selectedWorkout.data.Workout.user_id) {
+    if (!workout.selectedWorkout.data.Workout.is_public) {
       console.log('?????????????????????????????')
     } else {
       deleteAddedWorkout(workout.selectedWorkout.data.Workout.id, user.user.id)
@@ -109,8 +109,8 @@ const WorkoutPage = observer(() => {
   // (workout.addedWorkouts.workouts.some((el) => el.id === workout.selectedWorkout.data.Workout.id))))
   // console.log('add swowow2', workout.selectedWorkout.data.Workout.user_id, 'SS', user.user.id)
   // workout.addedWorkouts.workouts.some((el) => console.log('eellele', el.Workout.id === workout.selectedWorkout.data.Workout.id))
-  // const workoutAlreadyAdded = workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id)
-  // console.log('add swowow3', workoutAlreadyAdded)
+  const workoutAlreadyAdded = workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id)
+  console.log('add swowow3', workoutAlreadyAdded)
   // console.log('add swowow4', workout.addedWorkouts.workouts)
   // console.log('add swowow5', workout.addedWorkouts.workouts)
 
@@ -139,28 +139,30 @@ const WorkoutPage = observer(() => {
                 {user.isAuth && <NavLink to={`${ACTIVE_WORKOUT_ROUTE}/${workout_id}`}>Start workout</NavLink>}
                 
                 {(user.isAuth && !workout.selectedWorkout.data.Workout.is_public) &&
-                  (user.user.id === workout.selectedWorkout.data.Workout.user_id) && 
-                    (editWorkout
-                      ?  
-                      <div>
-                        <button onClick={() => updateParamWorkout()}><AiOutlineCheck/></button>
-                        <button onClick={() => closeParamWorkout()}><AiOutlineClose/></button>
-                      </div>
-                      :  
-                      <div>
-                        <button onClick={() => editParamWorkout()}><AiFillEdit/></button>
-                        
-                      </div>
-                    )
-                }
-<button onClick={deleteWorkout}><RiDeleteBin2Line/></button>
-                {user.isAuth &&
-                  (((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && true) &&
-                  <button className={style.buttonAddWorkout} onClick={addWorkout}><IoIosAddCircleOutline/></button>
+                  (editWorkout
+                    ?  
+                    <div>
+                      <button onClick={() => updateParamWorkout()}><AiOutlineCheck/></button>
+                      <button onClick={() => closeParamWorkout()}><AiOutlineClose/></button>
+                    </div>
+                    :  
+                    <div>
+                      <button onClick={() => editParamWorkout()}><AiFillEdit/></button>
+                    </div>
                   )
                 }
 
+                {(user.isAuth && 
+                  ((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && !workoutAlreadyAdded)) &&
+                  <button className={style.buttonAddWorkout} onClick={addWorkout}><IoIosAddCircleOutline/></button>
+                }
+
+                {(user.isAuth && 
+                  (((workout.selectedWorkout.data.Workout.user_id !== user.user.id) || !workout.selectedWorkout.data.Workout.is_public) && workoutAlreadyAdded)) &&
+                  <button onClick={deleteWorkout}><RiDeleteBin2Line/></button>
+                }
               </div>
+              
               {/* блок для сложности тренировки */}
               {/* {editWorkout
                 ? <input type="text" value={workoutDifficulty} onChange={(el) => setWorkoutDifficulty(el.target.value)} />
