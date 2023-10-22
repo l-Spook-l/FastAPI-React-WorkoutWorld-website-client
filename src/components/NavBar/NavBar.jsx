@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useState } from 'react'
 import { Context } from '../..'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { Container, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap'
+import { Button, Container, Form, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap'
 import { MAIN_ROUTE, PROFILE_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
 import style from "./NavBar.module.css";
 import { AiOutlineProfile, AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
@@ -30,23 +30,103 @@ const NavBar = observer(() => {
     setShowLogin(true);
   };
 
-  // поменять название
-  const handleSwitchForm = () => {
+  const switchForm = () => {
     setShowLogin(!showLogin);
   };
 
   return (
-    <Container>
-      <Navbar
+    <Navbar expand='lg' className={style.myNavbar}>
+    <Container fluid className={style.container}>
+      <NavLink className={style.logo} to={MAIN_ROUTE}>
+        WorkoutWorld
+      </NavLink>
+      <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
+      <Navbar.Offcanvas
+        id={`offcanvasNavbar-expand-lg`}
+        aria-labelledby={`offcanvasNavbarLabel-expand-lg`}
+        placement="end"
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title id={`offcanvasNavbarLabel-expand-lg`}>
+            Menu
+          </Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body className={style.offcanvasBody}>
+          <Nav className={style.menuNavbar}>
+            <NavLink NavLink className={style.workouts} to={WORKOUTS_ROUTE}>
+              Workouts
+            </NavLink>
+            <NavDropdown
+              title={
+                <span className={style.dropdownMenuTitle}>My workouts</span>
+              }
+              id={`offcanvasNavbarDropdown-expand-lg`}
+              className={style.dropdownMenuTitle}
+            >
+              <NavDropdown.Item className={style.dropdownItem}>
+                <NavLink
+                  className={style.buttonLink}
+                  to={{ pathname: PROFILE_ROUTE }}
+                  state="createdWorkouts"
+                  >
+                  Created workouts
+                </NavLink>
+              </NavDropdown.Item>
+                <NavDropdown.Item className={style.dropdownItem}>
+                  <NavLink
+                    className={style.buttonLink}
+                    to={{ pathname: PROFILE_ROUTE }}
+                    state="addedWorkouts"
+                  >
+                    Added workouts
+                  </NavLink>
+                </NavDropdown.Item>
+            </NavDropdown>
+            {user.isAuth ? 
+              <div>
+                <NavLink
+                  className={style.profile}
+                  to={{ pathname: PROFILE_ROUTE }}
+                  state="userInfo"
+                >
+                  <AiOutlineProfile />
+                </NavLink>
+                <NavLink className={style.login} onClick={logOut} to={MAIN_ROUTE}>
+                  <AiOutlineLogout />
+                </NavLink>
+              </div>
+            : 
+              <NavLink className={style.logout} onClick={clickLogin}>
+                <AiOutlineLogin />
+              </NavLink>
+            }
+          </Nav>
+        </Offcanvas.Body>
+      </Navbar.Offcanvas>
+      {showLogin ? 
+        <FormLogin
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          onSwitchForm={switchForm}
+        />
+       : 
+        <FormRegister
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          onSwitchForm={switchForm}
+        />
+      }
+    </Container>
+
+
+
+    
+      {/* <Navbar
         collapseOnSelect
         expand="lg"
-        bg="black"
-        variant="dark"
-        className="fixed-top"
-        style={{ height: "63px" }}
+        className={style.myNavbar}
       >
         <NavLink className={style.logo} to={MAIN_ROUTE}>
-          {/* <GiGolfFlag className={style.logo} /> надо лого свое */}
           WorkoutWorld
         </NavLink>
         
@@ -61,14 +141,17 @@ const NavBar = observer(() => {
               Menu
             </Offcanvas.Title>
           </Offcanvas.Header>
-          <Offcanvas.Body className="bg-black">
-            <Nav className="ms-auto align-items-center">
+          <Offcanvas.Body className={style.offcanvasBody}>
+            <Nav className={style.menuNavbar}>
+              <NavLink NavLink className={style.workouts} to={WORKOUTS_ROUTE}>
+                Workouts
+              </NavLink>
               <NavDropdown
                 className={style.dropdownMenuTitle}
                 title="My workouts"
                 id="collasible-nav-dropdown-brands"
               >
-                <NavDropdown.Item>
+                <NavDropdown.Item className={style.dropdownItem}>
                   <NavLink
                     className={style.buttonLink}
                     to={{ pathname: PROFILE_ROUTE }}
@@ -77,7 +160,7 @@ const NavBar = observer(() => {
                     Created workouts
                   </NavLink>
                 </NavDropdown.Item>
-                <NavDropdown.Item>
+                <NavDropdown.Item className={style.dropdownItem}>
                   <NavLink
                     className={style.buttonLink}
                     to={{ pathname: PROFILE_ROUTE }}
@@ -89,10 +172,8 @@ const NavBar = observer(() => {
               </NavDropdown>
 
             </Nav>
-            <div className="d-flex justify-content-center">
-
-              <Nav>
-              {user.isAuth ? 
+            <Nav className={style.menuNavbar}>
+            {user.isAuth ? 
               <div>
                 <NavLink
                   className={style.profile}
@@ -105,31 +186,17 @@ const NavBar = observer(() => {
                   <AiOutlineLogout />
                 </NavLink>
               </div>
-             : 
+            : 
               <NavLink className={style.logout} onClick={clickLogin}>
                 <AiOutlineLogin />
               </NavLink>
             }
-              </Nav>
-            </div>
+            </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
-      </Navbar>
-
-      {showLogin ? (
-        <FormLogin
-          show={showModal}
-          onHide={() => setShowModal(false)}
-          onSwitchForm={handleSwitchForm}
-        />
-      ) : (
-        <FormRegister
-          show={showModal}
-          onHide={() => setShowModal(false)}
-          onSwitchForm={handleSwitchForm}
-        />
-      )}
-    </Container>
+      </Navbar> */}
+</Navbar>
+      
   )
 })
 
