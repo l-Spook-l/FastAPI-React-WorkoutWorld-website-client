@@ -86,3 +86,9 @@ export const deleteAddedWorkout = async(workout_id, user_id) => {
   console.log('deleteAddedWorkout response', response)
   return response.data
 }
+
+export const deleteAddedSets = async(exercise_id, user_id) => {
+  const response = await $authHost.delete(`workouts/delete/added-sets/`, {exercise_id, user_id})
+  console.log('deleteAddedWorkout response', response)
+  return response.data
+}
