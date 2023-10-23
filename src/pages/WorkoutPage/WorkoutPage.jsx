@@ -157,10 +157,16 @@ const WorkoutPage = observer(() => {
                   <button className={style.buttonAddWorkout} onClick={addWorkout}><IoIosAddCircleOutline/></button>
                 }
 
-                {(user.isAuth && 
-                  (((workout.selectedWorkout.data.Workout.user_id !== user.user.id) || !workout.selectedWorkout.data.Workout.is_public) && workoutAlreadyAdded)) &&
+                {(user.isAuth &&
+                  (((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && workoutAlreadyAdded) ||
+                  ((workout.selectedWorkout.data.Workout.user_id === user.user.id) && !workout.selectedWorkout.data.Workout.is_public)))  &&
                   <button onClick={deleteWorkout}><RiDeleteBin2Line/></button>
                 }
+
+                {/* {(user.isAuth && 
+                  (((workout.selectedWorkout.data.Workout.user_id !== user.user.id) || workout.selectedWorkout.data.Workout.is_public) && workoutAlreadyAdded)) &&
+                  <button onClick={deleteWorkout}><RiDeleteBin2Line/></button>
+                } */}
               </div>
               
               {/* блок для сложности тренировки */}
