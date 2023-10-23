@@ -81,14 +81,20 @@ export const updateSet = async(set_id, repetition, weight) => {
   return response.data
 }
 
+export const deleteCreatedWorkout = async(workout_id) => {
+  const response = await $authHost.delete(`workouts/delete/created-workout?workout_id=${workout_id}`)
+  console.log('deleteAddedWorkout response', response)
+  return response.data
+}
+
 export const deleteAddedWorkout = async(workout_id, user_id) => {
-  const response = await $authHost.delete(`workouts/delete/added-workout/`, {workout_id, user_id})
+  const response = await $authHost.delete(`workouts/delete/added-workout?workout_id=${workout_id}&user_id=${user_id}`)
   console.log('deleteAddedWorkout response', response)
   return response.data
 }
 
 export const deleteAddedSets = async(exercise_id, user_id) => {
-  const response = await $authHost.delete(`workouts/delete/added-sets/`, {exercise_id, user_id})
-  console.log('deleteAddedWorkout response', response)
+  const response = await $authHost.delete(`workouts/delete/added-sets?exercise_id=${exercise_id}&user_id=${user_id}`)
+  console.log('deleteAddedSets response', response)
   return response.data
 }
