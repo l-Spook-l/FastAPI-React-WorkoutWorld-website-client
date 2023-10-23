@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../..'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
-import { addWorkoutToUser, createSet, deleteAddedSets, deleteAddedWorkout, fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
+import { addWorkoutToUser, createSet, deleteAddedSets, deleteAddedWorkout, deleteCreatedWorkout, fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
 import { Breadcrumb, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { ACTIVE_WORKOUT_ROUTE, MAIN_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
 import ExerciseInfo from '../../components/ExerciseInfo/ExerciseInfo'
@@ -31,7 +31,7 @@ const WorkoutPage = observer(() => {
   const [workoutIsPublic, setWorkoutIsPublic] = useState('')
   const [workoutDescription, setWorkoutDescription] = useState('')
   const [showModal, setShowModal] = useState(false);
-  // const [workoutAlreadyAdded, setWorkoutAlreadyAdded] = useState(false)
+  const [workoutAlreadyAdded, setWorkoutAlreadyAdded] = useState(false)
 
   const [updatePage, setUpdatePage] = useState(false)
 
@@ -51,9 +51,9 @@ const WorkoutPage = observer(() => {
     return <Spinner animation="grow" />;
   }
 
-  // if (user.isAuth && workout.addedWorkouts.workouts.length === 0) {
-  //   setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
-  // }
+  if (user.isAuth && workout.addedWorkouts.workouts.length !== 0) {
+    setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
+  }
 
   const editParamWorkout = () => {
     workout.setEditWorkout(true)
@@ -96,6 +96,7 @@ const WorkoutPage = observer(() => {
   const deleteWorkout = () => {
     if (!workout.selectedWorkout.data.Workout.is_public) {
       console.log('?????????????????????????????')
+      deleteCreatedWorkout(workout.selectedWorkout.data.Workout.id)
     } else {
       deleteAddedWorkout(workout.selectedWorkout.data.Workout.id, user.user.id)
       workout.selectedWorkout.data.Workout.exercise.map((exercise) => {
@@ -109,7 +110,7 @@ const WorkoutPage = observer(() => {
   // (workout.addedWorkouts.workouts.some((el) => el.id === workout.selectedWorkout.data.Workout.id))))
   // console.log('add swowow2', workout.selectedWorkout.data.Workout.user_id, 'SS', user.user.id)
   // workout.addedWorkouts.workouts.some((el) => console.log('eellele', el.Workout.id === workout.selectedWorkout.data.Workout.id))
-  const workoutAlreadyAdded = workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id)
+  // const workoutAlreadyAdded = workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id)
   console.log('add swowow3', workoutAlreadyAdded)
   // console.log('add swowow4', workout.addedWorkouts.workouts)
   // console.log('add swowow5', workout.addedWorkouts.workouts)
@@ -163,10 +164,6 @@ const WorkoutPage = observer(() => {
                   <button onClick={deleteWorkout}><RiDeleteBin2Line/></button>
                 }
 
-                {/* {(user.isAuth && 
-                  (((workout.selectedWorkout.data.Workout.user_id !== user.user.id) || workout.selectedWorkout.data.Workout.is_public) && workoutAlreadyAdded)) &&
-                  <button onClick={deleteWorkout}><RiDeleteBin2Line/></button>
-                } */}
               </div>
               
               {/* блок для сложности тренировки */}
