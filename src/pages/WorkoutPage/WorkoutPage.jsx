@@ -4,7 +4,7 @@ import { Context } from '../..'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { addWorkoutToUser, createSet, deleteAddedSets, deleteAddedWorkout, deleteCreatedWorkout, fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
 import { Breadcrumb, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
-import { ACTIVE_WORKOUT_ROUTE, MAIN_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
+import { ACTIVE_WORKOUT_ROUTE, MAIN_ROUTE, PROFILE_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
 import ExerciseInfo from '../../components/ExerciseInfo/ExerciseInfo'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import style from './WorkoutPage.module.css'
@@ -95,13 +95,14 @@ const WorkoutPage = observer(() => {
 
   const deleteWorkout = () => {
     if (!workout.selectedWorkout.data.Workout.is_public) {
-      console.log('?????????????????????????????')
       deleteCreatedWorkout(workout.selectedWorkout.data.Workout.id)
+      navigate(PROFILE_ROUTE, {state: 'createdWorkouts'} );
     } else {
       deleteAddedWorkout(workout.selectedWorkout.data.Workout.id, user.user.id)
       workout.selectedWorkout.data.Workout.exercise.map((exercise) => {
         deleteAddedSets(exercise.id, user.user.id)
       })
+      navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
     }
   }
 
@@ -111,7 +112,7 @@ const WorkoutPage = observer(() => {
   // console.log('add swowow2', workout.selectedWorkout.data.Workout.user_id, 'SS', user.user.id)
   // workout.addedWorkouts.workouts.some((el) => console.log('eellele', el.Workout.id === workout.selectedWorkout.data.Workout.id))
   // const workoutAlreadyAdded = workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id)
-  console.log('add swowow3', workoutAlreadyAdded)
+  // console.log('add swowow3', workoutAlreadyAdded)
   // console.log('add swowow4', workout.addedWorkouts.workouts)
   // console.log('add swowow5', workout.addedWorkouts.workouts)
 
