@@ -12,6 +12,8 @@ import FormCreateExercise from '../../components/Forms/FormCreateExercise/FormCr
 import ChangeStatusModal from '../../components/Modals/ChangeStatusModal/ChangeStatusModal'
 import { IoIosAddCircleOutline } from 'react-icons/io'
 import { RiDeleteBin2Line } from 'react-icons/ri'
+import VideoPlayer from '../../components/VideoPlayer/VideoPlayer'
+import DeleteWorkoutModal from '../../components/Modals/DeleteWorkoutModal/DeleteWorkoutModal'
 
 const WorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -30,7 +32,8 @@ const WorkoutPage = observer(() => {
   //const [workoutDifficulty, setWorkoutDifficulty] = useState('')  // пока убрана возвожность (перевести)
   const [workoutIsPublic, setWorkoutIsPublic] = useState('')
   const [workoutDescription, setWorkoutDescription] = useState('')
-  const [showModal, setShowModal] = useState(false);
+  const [showModalChangeStatus, setShowModalChangeStatus] = useState(false);
+  const [showModalDeleteWorkout, setShowModalDeleteWorkout] = useState(false)
   const [workoutAlreadyAdded, setWorkoutAlreadyAdded] = useState(false)
 
   const [updatePage, setUpdatePage] = useState(false)
@@ -43,6 +46,11 @@ const WorkoutPage = observer(() => {
       setWorkoutIsPublic(data.data.Workout.is_public)
       //setWorkoutDifficulty(data.data.Workout.difficulty)
       setWorkoutDescription(data.data.Workout.description)
+      console.log('-----------------------------------------')
+      if (user.isAuth) {
+        setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
+      }
+      
     })
     .finally(() => setLoading(false))
   },[workout_id, updatePage, user.isAuth])
@@ -51,9 +59,9 @@ const WorkoutPage = observer(() => {
     return <Spinner animation="grow" />;
   }
 
-  if (user.isAuth && workout.addedWorkouts.workouts.length !== 0) {
-    setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
-  }
+  // if (user.isAuth && workout.addedWorkouts.workouts.length !== 0) {
+  //   setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
+  // }
 
   const editParamWorkout = () => {
     workout.setEditWorkout(true)
@@ -73,16 +81,17 @@ const WorkoutPage = observer(() => {
   }
 
   const editStatusWorkout = () => {
-    setShowModal(true);
+    setShowModalChangeStatus(true);
   }
 
   const closeModal = () => {
-    setShowModal(false);
+    setShowModalChangeStatus(false);
+    setShowModalDeleteWorkout(false);
   };
 
   const changeStatusWorkout = () => {
     setWorkoutIsPublic(!workoutIsPublic)
-    setShowModal(false);
+    setShowModalChangeStatus(false);
   }
 
   const addWorkout = () => {
@@ -91,6 +100,7 @@ const WorkoutPage = observer(() => {
     workout.selectedWorkout.data.Workout.exercise.map((exercise) => 
       createSet(exercise.number_of_sets, exercise.id, user.user.id, 0, 0)
     )
+    navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
   }
 
   const deleteWorkout = () => {
@@ -104,6 +114,7 @@ const WorkoutPage = observer(() => {
       })
       navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
     }
+    setShowModalDeleteWorkout(false);
   }
 
   // console.log('add swowow1', workout.addedWorkouts.workouts)
@@ -162,7 +173,7 @@ const WorkoutPage = observer(() => {
                 {(user.isAuth &&
                   (((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && workoutAlreadyAdded) ||
                   ((workout.selectedWorkout.data.Workout.user_id === user.user.id) && !workout.selectedWorkout.data.Workout.is_public)))  &&
-                  <button onClick={deleteWorkout}><RiDeleteBin2Line/></button>
+                  <button onClick={() => setShowModalDeleteWorkout(true)}><RiDeleteBin2Line/></button>
                 }
 
               </div>
@@ -195,6 +206,8 @@ const WorkoutPage = observer(() => {
 
               <FormCreateExercise showForm={showFormAddExercise} workoutId={workout_id} />
 
+                <VideoPlayer videoUrl='https://www.youtube.com/watch?v=yyXyKbdWslw&ab_channel=iFlame'/>
+
               <ul className={style.exerciseList}>
                 {workout.selectedWorkout.data.Workout.exercise.map((exercise) => 
                   <div key={exercise.id}>
@@ -214,7 +227,8 @@ const WorkoutPage = observer(() => {
           </Card>
         </Col>
       </Row>
-      <ChangeStatusModal show={showModal} status={workoutIsPublic} onClose={closeModal} changeStatus={changeStatusWorkout} />
+      <ChangeStatusModal show={showModalChangeStatus} status={workoutIsPublic} onClose={closeModal} changeStatus={changeStatusWorkout} />
+      <DeleteWorkoutModal show={showModalDeleteWorkout} onClose={closeModal} deleteWorkout={deleteWorkout} />
     </Container>
   )
 })
