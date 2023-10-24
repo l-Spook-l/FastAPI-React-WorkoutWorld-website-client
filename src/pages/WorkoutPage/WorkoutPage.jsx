@@ -14,6 +14,7 @@ import { IoIosAddCircleOutline } from 'react-icons/io'
 import { RiDeleteBin2Line } from 'react-icons/ri'
 import VideoPlayer from '../../components/VideoPlayer/VideoPlayer'
 import DeleteWorkoutModal from '../../components/Modals/DeleteWorkoutModal/DeleteWorkoutModal'
+import SaveChangesWorkoutModal from '../../components/Modals/SaveChangesWorkoutModal/SaveChangesWorkoutModal'
 
 const WorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -32,8 +33,11 @@ const WorkoutPage = observer(() => {
   //const [workoutDifficulty, setWorkoutDifficulty] = useState('')  // пока убрана возвожность (перевести)
   const [workoutIsPublic, setWorkoutIsPublic] = useState('')
   const [workoutDescription, setWorkoutDescription] = useState('')
-  const [showModalChangeStatus, setShowModalChangeStatus] = useState(false);
+
+  const [showModalChangeStatus, setShowModalChangeStatus] = useState(false)
   const [showModalDeleteWorkout, setShowModalDeleteWorkout] = useState(false)
+  const [showModalSaveChanges, setShowModalSaveChanges] = useState(false)
+
   const [workoutAlreadyAdded, setWorkoutAlreadyAdded] = useState(false)
 
   const [updatePage, setUpdatePage] = useState(false)
@@ -73,6 +77,7 @@ const WorkoutPage = observer(() => {
     setEditWorkout(false)
     workout.setEditWorkout(false)
     setUpdatePage(!updatePage)
+    setShowModalSaveChanges(false)
   }
 
   const closeParamWorkout = () => {
@@ -80,18 +85,15 @@ const WorkoutPage = observer(() => {
     workout.setEditWorkout(false)
   }
 
-  const editStatusWorkout = () => {
-    setShowModalChangeStatus(true);
-  }
-
   const closeModal = () => {
-    setShowModalChangeStatus(false);
-    setShowModalDeleteWorkout(false);
+    setShowModalChangeStatus(false)
+    setShowModalDeleteWorkout(false)
+    setShowModalSaveChanges(false)
   };
 
   const changeStatusWorkout = () => {
     setWorkoutIsPublic(!workoutIsPublic)
-    setShowModalChangeStatus(false);
+    setShowModalChangeStatus(false)
   }
 
   const addWorkout = () => {
@@ -155,7 +157,7 @@ const WorkoutPage = observer(() => {
                   (editWorkout
                     ?  
                     <div>
-                      <button onClick={() => updateParamWorkout()}><AiOutlineCheck/></button>
+                      <button onClick={() => setShowModalSaveChanges(true)}><AiOutlineCheck/></button>
                       <button onClick={() => closeParamWorkout()}><AiOutlineClose/></button>
                     </div>
                     :  
@@ -175,7 +177,6 @@ const WorkoutPage = observer(() => {
                   ((workout.selectedWorkout.data.Workout.user_id === user.user.id) && !workout.selectedWorkout.data.Workout.is_public)))  &&
                   <button onClick={() => setShowModalDeleteWorkout(true)}><RiDeleteBin2Line/></button>
                 }
-
               </div>
               
               {/* блок для сложности тренировки */}
@@ -185,7 +186,7 @@ const WorkoutPage = observer(() => {
               } */}
 
               {editWorkout
-                ? <input type="checkbox" checked={workoutIsPublic} onChange={(el) => editStatusWorkout()} />
+                ? <input type="checkbox" checked={workoutIsPublic} onChange={(el) => setShowModalChangeStatus(true)} />
                 : <Card.Subtitle className="mb-2">Status: {workoutIsPublic ? 'Public' : 'Non-public'}</Card.Subtitle>
               }
 
@@ -206,7 +207,7 @@ const WorkoutPage = observer(() => {
 
               <FormCreateExercise showForm={showFormAddExercise} workoutId={workout_id} />
 
-                <VideoPlayer videoUrl='https://www.youtube.com/watch?v=yyXyKbdWslw&ab_channel=iFlame'/>
+              <VideoPlayer videoUrl='https://www.youtube.com/watch?v=yyXyKbdWslw&ab_channel=iFlame'/>
 
               <ul className={style.exerciseList}>
                 {workout.selectedWorkout.data.Workout.exercise.map((exercise) => 
@@ -229,6 +230,7 @@ const WorkoutPage = observer(() => {
       </Row>
       <ChangeStatusModal show={showModalChangeStatus} status={workoutIsPublic} onClose={closeModal} changeStatus={changeStatusWorkout} />
       <DeleteWorkoutModal show={showModalDeleteWorkout} onClose={closeModal} deleteWorkout={deleteWorkout} />
+      <SaveChangesWorkoutModal show={showModalSaveChanges} onClose={closeModal} saveChanges={updateParamWorkout} />
     </Container>
   )
 })
