@@ -1,0 +1,21 @@
+.myContainer {
+  margin-top: 20px;
+}
+
+.titleAddedWorkout {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.contentSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 769px) {
+  .contentSection {
+    justify-content: space-between;
+  }
+}
