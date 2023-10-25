@@ -1,11 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Alert, Col, Container, Nav, Row } from 'react-bootstrap'
 import style from './Profile.module.css'
 import { observer } from 'mobx-react-lite'
 import { Context } from "../..";
 import { useLocation } from 'react-router-dom';
-import UserWorkouts from '../../components/UserWorkouts/UserWorkouts';
+import CreatedWorkouts from '../../components/CreatedWorkouts/CreatedWorkouts';
 import UserInfo from '../../components/UserInfo/UserInfo';
+import AddedWorkouts from '../../components/AddedWorkouts/AddedWorkouts';
 
 const Profile = observer(() => {
   const { user } = useContext(Context);
@@ -18,10 +19,10 @@ const Profile = observer(() => {
 
   const [view, setView] = useState(<UserInfo />);
 
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  //   blurHandler(state);
-  // }, [state]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    blurHandler(state);
+  }, [state]);
 
   const blurHandler = (tab) => {
     setActiveTab(tab);
@@ -29,8 +30,11 @@ const Profile = observer(() => {
       case "userInfo":
         setView(<UserInfo />);
         break;
-      case "my workouts":
-        setView(<UserWorkouts />);
+      case "createdWorkouts":
+        setView(<CreatedWorkouts />);
+        break;
+      case "addedWorkouts":
+        setView(<AddedWorkouts />);
         break;
       case "basket":
         //setView(<Basket />);
@@ -64,12 +68,18 @@ const Profile = observer(() => {
             </Alert>
             <hr />
             <Alert
-              className={`${style.alertMenu} ${activeTab === "my workouts" ? style.alertMenuActive : ""}`}
-              onClick={() => blurHandler("my workouts")}
+              className={`${style.alertMenu} ${activeTab === "createdWorkouts" ? style.alertMenuActive : ""}`}
+              onClick={() => blurHandler("createdWorkouts")}
             >
-              My workouts
+              Created workouts
             </Alert>
             <Alert
+              className={`${style.alertMenu} ${activeTab === "addedWorkouts" ? style.alertMenuActive : ""}`}
+              onClick={() => blurHandler("addedWorkouts")}
+            >
+              Added workouts
+            </Alert>
+            {/* <Alert
               className={`${style.alertMenu} ${activeTab === "basket" ? style.alertMenuActive : ""}`}
               onClick={() => blurHandler("basket")}
             >
@@ -98,7 +108,7 @@ const Profile = observer(() => {
               onClick={() => blurHandler("orders")}
             >
               My orders
-            </Alert>
+            </Alert> */}
           </Nav>
         </Col>
         <Col md={9} className={style.contentBlock}>{view}</Col>
