@@ -35,7 +35,7 @@ const CreateWorkoutPage = observer(() => {
   const addExercise = () => {
     setWorkoutData((prevData) => ({
       ...prevData,
-      exercises: [...prevData.exercises, { name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, photo: '', video: '' }],
+      exercises: [...prevData.exercises, { name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, video: '' }],
     }));
     setConfirm(true)
   };
@@ -43,8 +43,13 @@ const CreateWorkoutPage = observer(() => {
   // отвечает за поля упражнения
   const exerciseChange = (index, property, value) => {
     const updatedExercises = [...workoutData.exercises];
-    updatedExercises[index][property] = value;
-    setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }));
+    if (property === 'video'){
+      updatedExercises[index][property] = value.target.files[0]
+      setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }));
+    } else {
+      updatedExercises[index][property] = value;
+      setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }));
+    }
   };
 
   // удалить упражнение
@@ -74,14 +79,13 @@ const CreateWorkoutPage = observer(() => {
           exercise.description, 
           exercise.sets, 
           exercise.maximumRepetitions, 
-          exercise.restTime, 
-          exercise.photo, 
+          exercise.restTime,
           exercise.video).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0))
       ))
     }
   };
 
-  // console.log('workoutData', workoutData)x
+  console.log('workoutData', workoutData)
 
   return (
     <Container>
@@ -207,13 +211,15 @@ const CreateWorkoutPage = observer(() => {
 
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm="2">
-                  Photo
+                  Photos
                 </Form.Label>
                 <Col md={5}>
                   <Form.Control
                     type="file"
                     placeholder="Enter photo URL"
-                    value={exercise.photo}
+                    // value={exercise.photo}
+                    // accept=''    можно настроить нужные рашсирения файла
+                    multiple // для загрузки нескольких файлов
                     onChange={(e) => exerciseChange(index, 'photo', e.target.value)}
                   />
                 </Col> Optional
@@ -227,8 +233,9 @@ const CreateWorkoutPage = observer(() => {
                   <Form.Control
                     type="file"
                     placeholder="Enter video URL"
-                    value={exercise.video}
-                    onChange={(e) => exerciseChange(index, 'video', e.target.value)}
+                    // value={exercise.video}
+                    // accept=''    можно настроить нужные рашсирения файла
+                    onChange={(e) => exerciseChange(index, 'video', e)}
                   />
                 </Col> Optional
               </Form.Group>
