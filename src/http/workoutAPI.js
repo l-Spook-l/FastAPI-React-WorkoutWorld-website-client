@@ -41,8 +41,17 @@ export const createWorkout = async(name, user_id, description, is_public, diffic
 }
 
 // изменить host - на auhost
-export const createExercise = async(name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo) => {
-  const response = await $authHost.post('workouts/create_exercise/', {name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photo})
+export const createExercise = async(name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video) => {
+  const formData = new FormData()
+  formData.append('name', name)
+  formData.append('workout_id', workout_id)
+  formData.append('description', description)
+  formData.append('number_of_sets', number_of_sets)
+  formData.append('maximum_repetitions', maximum_repetitions)
+  formData.append('rest_time', rest_time)
+  formData.append('video', video)
+  const response = await $authHost.post('workouts/add_video_exercise/', formData, 
+  )
   console.log('createExercise response', response)
   return response.data
 }
@@ -83,7 +92,7 @@ export const updateSet = async(set_id, repetition, weight) => {
 
 export const deleteCreatedWorkout = async(workout_id) => {
   const response = await $authHost.delete(`workouts/delete/created-workout?workout_id=${workout_id}`)
-  console.log('deleteAddedWorkout response', response)
+  console.log('deleteCreatedWorkout response', response)
   return response.data
 }
 
