@@ -35,7 +35,7 @@ const CreateWorkoutPage = observer(() => {
   const addExercise = () => {
     setWorkoutData((prevData) => ({
       ...prevData,
-      exercises: [...prevData.exercises, { name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, video: '' }],
+      exercises: [...prevData.exercises, { name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, video: '', photo: [] }],
     }));
     setConfirm(true)
   };
@@ -43,12 +43,21 @@ const CreateWorkoutPage = observer(() => {
   // отвечает за поля упражнения
   const exerciseChange = (index, property, value) => {
     const updatedExercises = [...workoutData.exercises];
-    if (property === 'video'){
-      updatedExercises[index][property] = value.target.files[0]
-      setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }));
-    } else {
-      updatedExercises[index][property] = value;
-      setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }));
+    switch (property) {
+      case "video":
+        console.log('video', value.target.files)
+        updatedExercises[index][property] = value.target.files[0]
+        setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }))
+        break;
+      case "photo":
+        console.log('photo', value.target.files)
+        updatedExercises[index][property] = value.target.files
+        setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }))
+        break;
+      default:
+        updatedExercises[index][property] = value;
+        setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }));
+        break;
     }
   };
 
@@ -80,7 +89,8 @@ const CreateWorkoutPage = observer(() => {
           exercise.sets, 
           exercise.maximumRepetitions, 
           exercise.restTime,
-          exercise.video).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0))
+          exercise.video,
+          exercise.photo).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0))
       ))
     }
   };
@@ -220,7 +230,7 @@ const CreateWorkoutPage = observer(() => {
                     // value={exercise.photo}
                     // accept=''    можно настроить нужные рашсирения файла
                     multiple // для загрузки нескольких файлов
-                    onChange={(e) => exerciseChange(index, 'photo', e.target.value)}
+                    onChange={(e) => exerciseChange(index, 'photo', e)}
                   />
                 </Col> Optional
               </Form.Group>
