@@ -1,12 +1,12 @@
 import jwt_decode from "jwt-decode";
 import { $authHost, $host } from "./index";
 
-export const registration = async (first_name, last_name, email, password, username, phone=0) => {
+export const registration = async (first_name, last_name, email, password, username, phone='') => {
   //console.log('registration', first_name, last_name, email, password, username)
-  const response = await $host.post("auth/register/", { email, password, username, first_name, last_name, phone });  // Ответ от сервера
+  const response = await $host.post("auth/register/", { email, password, username, first_name, last_name, phone })
   //console.log("регистрация response", response);
   return response.data
-};
+}
 
 export const login = async ( username, password ) => {
   console.log('login', username, password)
@@ -29,9 +29,8 @@ export const login = async ( username, password ) => {
   console.log("авторизация auth/users/me/ responseUserMe", responseUserMe);
   console.log("авторизация auth/users/me/ responseUserMe data", responseUserMe.data);
 
-  //return responseUserMe.data.results[0];
   return response;
-};
+}
 
 // Проверка токена на валидность
 // Получение данных о пользователя, если токен не валиден ничего не получим
@@ -49,12 +48,23 @@ export const check = async () => {
   //console.log("check auth/users/me/ response user-info", response);
   //console.log("check auth/users/me/ response.data user-info", response.data);
 
-  //return response.data.results[0]
   return response.data
-};
+}
 
 export const updateUserData = async (data) => {
   const response = await $authHost.patch(`/users/me`, data);
   console.log("updateUserData response", response);
+  return response.data
+}
+
+export const forgotPassword = async (email) => {
+  const response = await $host.post('auth/forgot-password', email)
+  console.log("forgotPassword response", response);
+  return response.data
+}
+
+export const resetPassword = async (token, password) => {
+  const response = await $host.post('auth/forgot-password', {token, password})
+  console.log("resetPassword response", response);
   return response.data
 }
