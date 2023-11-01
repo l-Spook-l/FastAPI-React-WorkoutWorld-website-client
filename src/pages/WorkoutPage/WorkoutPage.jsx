@@ -12,7 +12,6 @@ import FormCreateExercise from '../../components/Forms/FormCreateExercise/FormCr
 import ChangeStatusModal from '../../components/Modals/ChangeStatusModal/ChangeStatusModal'
 import { IoIosAddCircleOutline } from 'react-icons/io'
 import { RiDeleteBin2Line } from 'react-icons/ri'
-import VideoPlayer from '../../components/VideoPlayer/VideoPlayer'
 import DeleteWorkoutModal from '../../components/Modals/DeleteWorkoutModal/DeleteWorkoutModal'
 import SaveChangesWorkoutModal from '../../components/Modals/SaveChangesWorkoutModal/SaveChangesWorkoutModal'
 
@@ -50,7 +49,6 @@ const WorkoutPage = observer(() => {
       setWorkoutIsPublic(data.data.Workout.is_public)
       //setWorkoutDifficulty(data.data.Workout.difficulty)
       setWorkoutDescription(data.data.Workout.description)
-      console.log('-----------------------------------------')
       if (user.isAuth) {
         setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
       }
@@ -62,10 +60,6 @@ const WorkoutPage = observer(() => {
   if (loading) {
     return <Spinner animation="grow" />;
   }
-
-  // if (user.isAuth && workout.addedWorkouts.workouts.length !== 0) {
-  //   setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
-  // }
 
   const editParamWorkout = () => {
     workout.setEditWorkout(true)
@@ -151,7 +145,7 @@ const WorkoutPage = observer(() => {
                 : <Card.Title>{workoutName}</Card.Title>
                 }
                 
-                {user.isAuth && <NavLink to={`${ACTIVE_WORKOUT_ROUTE}/${workout_id}`}>Start workout</NavLink>}
+                {user.isAuth && <NavLink className={style.buttonStartWorkout} to={`${ACTIVE_WORKOUT_ROUTE}/${workout_id}`}>Start workout</NavLink>}
                 
                 {(user.isAuth && !workout.selectedWorkout.data.Workout.is_public) &&
                   (editWorkout
@@ -207,8 +201,6 @@ const WorkoutPage = observer(() => {
 
               <FormCreateExercise showForm={showFormAddExercise} workoutId={workout_id} />
 
-              <VideoPlayer videoUrl='https://www.youtube.com/watch?v=yyXyKbdWslw&ab_channel=iFlame'/>
-
               <ul className={style.exerciseList}>
                 {workout.selectedWorkout.data.Workout.exercise.map((exercise) => 
                   <div key={exercise.id}>
@@ -220,6 +212,7 @@ const WorkoutPage = observer(() => {
                       numberOfSets={exercise.number_of_sets}
                       maximumRepetitions={exercise.maximum_repetitions}
                       restTime={exercise.rest_time}
+                      video={exercise.video}
                     />
                   </div>
                 )}

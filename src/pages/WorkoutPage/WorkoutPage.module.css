@@ -17,8 +17,14 @@
   justify-content: space-between;
 }
 
+.buttonStartWorkout {
+  text-decoration: none;
+  border-radius: 8px;
+  background-color: aqua;
+}
+
 .workoutCardText {
-  height: 150px;
+  /* height: 150px; */
   overflow: hidden;
 }
 
