@@ -22,9 +22,6 @@ const WorkoutsPage = observer(() => {
   useEffect(() => {
     window.scrollTo(0, 0)
     workout.setPage(1)
-    // fetchWorkouts().then((data) => {
-    //   workout.setWorkouts(data)
-    // }).finally(() => setLoading(false))
   }, [])
 
   useEffect(() => {
@@ -44,13 +41,16 @@ const WorkoutsPage = observer(() => {
 
   return (
     <Container fluid className={style.container}>
-      <Breadcrumb className="mt-2">
-        <Breadcrumb.Item onClick={() => navigate(MAIN_ROUTE)}>
-          Home
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active>Workouts</Breadcrumb.Item>
-      </Breadcrumb>
-      {user.isAuth && <NavLink to={CREATE_WORKOUT_ROUTE}>Create workout</NavLink> }
+      <div className={style.header}>
+        <Breadcrumb className={style.myBreadcrumb}>
+          <Breadcrumb.Item onClick={() => navigate(MAIN_ROUTE)}>
+            Home
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Workouts</Breadcrumb.Item>
+        </Breadcrumb>
+        {user.isAuth && <NavLink to={CREATE_WORKOUT_ROUTE} className={style.createWorkoutButton}>Create workout</NavLink> }
+      </div>
+      <hr />
       <div className={style.workoutSections}>
         <WorkoutList/>
         <MyPagination/>
