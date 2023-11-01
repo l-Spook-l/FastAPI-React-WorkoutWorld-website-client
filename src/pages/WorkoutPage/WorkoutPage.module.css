@@ -1,8 +1,12 @@
 /* WorkoutPage.module.css */
 
+.mainBlock {
+  background-color: rgb(49, 49, 48);
+}
+
 .workoutContainer {
   margin-top: 30px;
-  background-color: aqua;
+  background-color: rgb(204, 204, 44);
 }
 
 .workoutCard {
