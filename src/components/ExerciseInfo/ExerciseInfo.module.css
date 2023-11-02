@@ -1,0 +1,29 @@
+.titleSection {
+  display: flex;
+  justify-content: space-between;
+}
+
+.infoBlock {
+  display: flex;
+  /* justify-content: space-between;  */
+  background-color: blanchedalmond;
+}
+
+.exerciseImage {
+  width: 200px;
+  height: 200px;
+  margin-right: 50px;
+  /* margin: 5px auto; */
+  /* cursor: pointer; */
+}
+
+.descriptionBlock {
+  width: 100%;
+  background-color: chartreuse;
+}
+
+.exerciseParam {
+  padding: 0;
+  margin: 0;
+  background-color: aqua;
+}
