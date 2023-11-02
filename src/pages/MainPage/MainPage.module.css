@@ -156,3 +156,18 @@
 .contactForm {
   width: 700px;
 }
+
+/* Стилизация скроллбара */
+::-webkit-scrollbar {
+  width: 10px; /* Ширина скроллбара */
+  
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1d1e1f; /* Цвет ползунка скроллбара */
+  border-radius: 6px; /* Закругление углов ползунка */
+}
+
+::-webkit-scrollbar-track {
+  background: #ccc; /* Цвет трека скроллбара */
+}
