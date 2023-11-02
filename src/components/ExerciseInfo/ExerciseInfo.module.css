@@ -1,29 +1,39 @@
 .titleSection {
   display: flex;
   justify-content: space-between;
+  font-size: 25px;
 }
 
 .infoBlock {
   display: flex;
   /* justify-content: space-between;  */
-  background-color: blanchedalmond;
+  /* background-color: blanchedalmond; */
 }
 
 .exerciseImage {
   width: 200px;
   height: 200px;
-  margin-right: 50px;
+  /* margin-right: 50px; */
   /* margin: 5px auto; */
   /* cursor: pointer; */
 }
 
 .descriptionBlock {
   width: 100%;
-  background-color: chartreuse;
+  padding: 0 20px;
+  font-size: 20px;
+  /* background-color: chartreuse; */
 }
 
 .exerciseParam {
   padding: 0;
   margin: 0;
-  background-color: aqua;
+  display: flex;
+  justify-content: space-around;
+  /* background-color: aqua; */
+}
+
+.count {
+  margin-top: 8px;
+  text-align: center;
 }
