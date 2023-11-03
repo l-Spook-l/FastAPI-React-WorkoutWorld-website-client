@@ -33,6 +33,12 @@ export const fetchAddUserWorkout = async(user_id) => {
   return response.data
 }
 
+export const fetchDifficultiesWorkout = async() => {
+  const response = await $host.get(`workouts/workout-difficulties`)
+  console.log('fetchDifficultiesWorkout response', response)
+  return response.data
+}
+
 // изменить host - на auhost
 export const createWorkout = async(name, user_id, description, is_public, difficulty, total_time) => {
   const response = await $authHost.post('workouts/create_workout/', {name, user_id, description, is_public, difficulty, total_time})
@@ -55,7 +61,7 @@ export const createExercise = async(name, workout_id, description, number_of_set
   formData.append('rest_time', rest_time)
   formData.append('video', video)
   Object.values(photos).forEach((photo) => formData.append('photos', photo))
-  const response = await $authHost.post('workouts/add_video_exercise/', formData, 
+  const response = await $authHost.post('workouts/create_exercise/', formData, 
   )
   console.log('createExercise response', response)
   return response.data
