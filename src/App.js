@@ -7,7 +7,7 @@ import Footer from './components/Footer/Footer'
 import { Context } from '.'
 import { check } from './http/userAPI'
 import { Spinner } from 'react-bootstrap'
-import { fetchAddUserWorkout } from './http/workoutAPI'
+import { fetchAddUserWorkout, fetchDifficultiesWorkout } from './http/workoutAPI'
 
 
 const App = observer(() => {
@@ -18,6 +18,7 @@ const App = observer(() => {
 
   useEffect(() => {
     //console.log('начал работать useEffect check', user)
+    fetchDifficultiesWorkout().then((data) => workout.setDifficulties(data))
 
     check().then((data) => {
       //console.log('qqqqqqqqqqqqqqq', data)
