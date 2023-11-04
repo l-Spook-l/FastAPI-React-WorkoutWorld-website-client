@@ -53,7 +53,7 @@ const NavBar = observer(() => {
         </Offcanvas.Header>
         <Offcanvas.Body className={style.offcanvasBody}>
           <Nav className={style.menuNavbar}>
-            <NavLink NavLink className={style.workouts} to={WORKOUTS_ROUTE}>
+            <NavLink className={style.workouts} to={WORKOUTS_ROUTE}>
               Workouts
             </NavLink>
             {user.isAuth &&
@@ -119,85 +119,7 @@ const NavBar = observer(() => {
         />
       }
     </Container>
-
-
-
-    
-      {/* <Navbar
-        collapseOnSelect
-        expand="lg"
-        className={style.myNavbar}
-      >
-        <NavLink className={style.logo} to={MAIN_ROUTE}>
-          WorkoutWorld
-        </NavLink>
-        
-        <Navbar.Toggle aria-controls={"offcanvasNavbar-expand-lg"} />
-        <Navbar.Offcanvas
-          id={"offcanvasNavbar-expand-lg"}
-          aria-labelledby={"offcanvasNavbarLabel-expand-lg"}
-          placement="end"
-        >
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title id={"offcanvasNavbarLabel-expand-lg"}>
-              Menu
-            </Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body className={style.offcanvasBody}>
-            <Nav className={style.menuNavbar}>
-              <NavLink NavLink className={style.workouts} to={WORKOUTS_ROUTE}>
-                Workouts
-              </NavLink>
-              <NavDropdown
-                className={style.dropdownMenuTitle}
-                title="My workouts"
-                id="collasible-nav-dropdown-brands"
-              >
-                <NavDropdown.Item className={style.dropdownItem}>
-                  <NavLink
-                    className={style.buttonLink}
-                    to={{ pathname: PROFILE_ROUTE }}
-                    state="createdWorkouts"
-                  >
-                    Created workouts
-                  </NavLink>
-                </NavDropdown.Item>
-                <NavDropdown.Item className={style.dropdownItem}>
-                  <NavLink
-                    className={style.buttonLink}
-                    to={{ pathname: PROFILE_ROUTE }}
-                    state="addedWorkouts"
-                  >
-                    Added workouts
-                  </NavLink>
-                </NavDropdown.Item>
-              </NavDropdown>
-
-            </Nav>
-            <Nav className={style.menuNavbar}>
-            {user.isAuth ? 
-              <div>
-                <NavLink
-                  className={style.profile}
-                  to={{ pathname: PROFILE_ROUTE }}
-                  state="userInfo"
-                >
-                  <AiOutlineProfile />
-                </NavLink>
-                <NavLink className={style.login} onClick={logOut} to={MAIN_ROUTE}>
-                  <AiOutlineLogout />
-                </NavLink>
-              </div>
-            : 
-              <NavLink className={style.logout} onClick={clickLogin}>
-                <AiOutlineLogin />
-              </NavLink>
-            }
-            </Nav>
-          </Offcanvas.Body>
-        </Navbar.Offcanvas>
-      </Navbar> */}
-</Navbar>
+  </Navbar>
       
   )
 })
