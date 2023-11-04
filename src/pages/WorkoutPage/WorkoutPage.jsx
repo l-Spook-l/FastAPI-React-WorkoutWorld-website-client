@@ -29,7 +29,7 @@ const WorkoutPage = observer(() => {
   const [showFormAddExercise, setShowFormAddExercise] = useState(false)
 
   const [workoutName, setWorkoutName] = useState('')
-  const [workoutDifficulty, setWorkoutDifficulty] = useState('')  // пока убрана возвожность (перевести)
+  const [workoutDifficulty, setWorkoutDifficulty] = useState('')
   const [workoutIsPublic, setWorkoutIsPublic] = useState('')
   const [workoutDescription, setWorkoutDescription] = useState('')
 
@@ -49,12 +49,11 @@ const WorkoutPage = observer(() => {
       setWorkoutIsPublic(data.data.Workout.is_public)
       setWorkoutDifficulty(data.data.Workout.difficulty)
       setWorkoutDescription(data.data.Workout.description)
-      if (user.isAuth) {
+
+      if (workout.addedWorkouts.workouts !== undefined) {
         setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
       }
-      
-    })
-    .finally(() => setLoading(false))
+    }).finally(() => setLoading(false))
   },[workout_id, updatePage, user.isAuth])
 
   if (loading) {
@@ -67,7 +66,7 @@ const WorkoutPage = observer(() => {
   }
 
   const updateParamWorkout = () => {
-    updateWorkout(workoutName, workout_id, workoutDescription, workoutIsPublic)
+    updateWorkout(workoutName, workout_id, workoutDescription, workoutIsPublic, workoutDifficulty)
     setEditWorkout(false)
     workout.setEditWorkout(false)
     setUpdatePage(!updatePage)
@@ -121,14 +120,14 @@ const WorkoutPage = observer(() => {
   // const workoutAlreadyAdded = workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id)
   // console.log('add swowow3', workoutAlreadyAdded)
   // console.log('add swowow4', workout.addedWorkouts.workouts)
-  // console.log('add swowow5', workout.addedWorkouts.workouts)
+  // console.log('add swowow5', workoutDifficulty)
 
   return (
     <div className={style.mainBlock}>
     <Container className={style.workoutContainer}>
-      <Breadcrumb className="mt-2">
-        <Breadcrumb.Item onClick={() => navigate(MAIN_ROUTE)}>
-          Home
+      <Breadcrumb className={style.myBreadcrumb}>
+        <Breadcrumb.Item  onClick={() => navigate(MAIN_ROUTE)}>
+          <span className={style.myBreadcrumbItem}>Home</span>
         </Breadcrumb.Item>
         <Breadcrumb.Item onClick={() => navigate(WORKOUTS_ROUTE)}>
           Workouts
@@ -137,58 +136,79 @@ const WorkoutPage = observer(() => {
       </Breadcrumb>
       {/* <h1>Workout</h1> */}
       <Row>
-        <Col md={8}>
+        <Col md={12}>
           <Card className={style.workoutCard}>
             <Card.Body>
               <div className={style.workoutTitle}>
-                {editWorkout
-                ? <input type="text" value={workoutName} onChange={(el) => setWorkoutName(el.target.value)} />
-                : <Card.Title>{workoutName}</Card.Title>
-                }
-                
-                {user.isAuth && <NavLink className={style.buttonStartWorkout} to={`${ACTIVE_WORKOUT_ROUTE}/${workout_id}`}>Start workout</NavLink>}
-                
-                {(user.isAuth && !workout.selectedWorkout.data.Workout.is_public) &&
-                  (editWorkout
-                    ?  
-                    <div>
-                      <button onClick={() => setShowModalSaveChanges(true)}><AiOutlineCheck/></button>
-                      <button onClick={() => closeParamWorkout()}><AiOutlineClose/></button>
-                    </div>
-                    :  
-                    <div>
-                      <button onClick={() => editParamWorkout()}><AiFillEdit/></button>
-                    </div>
-                  )
-                }
+                  {editWorkout
+                    ? <input type="text" value={workoutName} onChange={(el) => setWorkoutName(el.target.value)} />
+                    : <h3>{workoutName}</h3>
+                  }
+                <div className={style.blockButtons}>
+                  {(user.isAuth && 
+                    ((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && workoutAlreadyAdded)) &&
+                    <NavLink className={style.buttonStartWorkout} to={`${ACTIVE_WORKOUT_ROUTE}/${workout_id}`}>Start workout</NavLink>
+                  }
+                  
+                  <div>
+                    {(user.isAuth && !workout.selectedWorkout.data.Workout.is_public) &&
+                      (editWorkout
+                        ?  
+                        <div>
+                          <button className={style.changeButton} onClick={() => setShowModalSaveChanges(true)}><AiOutlineCheck/></button>
+                          <button className={style.changeButton} onClick={() => closeParamWorkout()}><AiOutlineClose/></button>
+                        </div>
+                        :  
+                        <div>
+                          <button className={style.changeButton} onClick={() => editParamWorkout()}><AiFillEdit/></button>
+                        </div>
+                      )
+                    }
+                  </div>
 
-                {(user.isAuth && 
-                  ((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && !workoutAlreadyAdded)) &&
-                  <button className={style.buttonAddWorkout} onClick={addWorkout}><IoIosAddCircleOutline/></button>
-                }
+                  {(user.isAuth && 
+                    ((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && !workoutAlreadyAdded)) &&
+                    <button className={style.buttonAddWorkout} onClick={addWorkout}><IoIosAddCircleOutline/></button>
+                  }
 
-                {(user.isAuth &&
-                  (((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && workoutAlreadyAdded) ||
-                  ((workout.selectedWorkout.data.Workout.user_id === user.user.id) && !workout.selectedWorkout.data.Workout.is_public)))  &&
-                  <button onClick={() => setShowModalDeleteWorkout(true)}><RiDeleteBin2Line/></button>
-                }
+                  {(user.isAuth &&
+                    (((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && workoutAlreadyAdded) ||
+                    ((workout.selectedWorkout.data.Workout.user_id === user.user.id) && !workout.selectedWorkout.data.Workout.is_public)))  &&
+                    <button className={style.deleteWorkoutButton} onClick={() => setShowModalDeleteWorkout(true)}><RiDeleteBin2Line/></button>
+                  }
+                </div>
               </div>
               
               {editWorkout
-                ? <input type="text" value={workoutDifficulty} onChange={(el) => setWorkoutDifficulty(el.target.value)} />
-                : <Card.Subtitle className="mb-2">Difficulty: {workoutDifficulty}</Card.Subtitle>
+                ? 
+                <div>
+                  <label htmlFor="difficulty">Select the difficulty.:</label>
+                  <select name="difficulty" id="difficulty" onChange={(el) => setWorkoutDifficulty(el.target.value)}>
+                  <option value="">Select difficulty</option>
+                  {workout.difficulties.data.map((difficulty) => (
+                    <option key={difficulty.DifficultyWorkout.id} value={difficulty.DifficultyWorkout.difficulty}>
+                      {difficulty.DifficultyWorkout.difficulty}
+                    </option>
+                  ))}
+                  </select>
+                </div>
+                : <Card.Subtitle className={style.titleDifficulty}>Difficulty: {workoutDifficulty}</Card.Subtitle>
               }
 
               {workout.selectedWorkout.data.Workout.user_id === user.user.id &&
                 (editWorkout
-                ? <input type="checkbox" checked={workoutIsPublic} onChange={setShowModalChangeStatus(true)} />
-                : <Card.Subtitle className="mb-2">Status: {workoutIsPublic ? 'Public' : 'Non-public'}</Card.Subtitle>)
+                ? 
+                <div>
+                  <label>Status</label>
+                  <input type="checkbox" checked={workoutIsPublic} onChange={()=> setShowModalChangeStatus(true)} />
+                </div>
+                : <Card.Subtitle className={style.titleStatus}>Status: {workoutIsPublic ? 'Public' : 'Non-public'}</Card.Subtitle>)
               }
 
-              <p>description: </p>
+              <p className={style.titleDescription}>Description: </p>
               {editWorkout
-                ? <input type="text" value={workoutDescription} onChange={(el) => setWorkoutDescription(el.target.value)} />
-                : <Card.Text className={style.workoutCardText}>{workoutDescription}</Card.Text>
+                ? <input type="textarea" value={workoutDescription} onChange={(el) => setWorkoutDescription(el.target.value)} />
+                : <Card.Text className={style.workoutDescription}>{workoutDescription}</Card.Text>
               }
 
               <div className={style.exerciseTitle}>
@@ -214,6 +234,7 @@ const WorkoutPage = observer(() => {
                       maximumRepetitions={exercise.maximum_repetitions}
                       restTime={exercise.rest_time}
                       video={exercise.video}
+                      photos={exercise.photo}
                     />
                   </div>
                 )}
