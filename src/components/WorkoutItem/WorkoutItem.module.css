@@ -2,8 +2,8 @@
   width: 285px;
   height: 235px;
   margin: 10px 0px 10px 22px;
-  background-color:rgb(31, 30, 30);
-  border: 2px solid rgb(58, 54, 51);
+  background-color:rgb(37, 28, 28);
+  border: 3px solid rgb(5, 5, 5);
 }
 .nameWorkout {
   display: block;
@@ -18,7 +18,13 @@
   color: aliceblue;
 }
 
+.status {
+  display: flex;
+  color: aliceblue;
+}
+
 .difficulty {
+  display: flex;
   color: aliceblue;
 }
 

@@ -19,17 +19,17 @@ const WorkoutItem = observer(({ selectedWorkout }) => {
           <NavLink className={style.nameWorkout} to={`${WORKOUT_ROUTE}/${selectedWorkout.id}`}>
             {selectedWorkout.name}
           </NavLink>       
-          {/* <div>
+          <div className={style.status}>
             {!selectedWorkout.is_public && 'Status: Private'}
             {(selectedWorkout.is_public && selectedWorkout.user_id === user.user.id ) && 'Status: Public'}
-          </div> */}
+          </div>
           <div className={style.difficulty}>
             Difficulty:
             <p>{selectedWorkout.difficulty}</p>
           </div>
           <div className={style.description}>
             Description:
-            <p>{selectedWorkout.description}</p>
+            <p>{selectedWorkout.description.slice(0, 25)}{selectedWorkout.description.length > 25 && '...'}</p>
           </div>
           <button className={style.buttonSeeMore} onClick={() => navigate(`${WORKOUT_ROUTE}/${selectedWorkout.id}`)}>See more</button>
         </Card.Body>        
