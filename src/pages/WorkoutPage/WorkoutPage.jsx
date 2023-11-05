@@ -14,6 +14,8 @@ import { IoIosAddCircleOutline } from 'react-icons/io'
 import { RiDeleteBin2Line } from 'react-icons/ri'
 import DeleteWorkoutModal from '../../components/Modals/DeleteWorkoutModal/DeleteWorkoutModal'
 import SaveChangesWorkoutModal from '../../components/Modals/SaveChangesWorkoutModal/SaveChangesWorkoutModal'
+import FormLogin from '../../components/Forms/FormLogin/FormLogin'
+import FormRegister from '../../components/Forms/FormRegister/FormRegister'
 
 const WorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -36,6 +38,8 @@ const WorkoutPage = observer(() => {
   const [showModalChangeStatus, setShowModalChangeStatus] = useState(false)
   const [showModalDeleteWorkout, setShowModalDeleteWorkout] = useState(false)
   const [showModalSaveChanges, setShowModalSaveChanges] = useState(false)
+  const [showModalLogin, setShowModalLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState(true);
 
   const [workoutAlreadyAdded, setWorkoutAlreadyAdded] = useState(false)
 
@@ -95,19 +99,20 @@ const WorkoutPage = observer(() => {
     workout.selectedWorkout.data.Workout.exercise.map((exercise) => 
       createSet(exercise.number_of_sets, exercise.id, user.user.id, 0, 0)
     )
-    navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
+    setUpdatePage(!updatePage)
+    // navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
   }
 
   const deleteWorkout = () => {
     if (!workout.selectedWorkout.data.Workout.is_public) {
       deleteCreatedWorkout(workout.selectedWorkout.data.Workout.id)
-      navigate(PROFILE_ROUTE, {state: 'createdWorkouts'} );
+      // navigate(PROFILE_ROUTE, {state: 'createdWorkouts'} );
     } else {
       deleteAddedWorkout(workout.selectedWorkout.data.Workout.id, user.user.id)
       workout.selectedWorkout.data.Workout.exercise.map((exercise) => {
         deleteAddedSets(exercise.id, user.user.id)
       })
-      navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
+      // navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
     }
     setShowModalDeleteWorkout(false);
   }
@@ -122,6 +127,15 @@ const WorkoutPage = observer(() => {
   // console.log('add swowow4', workout.addedWorkouts.workouts)
   // console.log('add swowow5', workoutDifficulty)
 
+  const clickLogin = () => {
+    setShowModalLogin(true);
+    setShowLogin(true);
+  };
+
+  const switchForm = () => {
+    setShowModalLogin(!showLogin);
+  };
+
   return (
     <div className={style.mainBlock}>
     <Container className={style.workoutContainer}>
@@ -135,6 +149,12 @@ const WorkoutPage = observer(() => {
         <Breadcrumb.Item active>{workoutName}</Breadcrumb.Item>
       </Breadcrumb>
       {/* <h1>Workout</h1> */}
+      {!user.isAuth &&
+        <p className={style.ifNotLoginTitle}> 
+          <span className={style.login} onClick={clickLogin}>Log in </span>
+          to view the full workout information, add it to your workouts, and start exercising!</p>
+      }
+      
       <Row>
         <Col md={12}>
           <Card className={style.workoutCard}>
@@ -182,7 +202,7 @@ const WorkoutPage = observer(() => {
               {editWorkout
                 ? 
                 <div>
-                  <label htmlFor="difficulty">Select the difficulty.:</label>
+                  <label className={style.titleDifficulty} htmlFor="difficulty">Select the difficulty:</label>
                   <select name="difficulty" id="difficulty" onChange={(el) => setWorkoutDifficulty(el.target.value)}>
                   <option value="">Select difficulty</option>
                   {workout.difficulties.data.map((difficulty) => (
@@ -199,7 +219,7 @@ const WorkoutPage = observer(() => {
                 (editWorkout
                 ? 
                 <div>
-                  <label>Status</label>
+                  <label className={style.titleStatus}>Status</label>
                   <input type="checkbox" checked={workoutIsPublic} onChange={()=> setShowModalChangeStatus(true)} />
                 </div>
                 : <Card.Subtitle className={style.titleStatus}>Status: {workoutIsPublic ? 'Public' : 'Non-public'}</Card.Subtitle>)
@@ -212,11 +232,11 @@ const WorkoutPage = observer(() => {
               }
 
               <div className={style.exerciseTitle}>
-                <Card.Text>Exercises:</Card.Text>
+                <Card.Text className={style.exerciseName}>Exercises:</Card.Text>
                 {workout.editWorkout && 
                   (showFormAddExercise 
-                    ? <button onClick={() => setShowFormAddExercise(false)}><AiOutlineClose/></button>
-                    : <button className={style.addNewExercise} onClick={() => setShowFormAddExercise(true)}>+</button>)
+                    ? <button className={style.changeButton} onClick={() => setShowFormAddExercise(false)}><AiOutlineClose/></button>
+                    : <button className={style.changeButton} onClick={() => setShowFormAddExercise(true)}><IoIosAddCircleOutline/></button>)
                 }
               </div>
 
@@ -246,6 +266,19 @@ const WorkoutPage = observer(() => {
       <ChangeStatusModal show={showModalChangeStatus} status={workoutIsPublic} onClose={closeModal} changeStatus={changeStatusWorkout} />
       <DeleteWorkoutModal show={showModalDeleteWorkout} onClose={closeModal} deleteWorkout={deleteWorkout} />
       <SaveChangesWorkoutModal show={showModalSaveChanges} onClose={closeModal} saveChanges={updateParamWorkout} />
+      {showLogin ? 
+        <FormLogin
+          show={showModalLogin}
+          onHide={() => setShowModalLogin(false)}
+          onSwitchForm={switchForm}
+        />
+       : 
+        <FormRegister
+          show={showModalLogin}
+          onHide={() => setShowModalLogin(false)}
+          onSwitchForm={switchForm}
+        />
+      }
     </Container>
     </div>
   )

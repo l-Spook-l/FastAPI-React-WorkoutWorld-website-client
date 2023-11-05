@@ -20,6 +20,21 @@
   /* color: aqua;  */
 }
 
+.ifNotLoginTitle {
+  margin: 0 auto 10px auto;
+  max-width: 820px;
+  font-size: 18px;
+  /* border: 2px solid black ; */
+  /* border-radius: 15px; */
+  text-align: center;
+}
+
+.login {
+  text-decoration: underline;
+  color: rgb(43, 33, 179);
+  cursor: pointer;
+}
+
 .workoutCard {
   width: 1000px;
   height: 100%;
@@ -64,6 +79,13 @@
   /* background-color: brown; */
 }
 
+.buttonAddNewExercise,
+.buttonAddWorkout {
+  border-radius: 8px;
+  font-size: 23px;
+  padding: 8px;
+}
+
 .deleteWorkoutButton {
   margin-left: 20px;
   border-radius: 25%;
@@ -76,7 +98,8 @@
 
 .titleStatus,
 .titleDifficulty {
-  margin: 10px 0;
+  font-size: 18px;
+  margin: 10px 10px 10px 0px;
   color: rgb(246, 248, 235);
 }
 
@@ -97,12 +120,16 @@
 .exerciseTitle {
   display: flex;
   justify-content: space-between;
-  font-size: 28px;
   color: rgb(246, 248, 235);
 }
 
+.exerciseName {
+  font-size: 28px;
+}
+
 .addNewExercise {
-  font-size: 30px;
+  /* border-radius: 8px; */
+  /* font-size: 30px; */
 }
 
 .exerciseList {
