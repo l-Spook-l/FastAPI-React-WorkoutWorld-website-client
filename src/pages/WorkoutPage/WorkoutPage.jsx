@@ -165,8 +165,8 @@ const WorkoutPage = observer(() => {
                     : <h3>{workoutName}</h3>
                   }
                 <div className={style.blockButtons}>
-                  {(user.isAuth && 
-                    ((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && workoutAlreadyAdded)) &&
+                  {
+                    (user.isAuth && ((workout.selectedWorkout.data.Workout.user_id === user.user.id) || workoutAlreadyAdded)) &&
                     <NavLink className={style.buttonStartWorkout} to={`${ACTIVE_WORKOUT_ROUTE}/${workout_id}`}>Start workout</NavLink>
                   }
                   
