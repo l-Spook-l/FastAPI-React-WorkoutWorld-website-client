@@ -9,6 +9,20 @@
   margin-bottom: 15px;
 }
 
+.myAccordion {
+  background-color: aqua;
+  margin-bottom: 15px;
+}
+
+.myAccordionHeader {
+  font-size: 22px;
+  background-color: bisque;
+}
+
+.myAccordionBody {
+  background-color: cadetblue;
+}
+
 .exerciseImage {
   width: 200px;
   height: 200px;

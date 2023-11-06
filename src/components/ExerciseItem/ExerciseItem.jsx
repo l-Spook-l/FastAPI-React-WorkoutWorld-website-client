@@ -7,6 +7,7 @@ import { updateSet } from '../../http/workoutAPI'
 import UpdateSetModal from '../Modals/UpdateSetModal/UpdateSetModal'
 import RestIntervalTimer from '../Timers/RestIntervalTimer/RestIntervalTimer'
 import CustomToggleDescription from '../CustomToggleDescription/CustomToggleDescription'
+import ExerciseImageSlider from '../Sliders/ExerciseImageSlider/ExerciseImageSlider'
 
 const ExerciseInfo = observer(({ exercise, sets }) => {
   const {user} = useContext(Context)
@@ -64,17 +65,18 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
       <div className={style.exerciseDescription}><CustomToggleDescription body={exercise.description} color='dark'/></div>
 
       {exercise.photo.length !== 0 &&
-      <Accordion bsPrefix='myAccordion'>
+      <Accordion bsPrefix='myAccordion' className={style.myAccordion}>
         <Accordion.Item eventKey="4">
-          <Accordion.Header bsPrefix='myAccordionHeader'>
+          <Accordion.Header bsPrefix='myAccordionHeader' className={style.myAccordionHeader}>
             Photos
           </Accordion.Header>
-          <Accordion.Body bsPrefix='myAccordionBody'>
-            {exercise.photo.map((photo) => 
+          <Accordion.Body bsPrefix='myAccordionBody' className={style.myAccordionBody}>
+            {/* {exercise.photo.map((photo) => 
               <div key={photo.id}>
                 <Image className={style.exerciseImage} src={process.env.REACT_APP_API_URL + photo.photo}/>
               </div>
-            )}
+            )} */}
+            <ExerciseImageSlider photos={exercise.photo}/>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
