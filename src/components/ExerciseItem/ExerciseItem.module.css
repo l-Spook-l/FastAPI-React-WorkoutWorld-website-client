@@ -1,5 +1,20 @@
 .container {
-  background-color: rgb(236, 211, 112);
+  background-color: rgb(124, 105, 11);
+}
+
+.exerciseDescription {
+  /* background-color: aqua; */
+  overflow-x:hidden;
+  /* width: 900px; */
+  margin-bottom: 15px;
+}
+
+.exerciseImage {
+  width: 200px;
+  height: 200px;
+  /* margin-right: 50px; */
+  /* margin: 5px auto; */
+  /* cursor: pointer; */
 }
 
 .exerciseSection {
@@ -35,7 +50,7 @@
   background-color: cornflowerblue;
 }
 
-.buttonSave {
+.buttonFinish {
   margin-top: 10px;
   font-size: 22px;
 }

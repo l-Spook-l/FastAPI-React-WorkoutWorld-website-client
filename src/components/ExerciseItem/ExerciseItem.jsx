@@ -2,46 +2,86 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../..'
 import style from './ExerciseItem.module.css'
-import { Card, Col, Container, Row } from 'react-bootstrap'
+import { Accordion, Card, Col, Container, Image } from 'react-bootstrap'
 import { updateSet } from '../../http/workoutAPI'
+import UpdateSetModal from '../Modals/UpdateSetModal/UpdateSetModal'
+import RestIntervalTimer from '../Timers/RestIntervalTimer/RestIntervalTimer'
+import CustomToggleDescription from '../CustomToggleDescription/CustomToggleDescription'
 
 const ExerciseInfo = observer(({ exercise, sets }) => {
   const {user} = useContext(Context)
 
   // делаем новые обькты, а не ссылки на - sets
   const [oldSets, setOldSets] = useState(JSON.parse(JSON.stringify(sets)))
-  const [newSets, setNewSets] = useState(JSON.parse(JSON.stringify(sets.map((el) => ({ "Set": { ...el.Set, "count": 0, "weight": 0 } })))))
+  // в этом обьекте обнуляем значения нужных полей
+  const [newSets, setNewSets] = useState(JSON.parse(JSON.stringify(sets.map((el) => ({ "Set": { ...el.Set, "repetition": 0, "weight": 0 } })))))
 
+  const [modalOpen, setModalOpen] = useState(false)
+  const [setId, setSetId] = useState(0)
+  const [setIndex, setSetIndex] = useState(0)
+  const [activeRestTimer, setActiveRestTimer] = useState(false)
 
   useEffect(() => {
-    setOldSets(JSON.parse(JSON.stringify(sets)));
-    setNewSets(JSON.parse(JSON.stringify(sets.map((el) => ({ "Set": { ...el.Set, "count": 0, "weight": 0 } })))));
-    console.log('---------------------------')
+    setOldSets(JSON.parse(JSON.stringify(sets)))
+    setNewSets(JSON.parse(JSON.stringify(sets.map((el) => ({ "Set": { ...el.Set, "repetition": 0, "weight": 0 } })))))
+    setActiveRestTimer(false)
+    // console.log('---------------------------')
   }, [sets]);
 
   //console.log('newSets', newSets)
 
-  const changeSet = (setId, index) => {
-    console.log('click save id', setId)
-    const updateSetData = [...newSets]
-    updateSetData[index].Set['count'] = 10
-    // console.log('updateSet', updateSetData)
-    // console.log('oldSets', oldSets)
-    setNewSets(updateSetData)
-    updateSet(setId, 10, 0)
-  }
+  const openModal = (setId, index) => {
+    setModalOpen(true)
+    setSetId(setId)
+    setSetIndex(index)
+  };
+  const closeModal = () => setModalOpen(false);
 
-  const saveExercise = () => {
+  const editSet = (newWeight, newReps) => {
+    // Ваша логіка для збереження нових значень підходу
+    const updateSetData = [...newSets]
+    updateSetData[setIndex].Set['weight'] = newWeight
+    updateSetData[setIndex].Set['repetition'] = newReps
+    
+    setNewSets(updateSetData)
+    updateSet(setId, newReps, newWeight)
+
+    closeModal();
+
+    setActiveRestTimer(true)
+  };
+
+  const finishExercise = () => {
     console.log('save exercise')
   }
 
-  console.log('newSets', newSets)
-
+  // console.log('newSets', newSets)
+  console.log('activeRestTimer', activeRestTimer)
 
   return (
     <Container className={style.container}>
       <p>{exercise.name}</p>
-      <p>{exercise.description}</p>
+      <div className={style.exerciseDescription}><CustomToggleDescription body={exercise.description} color='dark'/></div>
+
+      {exercise.photo.length !== 0 &&
+      <Accordion bsPrefix='myAccordion'>
+        <Accordion.Item eventKey="4">
+          <Accordion.Header bsPrefix='myAccordionHeader'>
+            Photos
+          </Accordion.Header>
+          <Accordion.Body bsPrefix='myAccordionBody'>
+            {exercise.photo.map((photo) => 
+              <div key={photo.id}>
+                <Image className={style.exerciseImage} src={process.env.REACT_APP_API_URL + photo.photo}/>
+              </div>
+            )}
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+      }
+
+      {activeRestTimer && <RestIntervalTimer initialSeconds={exercise.rest_time}/>}
+      <RestIntervalTimer initialSeconds={exercise.rest_time} active={activeRestTimer}/>
       <Card className={style.exerciseSection}>
         <Card.Title className={style.exerciseTitle}>
           <Col className={style.blockInTitle}>
@@ -61,23 +101,28 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
           {oldSets.map((set, index) => 
             <div key={set.Set.id} className={style.set}>
               <Col className={style.blockInSet}>
-                <p>{set.Set.count}</p>
+                <p>{set.Set.repetition}</p>
                 /
                 <p>{set.Set.weight} kg</p>
               </Col>
               <Col className={style.blockInSet}>
-                <p>{newSets[index].Set.count}</p>
+                <p>{newSets[index].Set.repetition}</p>
                 /
                 <p>{newSets[index].Set.weight} kg</p>
               </Col>
               <Col className={style.blockInSet}>
-                <button onClick={() => changeSet(set.Set.id, index)} >Save</button>
+                <button onClick={() => openModal(set.Set.id, index)} >Save</button>
               </Col>
             </div>
           )}          
         </div>
-        <button className={style.buttonSave} onClick={saveExercise}>Save exercise</button>
+        <button className={style.buttonFinish} onClick={finishExercise}>Finish exercise</button>
       </Card>
+      <UpdateSetModal 
+        show={modalOpen}
+        onHide={closeModal}
+        onSubmit={editSet}
+        />
     </Container>
   )
 })
