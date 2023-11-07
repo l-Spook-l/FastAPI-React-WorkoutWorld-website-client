@@ -1,0 +1,31 @@
+.accordionHeader {
+
+}
+
+.accordionHeaderTextDark {
+  font-size: 23px;
+}
+
+.accordionHeaderTextLight {
+  font-size: 23px;
+  color: rgb(246, 248, 235);;
+}
+
+.accordionHeaderTextDark:hover,
+.accordionHeaderTextLight:hover{
+  text-decoration: underline;
+}
+
+.accordionBodyDark {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 8px;
+  overflow: hidden;
+}
+
+.accordionBodyLight {
+  border: 1px solid rgb(246, 248, 235);
+  border-radius: 8px;
+  padding: 8px;
+  color: rgb(246, 248, 235);
+}
