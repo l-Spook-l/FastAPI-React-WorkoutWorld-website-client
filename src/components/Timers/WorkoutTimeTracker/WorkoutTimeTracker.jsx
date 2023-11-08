@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import style from './WorkoutTimeTracker.module.css'
 
 const WorkoutTimeTracker = ({ onStart, onStop, onReset, onTimeUpdate }) => {
   const [time, setTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
+
+  const formatTime = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
 
   useEffect(() => {
     let interval;
@@ -35,11 +44,11 @@ const WorkoutTimeTracker = ({ onStart, onStop, onReset, onTimeUpdate }) => {
   };
 
   return (
-    <div>
-      <p>Time: {time} seconds</p>
-      <button onClick={startTimer}>Start</button>
-      <button onClick={stopTimer}>Stop</button>
-      <button onClick={resetTimer}>Reset</button>
+    <div className={style.container}>
+      <p>Time: {formatTime(time)}</p>
+      <button className={style.buttonTimer} onClick={startTimer}>Start</button>
+      <button className={style.buttonTimer} onClick={stopTimer}>Stop</button>
+      <button className={style.buttonTimer} onClick={resetTimer}>Reset</button>
     </div>
   );
 };

@@ -1,0 +1,14 @@
+.container {
+  background-color: rgb(224, 167, 109);
+  margin: 5px;
+  padding: 5px;
+  width: 220px;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 15px;
+}
+
+.buttonTimer {
+  margin: 0 5px;
+  border-radius: 18px;
+}
