@@ -35,19 +35,22 @@ const RestIntervalTimer = ({ active, initialSeconds }) => {
   }
   
   return (
-    <div>
-      <div>
-        <p>Time remaining: {seconds} seconds</p>
-        <div style={{ width: '100%', height: '20px', backgroundColor: '#ccc' }}>
+    <div className={style.container}>
+      <div >
+        <div className={style.timerHeader}>
+          <p className={style.timerHeaderTitle}>Time remaining: {seconds} seconds</p>
+          <button className={style.buttonSkipTime} onClick={skipRest}>Skip the rest</button>
+        </div>
+        <div className={style.mainLineLoad}>
           <div
             style={{
               width: `${progress}%`,
               height: '100%',
-              backgroundColor: 'green',
+              borderRadius: '7px',
+              backgroundColor: 'rgb(27, 44, 19)',
             }}
           />
         </div>
-        <button onClick={skipRest}>Skip the rest</button>
       </div>
     </div>
   );

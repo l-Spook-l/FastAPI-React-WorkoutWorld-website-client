@@ -1,0 +1,26 @@
+.container {
+  margin-bottom: 15px;
+}
+
+.timerHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.timerHeaderTitle {
+  font-size: 20px;
+}
+
+.buttonSkipTime {
+  border-radius: 8px;
+  background-color: rgb(27, 44, 19);
+  color: bisque;
+}
+
+.mainLineLoad {
+  width: 100%;
+  height: 20px;
+  border: 1px solid black;
+  border-radius: 8px;
+}
