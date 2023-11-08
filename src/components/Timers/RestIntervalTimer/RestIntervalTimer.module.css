@@ -14,8 +14,7 @@
 
 .buttonSkipTime {
   border-radius: 8px;
-  background-color: rgb(27, 44, 19);
-  color: bisque;
+  font-size: 18px;
 }
 
 .mainLineLoad {
