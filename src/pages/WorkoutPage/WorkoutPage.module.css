@@ -104,14 +104,13 @@
 }
 
 .titleDescription {
+  margin-right: 5px;
   font-size: 28px;
   color: rgb(246, 248, 235);
-
 }
 
 .workoutDescription {
-  /* height: 150px; */
-  font-size: 21px;
+  font-size: 22px;
   overflow: hidden;
   color: rgb(246, 248, 235);
 }
@@ -138,5 +137,5 @@
 }
 
 .exerciseListItem {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }

@@ -16,6 +16,7 @@ import DeleteWorkoutModal from '../../components/Modals/DeleteWorkoutModal/Delet
 import SaveChangesWorkoutModal from '../../components/Modals/SaveChangesWorkoutModal/SaveChangesWorkoutModal'
 import FormLogin from '../../components/Forms/FormLogin/FormLogin'
 import FormRegister from '../../components/Forms/FormRegister/FormRegister'
+import CustomToggleDescription from '../../components/CustomToggleDescription/CustomToggleDescription'
 
 const WorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -79,6 +80,7 @@ const WorkoutPage = observer(() => {
 
   const closeParamWorkout = () => {
     setEditWorkout(false)
+    setShowFormAddExercise(false)
     workout.setEditWorkout(false)
   }
 
@@ -148,7 +150,6 @@ const WorkoutPage = observer(() => {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{workoutName}</Breadcrumb.Item>
       </Breadcrumb>
-      {/* <h1>Workout</h1> */}
       {!user.isAuth &&
         <p className={style.ifNotLoginTitle}> 
           <span className={style.login} onClick={clickLogin}>Log in </span>
@@ -225,10 +226,16 @@ const WorkoutPage = observer(() => {
                 : <Card.Subtitle className={style.titleStatus}>Status: {workoutIsPublic ? 'Public' : 'Non-public'}</Card.Subtitle>)
               }
 
-              <p className={style.titleDescription}>Description: </p>
               {editWorkout
-                ? <input type="textarea" value={workoutDescription} onChange={(el) => setWorkoutDescription(el.target.value)} />
-                : <Card.Text className={style.workoutDescription}>{workoutDescription}</Card.Text>
+                // ? <input type="textarea" value={workoutDescription} onChange={(el) => setWorkoutDescription(el.target.value)} />
+                // : <Card.Text className={style.workoutDescription}>{workoutDescription}</Card.Text>
+                ? 
+                <div>
+                  <label className={style.titleDescription}>Description:</label>
+                  <input type="textarea" value={workoutDescription} onChange={(el) => setWorkoutDescription(el.target.value)} />
+                </div>
+                : 
+                <span className={style.workoutDescription}><CustomToggleDescription body={workoutDescription} color='light'/></span>
               }
 
               <div className={style.exerciseTitle}>
@@ -244,7 +251,7 @@ const WorkoutPage = observer(() => {
 
               <ul className={style.exerciseList}>
                 {workout.selectedWorkout.data.Workout.exercise.map((exercise) => 
-                  <div key={exercise.id}>
+                  <div key={exercise.id} className={style.exerciseListItem}>
                     <ExerciseInfo
                       key={exercise.id}
                       exerciseId={exercise.id}
