@@ -2,12 +2,14 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../..'
 import style from './ExerciseItem.module.css'
-import { Accordion, Card, Col, Container, Image } from 'react-bootstrap'
+import { Accordion, Card, Col, Container, Image, Row } from 'react-bootstrap'
 import { updateSet } from '../../http/workoutAPI'
 import UpdateSetModal from '../Modals/UpdateSetModal/UpdateSetModal'
 import RestIntervalTimer from '../Timers/RestIntervalTimer/RestIntervalTimer'
 import CustomToggleDescription from '../CustomToggleDescription/CustomToggleDescription'
 import ExerciseImageSlider from '../Sliders/ExerciseImageSlider/ExerciseImageSlider'
+import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
+
 
 const ExerciseInfo = observer(({ exercise, sets }) => {
   const {user} = useContext(Context)
@@ -21,12 +23,13 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
   const [setId, setSetId] = useState(0)
   const [setIndex, setSetIndex] = useState(0)
   const [activeRestTimer, setActiveRestTimer] = useState(false)
+  
+  const [setSaveList, setSetSaveList] = useState([])
 
   useEffect(() => {
     setOldSets(JSON.parse(JSON.stringify(sets)))
     setNewSets(JSON.parse(JSON.stringify(sets.map((el) => ({ "Set": { ...el.Set, "repetition": 0, "weight": 0 } })))))
     setActiveRestTimer(false)
-    // console.log('---------------------------')
   }, [sets]);
 
   //console.log('newSets', newSets)
@@ -36,10 +39,10 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
     setSetId(setId)
     setSetIndex(index)
   };
+
   const closeModal = () => setModalOpen(false);
 
   const editSet = (newWeight, newReps) => {
-    // Ваша логіка для збереження нових значень підходу
     const updateSetData = [...newSets]
     updateSetData[setIndex].Set['weight'] = newWeight
     updateSetData[setIndex].Set['repetition'] = newReps
@@ -48,7 +51,7 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
     updateSet(setId, newReps, newWeight)
 
     closeModal();
-
+    setSaveList.push(setIndex)
     setActiveRestTimer(true)
   };
 
@@ -57,33 +60,30 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
   }
 
   // console.log('newSets', newSets)
-  console.log('activeRestTimer', activeRestTimer)
+  // console.log('activeRestTimer', activeRestTimer)
+  // console.log('setSaveList3', setSaveList)
 
   return (
-    <Container className={style.container}>
-      <p>{exercise.name}</p>
+    <Container>
+      <p className={style.exerciseName}>{exercise.name}</p>
       <div className={style.exerciseDescription}><CustomToggleDescription body={exercise.description} color='dark'/></div>
 
       {exercise.photo.length !== 0 &&
       <Accordion bsPrefix='myAccordion' className={style.myAccordion}>
-        <Accordion.Item eventKey="4">
-          <Accordion.Header bsPrefix='myAccordionHeader' className={style.myAccordionHeader}>
-            Photos
+        <Accordion.Item eventKey="1">
+          <Accordion.Header bsPrefix='myAccordionHeader'>
+            <span className={style.myAccordionHeaderText}>Photos</span>
           </Accordion.Header>
           <Accordion.Body bsPrefix='myAccordionBody' className={style.myAccordionBody}>
-            {/* {exercise.photo.map((photo) => 
-              <div key={photo.id}>
-                <Image className={style.exerciseImage} src={process.env.REACT_APP_API_URL + photo.photo}/>
-              </div>
-            )} */}
             <ExerciseImageSlider photos={exercise.photo}/>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
       }
 
-      {activeRestTimer && <RestIntervalTimer initialSeconds={exercise.rest_time}/>}
-      <RestIntervalTimer initialSeconds={exercise.rest_time} active={activeRestTimer}/>
+      <div className={style.restTimeTimer}>
+        <RestIntervalTimer initialSeconds={exercise.rest_time} active={activeRestTimer}/>
+      </div>
       <Card className={style.exerciseSection}>
         <Card.Title className={style.exerciseTitle}>
           <Col className={style.blockInTitle}>
@@ -99,7 +99,13 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
             <p>{exercise.rest_time}</p>
           </Col>
         </Card.Title>
-        <div className={style.setSection}>
+
+        <Card.Body className={style.setSection}>
+          <Row>
+            <Col className={style.textUnderTitle}><p>Previous result</p></Col>
+            <Col className={style.textUnderTitle}><p>Repetitions and weight</p></Col>
+            <Col className={style.textUnderTitle}><p>Save result</p></Col>
+          </Row>
           {oldSets.map((set, index) => 
             <div key={set.Set.id} className={style.set}>
               <Col className={style.blockInSet}>
@@ -113,11 +119,18 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
                 <p>{newSets[index].Set.weight} kg</p>
               </Col>
               <Col className={style.blockInSet}>
-                <button onClick={() => openModal(set.Set.id, index)} >Save</button>
+              {/* className={`${style.buttonSave} ${setSaveList.includes(index) && ? style.buttonSaveActive : ""}`} */}
+                <button 
+                  // className={style.buttonSave} 
+                  disabled={setSaveList.includes(index)}
+                  className={`${style.buttonSave} ${setSaveList.includes(index) ? style.buttonSaveActive : ""}`}
+                  onClick={() => openModal(set.Set.id, index)}>
+                    {setSaveList.includes(index) && <span><AiOutlineCheck/></span>}
+                </button>
               </Col>
             </div>
           )}          
-        </div>
+        </Card.Body>
         <button className={style.buttonFinish} onClick={finishExercise}>Finish exercise</button>
       </Card>
       <UpdateSetModal 

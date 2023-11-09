@@ -1,26 +1,41 @@
-.container {
-  background-color: rgb(124, 105, 11);
+.exerciseName {
+  font-size: 28px;
+  background-color: rgb(228, 197, 132);
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 8px;
+  /* text-align: center; */
 }
 
 .exerciseDescription {
-  /* background-color: aqua; */
   overflow-x:hidden;
   /* width: 900px; */
   margin-bottom: 15px;
+  background-color: rgb(228, 197, 132);
+  padding: 5px;
+  border-radius: 8px;
 }
 
 .myAccordion {
-  background-color: aqua;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
+  background-color: rgb(228, 197, 132);
+  padding: 5px;
+  border-radius: 8px;
 }
 
-.myAccordionHeader {
-  font-size: 22px;
-  background-color: bisque;
+.myAccordionHeaderText {
+  font-size: 23px;
+}
+
+.myAccordionHeaderText:hover {
+  text-decoration: underline;
 }
 
 .myAccordionBody {
-  background-color: cadetblue;
+  margin: 0 28px;
+  border: 2px solid black;
+  border-radius: 8px;
+  max-width: 950px;
 }
 
 .exerciseImage {
@@ -31,25 +46,39 @@
   /* cursor: pointer; */
 }
 
+.restTimeTimer {
+  background-color: rgb(228, 197, 132);
+  max-width: 550px;
+  margin: 0 auto 15px auto;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
 .exerciseSection {
-  background-color: rgb(182, 48, 74);
-  /* height: 500px; */
+  background-color: rgb(228, 197, 132);
 }
 
 .exerciseTitle {
   display: flex;
   justify-content: space-around;
-  background-color: rgb(128, 96, 73);
+  border-radius: 8px;
+  border: 2px solid black;
 }
 
 .blockInTitle {
   text-align: center;
   font-size: 27px;
-  background-color: aqua;
+  /* background-color: aqua; */
 }
 
 .setSection {
-  background-color: rgb(65, 119, 119);
+  /* background-color: rgb(65, 119, 119); */
+}
+
+.textUnderTitle {
+  text-align: center;
+  font-size: 25px;
 }
 
 .set {
@@ -61,10 +90,32 @@
   justify-content: center;
   margin-top: 10px;
   font-size: 22px;
-  background-color: cornflowerblue;
+  /* background-color: cornflowerblue; */
+}
+
+.buttonSave {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.buttonSaveActive {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: bisque;
+  background-color: rgb(27, 44, 19);
 }
 
 .buttonFinish {
   margin-top: 10px;
   font-size: 22px;
+  color: bisque;
+  background-color: rgb(27, 44, 19);
+  margin: auto;
+  width: 500px;
+  border-radius: 8px;
 }
