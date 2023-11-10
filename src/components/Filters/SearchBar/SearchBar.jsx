@@ -16,23 +16,15 @@ const SearchBar = observer(() => {
     fetchWorkouts(
       null,
       null,
-      null,
-      1,
-      null,
-      null,
-      null,
       workout.selectedSearchWorkouts
     ).then((data) => {
-      workout.setSearchWorkouts(data.results);
-    });
+      workout.setSearchWorkouts(data);
+    })
   }, [workout.selectedSearchWorkouts]);
 
   const clearSearch = () => {
     workout.setSelectedSearchWorkouts("");
   };
-
-  console.log('searchWorkouts', workout.searchWorkouts)
-  console.log('selectedSearchWorkouts', workout.selectedSearchWorkouts)
 
   return (
     <Dropdown className={style.myDropdown}>
@@ -44,7 +36,7 @@ const SearchBar = observer(() => {
           <Form.Control
             type="text"
             className={style.myInput}
-            placeholder="Enter the product name"
+            placeholder="Enter workout name"
             value={workout.selectedSearchWorkouts}
             onChange={(e) => workout.setSelectedSearchWorkouts(e.target.value)}
           />
@@ -59,36 +51,28 @@ const SearchBar = observer(() => {
       <Dropdown.Menu className={style.dropdownMenu}>
         {workout.searchWorkouts.length !== 0 ? (
           workout.searchWorkouts.length > 4 ? (
-            workout.searchWorkouts.map((workoutItem) => (
+            workout.searchWorkouts.data.map((workoutItem) => (
               <Dropdown.Item
-                key={workoutItem.id}
-                onClick={() => navigate(`${WORKOUT_ROUTE}/${workoutItem.id}`)}
+                key={workoutItem.Workout.id}
+                onClick={() => navigate(`${WORKOUT_ROUTE}/${workoutItem.Workout.id}`)}
               >
                 <div>
-                  {/* <Image
-                    className={style.image}
-                    src={process.env.REACT_APP_API_URL + photos[0].photo}
-                  /> */}
-                  {workoutItem.name}
+                  {workoutItem.Workout.name}
                 </div>
               </Dropdown.Item>
             ))
           ) : (
-            workout.searchWorkouts
+            workout.searchWorkouts.data
               .slice(0, workout.searchWorkouts.length)
               .map((workoutItem) => (
                 <Dropdown.Item
-                  key={workoutItem.id}
+                  key={workoutItem.Workout.id}
                   onClick={() =>
-                    navigate(`${WORKOUT_ROUTE}/${workoutItem.id}`)
+                    navigate(`${WORKOUT_ROUTE}/${workoutItem.Workout.id}`)
                   }
                 >
                   <div>
-                    {/* <Image
-                      className={style.image}
-                      src={process.env.REACT_APP_API_URL + photos[0].photo}
-                    /> */}
-                    {workoutItem.name}
+                      {workoutItem.Workout.name}
                   </div>
                 </Dropdown.Item>
               ))
