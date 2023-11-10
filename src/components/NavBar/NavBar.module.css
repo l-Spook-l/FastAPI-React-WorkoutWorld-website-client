@@ -34,6 +34,8 @@
   font-size: 1.3rem;
 }
 
+
+
 .dropdownItem {
   display: flex;
   flex-direction: column;
@@ -72,6 +74,7 @@
   transition: text-decoration 0.3s;
 }
 
+.dropdownMenuTitle:hover,
 .workouts:hover {
   color: white;
   text-decoration: underline; 
