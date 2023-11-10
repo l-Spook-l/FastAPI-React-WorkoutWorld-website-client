@@ -73,7 +73,7 @@ const NavBar = observer(() => {
                   Created workouts
                 </NavLink>
               </NavDropdown.Item>
-                <NavDropdown.Item className={style.dropdownItem}>
+                <NavDropdown.Item  className={style.dropdownItem}>
                   <NavLink
                     className={style.buttonLink}
                     to={{ pathname: PROFILE_ROUTE }}
