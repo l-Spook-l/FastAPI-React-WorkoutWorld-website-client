@@ -1,8 +1,28 @@
 import { $authHost, $host } from "./index"
 
 
-export const fetchWorkouts = async(skip) => {
-  const response = await $host.get('workouts/', {params: {skip:skip}})
+export const fetchWorkouts = async(skip, difficulty, name) => {
+  console.log('fetchWorkouts difficulty', difficulty)
+  const response = await $host.get('workouts/', {params: {skip:skip, name:name}})
+
+  // const response = await $host.get('workouts/', {params: {skip:skip, difficulty:difficulty}})
+  // const params = {
+  //   skip: skip,
+  // }
+
+  // if (difficulty) {
+  //   difficulty.map((el) => 
+  //     params['difficulty'] = el
+  //   )
+  // }
+
+  // const params = {
+  //   skip: skip,
+  //   ...(difficulty && difficulty.length > 0 && { difficulty: difficulty.join(',') }),
+  // };
+  // const response = await $host.get('workouts/', { params })
+
+  // const response = await $host.get(`workouts/?skip=${skip}&difficulty=${difficulty.join('&difficulty=')}`);
   console.log('fetchWorkouts response', response)
   return response.data
 }
@@ -81,8 +101,8 @@ export const addWorkoutToUser = async(user_id, workout_id) => {
 }
 
 // изменить host - на auhost
-export const updateWorkout = async(name, workout_id, description, is_public) => {
-  const response = await $authHost.patch(`workouts/workout/update/${workout_id}`, {name, description, is_public})
+export const updateWorkout = async(name, workout_id, description, is_public, difficulty) => {
+  const response = await $authHost.patch(`workouts/workout/update/${workout_id}`, {name, description, is_public, difficulty})
   console.log('updateWorkout response', response)
   return response.data
 }
