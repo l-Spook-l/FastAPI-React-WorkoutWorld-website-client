@@ -41,7 +41,15 @@ export default class WorkoutStore {
     this._difficulties = difficulties
   }
   setSelectedDifficulty(difficulty) {
-    this._selectedDifficulty = difficulty
+    this.setPage(1)
+    this.setSkip(0)
+    if (difficulty === 'clear') {
+      this._selectedDifficulty = []
+    } else if (!this._selectedDifficulty.includes(difficulty)){
+      this._selectedDifficulty = [...this._selectedDifficulty, difficulty]
+    } else {
+      this._selectedDifficulty = this._selectedDifficulty.filter((selectedDifficulty) => selectedDifficulty !== difficulty)
+    }
   }
 
   setSearchWorkouts(workouts){
@@ -85,7 +93,7 @@ export default class WorkoutStore {
     return this._difficulties
   }
   get selectedDifficulty() {
-    return this.selectedDifficulty
+    return this._selectedDifficulty
   }
   
   get searchWorkouts() {
