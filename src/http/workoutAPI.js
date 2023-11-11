@@ -2,27 +2,9 @@ import { $authHost, $host } from "./index"
 
 
 export const fetchWorkouts = async(skip, difficulty, name) => {
-  console.log('fetchWorkouts difficulty', difficulty)
-  const response = await $host.get('workouts/', {params: {skip:skip, name:name}})
-
-  // const response = await $host.get('workouts/', {params: {skip:skip, difficulty:difficulty}})
-  // const params = {
-  //   skip: skip,
-  // }
-
-  // if (difficulty) {
-  //   difficulty.map((el) => 
-  //     params['difficulty'] = el
-  //   )
-  // }
-
-  // const params = {
-  //   skip: skip,
-  //   ...(difficulty && difficulty.length > 0 && { difficulty: difficulty.join(',') }),
-  // };
-  // const response = await $host.get('workouts/', { params })
-
-  // const response = await $host.get(`workouts/?skip=${skip}&difficulty=${difficulty.join('&difficulty=')}`);
+  console.log('fetchWorkouts difficulty', difficulty) 
+  // paramsSerializer - чтобы не было [] в строке запроса
+  const response = await $host.get('workouts/', {params: {skip:skip, name:name, difficulty:difficulty}, paramsSerializer: {indexes: null}})
   console.log('fetchWorkouts response', response)
   return response.data
 }
@@ -34,15 +16,16 @@ export const fetchOneWorkout = async(workout_id) => {
 }
 
 // изменить host - на auhost
-export const fetchMyWorkouts = async(user_id) => {
-  const response = await $authHost.get('workouts/user-workouts/', {params: {user_id:user_id}})
+export const fetchMyWorkouts = async(user_id, name, difficulty, skip, limit, is_public) => {
+  const response = await $authHost.get('workouts/user-workouts/', 
+  {params: {user_id:user_id, name:name, difficulty:difficulty, skip:skip, limit:limit, is_public:is_public}, paramsSerializer: {indexes: null}})
   console.log('fetchMyCreatedWorkouts response', response)
   return response.data
 }
 
 // изменить host - на auhost  ОШИБКА
 export const fetchSets = async(user_id, exercise_ids) => {
-  const response = await $host.get(`workouts/sets?user_id=${user_id}&exercise_ids=${exercise_ids.join('&exercise_ids=')}`)
+  const response = await $host.get(`workouts/sets`, {params: {user_id:user_id, exercise_ids:exercise_ids}, paramsSerializer: {indexes: null}})
   console.log('fetchSets response', response)
   return response.data
 }
