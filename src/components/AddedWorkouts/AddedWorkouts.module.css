@@ -3,9 +3,19 @@
 }
 
 .titleAddedWorkout {
+  max-height: 50px;
+  padding-bottom: 8px;
   display: flex;
   justify-content: space-between;
+  border-bottom: 2px solid black;
+}
 
+.addWorkoutButton {
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color:rgb(9, 17, 9) ;
+  background-color: rgb(236, 221, 199);
 }
 
 .contentSection {

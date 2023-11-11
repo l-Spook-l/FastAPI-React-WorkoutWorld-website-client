@@ -7,6 +7,9 @@ import { Context } from '../..'
 import WorkoutItem from '../WorkoutItem/WorkoutItem'
 import { NavLink } from 'react-router-dom'
 import { CREATE_WORKOUT_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
+import MyPagination from '../MyPagination/MyPagination'
+import SearchBar from '../Filters/SearchBar/SearchBar'
+import DifficultyBar from '../Filters/DifficultyBar/DifficultyBar'
 
 const AddedWorkouts = observer(() => {
   const { user } = useContext(Context)
@@ -28,7 +31,9 @@ const AddedWorkouts = observer(() => {
     <Container className={style.myContainer}>
       <div className={style.titleAddedWorkout}>
         <h2>Added workouts</h2>
-        <NavLink to={WORKOUTS_ROUTE}>Add a new workout</NavLink>
+        <SearchBar/>
+        <DifficultyBar/>
+        <NavLink className={style.addWorkoutButton} to={WORKOUTS_ROUTE}>Add a new workout</NavLink>
       </div>
       
       {workout.addedWorkouts.workouts.length === 0
@@ -38,13 +43,15 @@ const AddedWorkouts = observer(() => {
           <NavLink to={WORKOUTS_ROUTE}> Add an existing one</NavLink>.
         </span>
         :
-        <div className={style.contentSection}>
-        {workout.addedWorkouts.workouts.map((el) => 
-          <WorkoutItem key={el.Workout.id} selectedWorkout={el.Workout}/>
-        )}
+        <div>
+          <MyPagination/>
+          <div className={style.contentSection}>
+          {workout.addedWorkouts.workouts.map((el) => 
+            <WorkoutItem key={el.Workout.id} selectedWorkout={el.Workout}/>
+          )}
+          </div>
         </div>
       }
-      
     </Container>
   )
 })
