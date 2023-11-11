@@ -11,7 +11,6 @@ const Shop = () => {
       <p>
       Our store is in the development stage. Register to receive notifications about the store's launch!
       </p>
-      <Button variant="dark">Register</Button>
   </Container>
   )
 }
