@@ -7,6 +7,9 @@ import { Context } from '../..'
 import WorkoutItem from '../WorkoutItem/WorkoutItem'
 import { NavLink } from 'react-router-dom'
 import { CREATE_WORKOUT_ROUTE } from '../../utils/consts'
+import MyPagination from '../MyPagination/MyPagination'
+import SearchBar from '../Filters/SearchBar/SearchBar'
+import DifficultyBar from '../Filters/DifficultyBar/DifficultyBar'
 
 const UserWorkouts = observer(() => {
   const { user } = useContext(Context)
@@ -30,7 +33,11 @@ const UserWorkouts = observer(() => {
     <Container className={style.myContainer}>
       <div className={style.titleCreatedWorkout}>
         <h2>Created workouts</h2>
-        <NavLink to={CREATE_WORKOUT_ROUTE}>Created a new workout</NavLink>
+        <div className={style.navBlock}>
+          <SearchBar/>
+          <DifficultyBar/>
+          <NavLink className={style.createWorkoutButton} to={CREATE_WORKOUT_ROUTE}>Created a new workout</NavLink>
+        </div>
       </div>
       
       {workout.userWorkouts.data.length === 0
@@ -40,13 +47,16 @@ const UserWorkouts = observer(() => {
           <NavLink to={CREATE_WORKOUT_ROUTE}>Create your own. </NavLink>
         </span>
         :
-        <div className={style.contentSection}>
-        {workout.userWorkouts.data.map((el) => 
-          <WorkoutItem key={el.Workout.id} selectedWorkout={el.Workout}/>
-        )}
+        <div>
+          <MyPagination/>
+          <div className={style.contentSection}>
+          {workout.userWorkouts.data.map((el) => 
+            <WorkoutItem key={el.Workout.id} selectedWorkout={el.Workout}/>
+          )}
+          </div>
         </div>
+        
       }
-      
     </Container>
   )
 })
