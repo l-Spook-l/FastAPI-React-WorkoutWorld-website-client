@@ -3,8 +3,10 @@ import React, { useContext, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import style from "./IsPublicBar.module.css";
+import { Context } from "../../..";
 
 const IsPublicBar = observer(({ statusWorkout }) => {
+  const { workout } = useContext(Context)
 
   const [show, setShow] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState();
@@ -23,6 +25,8 @@ const IsPublicBar = observer(({ statusWorkout }) => {
   ]
 
   const statusChange = (status) => {
+    workout.setPage(1)
+    workout.setSkip(0)
     if (selectedStatus === status.id) {
       setSelectedStatus()
       statusWorkout();
