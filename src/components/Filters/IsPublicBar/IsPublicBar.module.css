@@ -1,0 +1,29 @@
+.accordion {
+  min-width: 125px;
+  margin-right: 1.2rem;
+  padding: 8px;
+  border-radius: 8px;
+  color: aliceblue;
+  background-color:rgb(37, 28, 28);
+  z-index: 10;
+}
+
+.accordionHeader {
+  font-size: 18px;
+}
+
+.accordionBody {
+  background-color:rgb(32, 29, 29);
+  padding: 3px;
+  border-radius: 8px;
+}
+
+.arrow {
+  margin-left: 58px;
+  font-size: 18px;
+}
+
+.labelCheck {
+  color: rgb(236, 218, 196);
+  cursor: pointer;
+}
