@@ -10,32 +10,54 @@ import { CREATE_WORKOUT_ROUTE } from '../../utils/consts'
 import MyPagination from '../MyPagination/MyPagination'
 import SearchBar from '../Filters/SearchBar/SearchBar'
 import DifficultyBar from '../Filters/DifficultyBar/DifficultyBar'
+import IsPublicBar from '../Filters/IsPublicBar/IsPublicBar'
 
 const UserWorkouts = observer(() => {
   const { user } = useContext(Context)
   const { workout } = useContext(Context)
   const [loading, setLoading] = useState(true)
 
+  const [statusWorkout, setStatusWorkout] = useState()
+
   useEffect(() => {
-    fetchMyWorkouts(user.user.id).then((data) => {
-      workout.setUserWorkouts(data)      
-    }).finally(() => setLoading(false))
+    window.scrollTo(0, 0)
+    workout.setPage(1)
+    workout.setSelectedDifficulty("clear")
+    workout.setSelectedSearchWorkouts("")
   }, [])
 
+  useEffect(() => {
+    fetchMyWorkouts(
+      user.user.id,
+      null,
+      null,
+      workout.skip,
+      null,
+      statusWorkout,
+    ).then((data) => {
+      workout.setUserWorkouts(data)
+      workout.setTotalCount(data.total_count)
+      workout.setSkip(data.skip)
+      workout.setLimit(data.limit)      
+    }).finally(() => setLoading(false))
+  }, [workout.page, statusWorkout])
+
+  const changeStatusWorkout = (newStatus) => {
+    setStatusWorkout(newStatus);
+  };
 
   if (loading) {
     return <Spinner animation='grow'/>
   }
-
-  console.log('data', workout.userWorkouts)
 
   return (
     <Container className={style.myContainer}>
       <div className={style.titleCreatedWorkout}>
         <h2>Created workouts</h2>
         <div className={style.navBlock}>
-          <SearchBar/>
+          <SearchBar typeWorkout='Created'/>
           <DifficultyBar/>
+          <IsPublicBar statusWorkout={changeStatusWorkout}/>
           <NavLink className={style.createWorkoutButton} to={CREATE_WORKOUT_ROUTE}>Created a new workout</NavLink>
         </div>
       </div>

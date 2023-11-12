@@ -3,15 +3,17 @@
 }
 
 .titleCreatedWorkout {
-  max-height: 50px;
+  /* max-height: 50px; */
   padding-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
   border-bottom: 2px solid black;
 }
 
 .navBlock {
-  display: flex
+  display: flex;
+  justify-content: space-between;
+  max-height: 45px;
 }
 
 .createWorkoutButton {
