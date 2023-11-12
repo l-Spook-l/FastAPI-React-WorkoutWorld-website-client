@@ -30,7 +30,7 @@ const UserWorkouts = observer(() => {
     fetchMyWorkouts(
       user.user.id,
       null,
-      null,
+      workout.selectedDifficulty.map((el) => el.DifficultyWorkout.difficulty),
       workout.skip,
       null,
       statusWorkout,
@@ -40,10 +40,10 @@ const UserWorkouts = observer(() => {
       workout.setSkip(data.skip)
       workout.setLimit(data.limit)      
     }).finally(() => setLoading(false))
-  }, [workout.page, statusWorkout])
+  }, [workout.page, statusWorkout,  workout.selectedDifficulty])
 
   const changeStatusWorkout = (newStatus) => {
-    setStatusWorkout(newStatus);
+    setStatusWorkout(newStatus)
   };
 
   if (loading) {
@@ -55,7 +55,7 @@ const UserWorkouts = observer(() => {
       <div className={style.titleCreatedWorkout}>
         <h2>Created workouts</h2>
         <div className={style.navBlock}>
-          <SearchBar typeWorkout='Created'/>
+          <SearchBar typeWorkout='Created' statusWorkout={statusWorkout}/>
           <DifficultyBar/>
           <IsPublicBar statusWorkout={changeStatusWorkout}/>
           <NavLink className={style.createWorkoutButton} to={CREATE_WORKOUT_ROUTE}>Created a new workout</NavLink>
