@@ -25,11 +25,18 @@ const AddedWorkouts = observer(() => {
 
   useEffect(() => {
     fetchAddUserWorkout(
-      user.user.id
+      user.user.id,
+      null,
+      workout.selectedDifficulty.map((el) => el.DifficultyWorkout.difficulty),
+      workout.skip,
+      null,
       ).then((data) => {
-      workout.setAddedWorkouts(data)      
+      workout.setAddedWorkouts(data)
+      // workout.setTotalCount(data.total_count)
+      workout.setSkip(data.skip)
+      workout.setLimit(data.limit)   
     }).finally(() => setLoading(false))
-  }, [])
+  }, [workout.page, workout.selectedDifficulty])
 
 
   if (loading) {
@@ -40,12 +47,12 @@ const AddedWorkouts = observer(() => {
     <Container className={style.myContainer}>
       <div className={style.titleAddedWorkout}>
         <h2>Added workouts</h2>
-        <SearchBar/>
+        <SearchBar typeWorkout='Added'/>
         <DifficultyBar/>
         <NavLink className={style.addWorkoutButton} to={WORKOUTS_ROUTE}>Add a new workout</NavLink>
       </div>
       
-      {workout.addedWorkouts.workouts.length === 0
+      {workout.addedWorkouts.data.length === 0
         ?
         <span>
           You don't have any workouts yet.
@@ -55,7 +62,7 @@ const AddedWorkouts = observer(() => {
         <div>
           <MyPagination/>
           <div className={style.contentSection}>
-          {workout.addedWorkouts.workouts.map((el) => 
+          {workout.addedWorkouts.data.map((el) => 
             <WorkoutItem key={el.Workout.id} selectedWorkout={el.Workout}/>
           )}
           </div>
