@@ -3,11 +3,18 @@ import React, { useContext, useState } from 'react';
 import { Container, Form, Button, Col, Row, Card } from 'react-bootstrap';
 import { createExercise, createSet, createWorkout } from '../../http/workoutAPI';
 import { Context } from "../..";
+import style from './CreateWorkoutPage.module.css'
+import { useNavigate } from 'react-router-dom';
+import { WORKOUT_ROUTE } from '../../utils/consts';
 
 const CreateWorkoutPage = observer(() => {
   const { user } = useContext(Context)
+  const { workout } = useContext(Context)
+
+  const navigate = useNavigate()
 
   const [confirm, setConfirm] = useState(false)
+  const [difficulty, setDifficulty] = useState('Easy')
 
   // Общая проверка валидации формы
   const [formValidError, setFormValidError] = useState(false);
@@ -17,7 +24,7 @@ const CreateWorkoutPage = observer(() => {
     title: '',
     description: '',
     isPublic: false,
-    totalTime: '1',
+    totalTime: '0',
     exercises: [],
   });
 
@@ -79,7 +86,7 @@ const CreateWorkoutPage = observer(() => {
       setFormValidError(true) 
     } else {
       setFormValidError(false)
-      createWorkout(workoutData.title, user.user.id, workoutData.description, workoutData.isPublic, 'medium', workoutData.totalTime)
+      createWorkout(workoutData.title, user.user.id, workoutData.description, workoutData.isPublic, difficulty, workoutData.totalTime)
       .then((data) => 
       workoutData.exercises.map((exercise) => 
         createExercise( 
@@ -90,16 +97,23 @@ const CreateWorkoutPage = observer(() => {
           exercise.maximumRepetitions, 
           exercise.restTime,
           exercise.video,
-          exercise.photo).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0))
+          exercise.photo).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0)),
+      navigate(`${WORKOUT_ROUTE}/${data.workout_ID}`)
       ))
     }
   };
 
-  console.log('workoutData', workoutData)
-
   return (
-    <Container>
-      <h1>Create Workout</h1>
+    <div className={style.mainBlock}>
+      <Container className={style.container}>
+        <div className={style.header}>
+          <h1>Create Workout</h1>
+          <Button className="" disabled={!confirm} variant='success' onClick={submitCreateWorkout}>
+            Create Workout
+          </Button>
+        </div>
+        {formValidError && <p>Fill in all fields!</p>}
+
       <Form>
         <Form.Group className="mb-3">
           <Form.Label>Title</Form.Label>
@@ -115,13 +129,28 @@ const CreateWorkoutPage = observer(() => {
         <Form.Group controlId="formIsPublic">
           <Form.Check
             type="checkbox"
-            label="Публичная тренировка"
+            label="Public workout"
             name='isPublic'
             checked={workoutData.isPublic}
             onChange={inputChange}
           />
         </Form.Group>
-
+        
+        <Form.Group className="mb-3">
+        <Form.Label>Difficulty</Form.Label>
+        <Form.Select
+          value={difficulty}
+          onChange={(e) => setDifficulty(e.target.value)}
+        >
+          <option value="">Select difficulty</option>
+          {workout.difficulties.data.map((difficulty) => (
+            <option key={difficulty.DifficultyWorkout.id} value={difficulty.DifficultyWorkout.difficulty}>
+              {difficulty.DifficultyWorkout.difficulty}
+            </option>
+          ))}
+        </Form.Select>
+        </Form.Group>
+ 
         <Form.Group className="mb-3">
           <Form.Label>Description</Form.Label>
             <Form.Control
@@ -134,18 +163,7 @@ const CreateWorkoutPage = observer(() => {
             />
         </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Total time (minutes)</Form.Label>
-            <Form.Control
-                type="number"
-                placeholder="Enter workout total time"
-                name="totalTime"
-                value={workoutData.totalTime}
-                onChange={inputChange}
-            />
-          </Form.Group>
         <h2>Exercises</h2>
-
         {workoutData.exercises.map((exercise, index) => 
           <Card key={index}>
             <Card.Body>
@@ -227,7 +245,6 @@ const CreateWorkoutPage = observer(() => {
                   <Form.Control
                     type="file"
                     placeholder="Enter photo URL"
-                    // value={exercise.photo}
                     // accept=''    можно настроить нужные рашсирения файла
                     multiple // для загрузки нескольких файлов
                     onChange={(e) => exerciseChange(index, 'photo', e)}
@@ -243,8 +260,6 @@ const CreateWorkoutPage = observer(() => {
                   <Form.Control
                     type="file"
                     placeholder="Enter video URL"
-                    // value={exercise.video}
-                    // accept=''    можно настроить нужные рашсирения файла
                     onChange={(e) => exerciseChange(index, 'video', e)}
                   />
                 </Col> Optional
@@ -256,18 +271,12 @@ const CreateWorkoutPage = observer(() => {
             </Card.Body>
           </Card>
         )}
-
         <Button variant="primary" onClick={addExercise}>
           Add Exercise
         </Button>
-
-        <Button className="" disabled={!confirm} variant={confirm ? undefined : "success"} onClick={submitCreateWorkout}>
-          Create Workout
-        </Button>
-        {formValidError && <p>Fill in all fields!</p>}
-
       </Form>
     </Container>
+    </div>
   )
 });
 
