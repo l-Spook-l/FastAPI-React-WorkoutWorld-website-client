@@ -1,11 +1,12 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Card, Col, Image, Row } from 'react-bootstrap'
 import { Context } from '../..'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import style from './ExerciseInfo.module.css'
 import { updateExercise } from '../../http/workoutAPI';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
+import CustomToggleDescription from '../CustomToggleDescription/CustomToggleDescription';
 
 const ExerciseItem = observer(
   ({ exerciseId, name, description, numberOfSets, maximumRepetitions, restTime, video, photos }) => {
@@ -13,7 +14,11 @@ const ExerciseItem = observer(
   const { user } = useContext(Context)
   const { workout } = useContext(Context)
 
-  const [editExercise, setEditExercise] = useState(false)
+  const [editExercise, setEditExercise] = useState()
+
+  useEffect(() => {
+    setEditExercise(false)
+  },[workout.editWorkout])
   
   const [exerciseName, setExerciseName] = useState(name)
   const [exerciseDescription, setExerciseDescription] = useState(description)
@@ -32,21 +37,21 @@ const ExerciseItem = observer(
   // console.log('ExerciseItem', video)
 
   return (
-    <Card>
+    <Card className={style.container}>
       <Card.Body>
         <div className={style.titleSection}>
           {editExercise
           ? <input type="text" value={exerciseName} onChange={(el) => setExerciseName(el.target.value)} />
-          : <p>{exerciseName}</p>
+          : <p className={style.exerciseName}>{exerciseName}</p>
           }
           {workout.editWorkout && 
             (editExercise
               ? 
                 <div>
-                  <button onClick={() => updateParamExercise()}><AiOutlineCheck/></button>
+                  <button className={style.changeButton} onClick={() => updateParamExercise()}><AiOutlineCheck/></button>
                   <button className={style.changeButton} onClick={() => closeParamExercise()}><AiOutlineClose/></button>
                 </div>
-              : <button onClick={() => setEditExercise(true)}><AiFillEdit/></button>)
+              : <button className={style.changeButton} onClick={() => setEditExercise(true)}><AiFillEdit/></button>)
           }
         </div>
         <div className={style.infoBlock}>
@@ -54,32 +59,35 @@ const ExerciseItem = observer(
             <Card.Img className={style.exerciseImage} src={process.env.REACT_APP_API_URL + photos[0].photo}/>
           }
           <div className={style.descriptionBlock}>
-            <p>Description:</p>
             {editExercise
-              ? <input type="text" value={exerciseDescription} onChange={(el) => setExerciseDescription(el.target.value)} />
-              : <p>{exerciseDescription}</p>
+              ? 
+              <div className='d-flex flex-column'>
+                <label>Description:</label>
+                <textarea type="text" value={exerciseDescription} onChange={(el) => setExerciseDescription(el.target.value)} />
+              </div>
+              : 
+              <CustomToggleDescription body={exerciseDescription} color='dark'/>
               }
 
             {/* <VideoPlayer videoUrl='https://www.youtube.com/watch?v=yyXyKbdWslw&ab_channel=iFlame'/> */}
             {/* {photos.map((el) => <Image src={process.env.REACT_APP_API_URL + el.photo}/>)} */}
           
-            <hr />
             <div className={style.exerciseParam}>
               <div>Number of sets
                 {editExercise
-                ? <input type="text" value={exerciseNumberOfSets} onChange={(el) => setExerciseNumberOfSets(el.target.value)} />
+                ? <input className={style.countInput} type="number" value={exerciseNumberOfSets} onChange={(el) => setExerciseNumberOfSets(el.target.value)} />
                 : <p className={style.count}>{exerciseNumberOfSets}</p>
                 }
               </div>
               <div>Maximum repetitions
                 {editExercise
-                  ? <input type="text" value={exerciseMaximumRepetitions} onChange={(el) => setExerciseMaximumRepetitions(el.target.value)} />
+                  ? <input className={style.countInput} type="number" value={exerciseMaximumRepetitions} onChange={(el) => setExerciseMaximumRepetitions(el.target.value)} />
                   : <p className={style.count}>{exerciseMaximumRepetitions}</p>
                 }
               </div>
               <div>Rest time
                 {editExercise
-                  ? <input type="text" value={exerciseRestTime} onChange={(el) => setExerciseRestTime(el.target.value)} />
+                  ? <input className={style.countInput} type="number" value={exerciseRestTime} onChange={(el) => setExerciseRestTime(el.target.value)} />
                   : <p className={style.count}>{exerciseRestTime}</p>
                 }
               </div>

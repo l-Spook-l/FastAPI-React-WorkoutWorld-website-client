@@ -1,7 +1,22 @@
+.container {
+  background-color: rgb(242, 252, 202);
+}
+
 .titleSection {
   display: flex;
   justify-content: space-between;
+  /* font-size: 25px; */
+}
+
+.exerciseName {
   font-size: 25px;
+}
+
+.changeButton {
+  margin-left: 20px;
+  border-radius: 25%;
+  height: 40px;
+  width: 40px;
 }
 
 .infoBlock {
@@ -19,21 +34,29 @@
 }
 
 .descriptionBlock {
-  width: 100%;
+  max-width: 700px;
   padding: 0 20px;
-  font-size: 20px;
+  font-size: 21px;
   /* background-color: chartreuse; */
 }
 
+
 .exerciseParam {
-  padding: 0;
-  margin: 0;
+  margin-top: 15px;
+  padding-top: 10px ;
+  min-width: 650px;
   display: flex;
   justify-content: space-around;
+  border-top: 1px solid black;
+  font-size: 23 px;
   /* background-color: aqua; */
 }
 
 .count {
   margin-top: 8px;
   text-align: center;
+}
+
+.countInput {
+  font-size: 15px;
 }
