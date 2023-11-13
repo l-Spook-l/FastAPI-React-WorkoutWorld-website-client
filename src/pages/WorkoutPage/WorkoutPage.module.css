@@ -61,14 +61,14 @@
   margin-left: 20px;
   padding: 8px;
   font-size: 20px;
-  color:aliceblue;
+  color:rgb(16, 31, 44);
   text-decoration: none;
   border-radius: 8px;
-  background-color: rgb(32, 41, 41);
+  background-color: rgb(242, 252, 202);
 }
 
 .buttonStartWorkout:hover {
-  color: aliceblue;
+  color:rgb(16, 31, 44);
 }
 
 .changeButton {

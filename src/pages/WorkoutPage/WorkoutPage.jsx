@@ -55,8 +55,8 @@ const WorkoutPage = observer(() => {
       setWorkoutDifficulty(data.data.Workout.difficulty)
       setWorkoutDescription(data.data.Workout.description)
 
-      if (workout.addedWorkouts.workouts !== undefined) {
-        setWorkoutAlreadyAdded(workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
+      if (workout.addedWorkouts.data !== undefined) {
+        setWorkoutAlreadyAdded(workout.addedWorkouts.data.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
       }
     }).finally(() => setLoading(false))
   },[workout_id, updatePage, user.isAuth])
@@ -187,8 +187,7 @@ const WorkoutPage = observer(() => {
                     }
                   </div>
 
-                  {(user.isAuth && 
-                    ((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && !workoutAlreadyAdded)) &&
+                  {(user.isAuth && ((workout.selectedWorkout.data.Workout.user_id !== user.user.id) && !workoutAlreadyAdded)) &&
                     <button className={style.buttonAddWorkout} onClick={addWorkout}><IoIosAddCircleOutline/></button>
                   }
 
@@ -227,12 +226,10 @@ const WorkoutPage = observer(() => {
               }
 
               {editWorkout
-                // ? <input type="textarea" value={workoutDescription} onChange={(el) => setWorkoutDescription(el.target.value)} />
-                // : <Card.Text className={style.workoutDescription}>{workoutDescription}</Card.Text>
                 ? 
-                <div>
+                <div className='d-flex flex-column'>
                   <label className={style.titleDescription}>Description:</label>
-                  <input type="textarea" value={workoutDescription} onChange={(el) => setWorkoutDescription(el.target.value)} />
+                  <textarea type="text" value={workoutDescription} onChange={(el) => setWorkoutDescription(el.target.value)} />
                 </div>
                 : 
                 <span className={style.workoutDescription}><CustomToggleDescription body={workoutDescription} color='light'/></span>
