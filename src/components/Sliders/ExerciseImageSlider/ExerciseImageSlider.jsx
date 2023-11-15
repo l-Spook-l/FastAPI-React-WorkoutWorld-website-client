@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"; 
 import { Image } from "react-bootstrap";
 import style from "./ExerciseImageSlider.module.css";
+import PhotoModal from "../../Modals/PhotoModal/PhotoModal";
 
 
 const ExerciseImageSlider = ({ photos, onSelect }) => {
+  const [showModalPhoto, setShowModalPhoto] = useState(false)
+  const [selectedPhoto, setSelectedPhoto] = useState(0)
+
   const settings = {
     dots: true,
     infinite: true,
@@ -15,12 +19,17 @@ const ExerciseImageSlider = ({ photos, onSelect }) => {
     slidesToScroll: 1,
     arrows: true,
   };
-  // Передаем выбранное фото обратно в родительский компонент
-  const handleSelectPhoto = (index) => {
-    // onSelect(index);
-    console.log('change photo')
-  };
-  console.log('change photo', photos)
+
+  // console.log('change photo', photos)
+
+  const selectPhoto = (image) => {
+    setSelectedPhoto(image);
+    setShowModalPhoto(true);
+  }
+
+  const handleCloseModalPhoto = () => {
+    setShowModalPhoto(false);
+  }
 
   return (
     <div>
@@ -28,13 +37,16 @@ const ExerciseImageSlider = ({ photos, onSelect }) => {
         {photos.map((photo, index) => (
           <div key={index}>
             <Image
-              onClick={() => handleSelectPhoto(index)}
+              onClick={() => selectPhoto(photo.photo)}
               className={style.selectPhoto}
               src={process.env.REACT_APP_API_URL + photo.photo}
             />
           </div>
         ))}
       </Slider>
+      {showModalPhoto && (
+        <PhotoModal image={selectedPhoto} onClose={handleCloseModalPhoto} />
+      )}
     </div>
   );
 };
