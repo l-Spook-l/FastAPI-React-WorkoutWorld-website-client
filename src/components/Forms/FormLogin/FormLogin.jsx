@@ -16,7 +16,7 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
   const [showResetPassword, setShowResetPassword] = useState(false)
 
   // Были ли мы в ipnut
-  const [emailDirty, setemailDirty] = useState(false)
+  const [emailDirty, setEmailDirty] = useState(false)
   const [passwordDirty, setPasswordDirty] = useState(false)
   // Ошибка полей
   const [emailError, setEmailError] = useState('Email cannot be empty')
@@ -72,7 +72,7 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
   const blurHandler = (e) => {
     switch (e.target.name) {
       case "email":
-        setemailDirty(true);
+        setEmailDirty(true);
         break;
       case "password":
         setPasswordDirty(true);
