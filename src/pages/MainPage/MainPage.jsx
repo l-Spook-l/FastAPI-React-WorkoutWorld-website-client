@@ -12,15 +12,15 @@ import imgHomeGym from '../../assets/home gym.png'
 import ReviewMainPage from '../../components/Sliders/ReviewMainPage/ReviewMainPage';
 import MainPageContactFrom from '../../components/Forms/MainPageContactFrom/MainPageContactFrom';
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
-import { SHOP_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts';
+import { GROUP_WORKOUTS_ROUTE, SHOP_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts';
 
 const MainPage = observer(() => {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-   // window.scrollTo(0, 0);
-  // },[])
+  useEffect(() => {
+   window.scrollTo(0, 0);
+  },[])
 
   return (
     <div>
@@ -56,7 +56,7 @@ const MainPage = observer(() => {
                 </p>
               </div>
             </NavLink>
-            <NavLink className={style.imgContainer}>
+            <NavLink className={style.imgContainer} to={GROUP_WORKOUTS_ROUTE}>
               <Image className={style.imgServices} src={imgGroupWorkouts}/>
               <div className={style.overlay}>
                 <h3 className={style.textOnImgServices}>Group Fitness Classes</h3>

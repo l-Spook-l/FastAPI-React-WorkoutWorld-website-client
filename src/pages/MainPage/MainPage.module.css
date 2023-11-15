@@ -160,7 +160,6 @@
 /* Стилизация скроллбара */
 ::-webkit-scrollbar {
   width: 10px; /* Ширина скроллбара */
-  
 }
 
 ::-webkit-scrollbar-thumb {
