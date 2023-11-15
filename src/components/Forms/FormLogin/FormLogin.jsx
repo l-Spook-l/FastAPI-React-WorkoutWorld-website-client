@@ -4,23 +4,26 @@ import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { Context } from "../../..";
 import { login } from "../../../http/userAPI";
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
+import { NavLink } from "react-router-dom";
+import FormResetPassword from "../FormResetPassword/FormResetPassword";
 
 const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
-  const { user } = useContext(Context);
+  const { user } = useContext(Context)
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [showResetPassword, setShowResetPassword] = useState(false)
 
   // Были ли мы в ipnut
-  const [emailDirty, setemailDirty] = useState(false);
-  const [passwordDirty, setPasswordDirty] = useState(false);
+  const [emailDirty, setemailDirty] = useState(false)
+  const [passwordDirty, setPasswordDirty] = useState(false)
   // Ошибка полей
-  const [emailError, setEmailError] = useState('Email cannot be empty');
-  const [passwordError, setPasswordError] = useState("Password cannot be empty");
+  const [emailError, setEmailError] = useState('Email cannot be empty')
+  const [passwordError, setPasswordError] = useState("Password cannot be empty")
 
   // Общая проверка валидации формы
-  const [formValid, setFormValid] = useState(false);
+  const [formValid, setFormValid] = useState(false)
 
   const [loginError, setLoginError] = useState(false)
 
@@ -30,7 +33,7 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
     } else {
       setFormValid(true);
     }
-  }, [emailError, passwordError]);
+  }, [emailError, passwordError])
 
   const loginUser = () => {
     login(email, password).then((userData) => {
@@ -41,8 +44,8 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
     })
     .catch((data) => {
       setLoginError(true)
-    });
-  };
+    })
+  }
 
   const emailHandler = (e) => {
     setEmail(e.target.value)
@@ -64,7 +67,7 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
     } else {
       setPasswordError("");
     }
-  };
+  }
 
   const blurHandler = (e) => {
     switch (e.target.name) {
@@ -75,19 +78,29 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
         setPasswordDirty(true);
         break;
     }
-  };
+  }
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   }
 
+  const showResetPasswordForm = () => {
+    setShowResetPassword(true);
+  }
+
+  const closeModal = () => {
+    onHide()
+    setShowResetPassword(false)
+  }
+
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={closeModal}>
       <Modal.Header closeButton>
         <Modal.Title >Log In</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        {!showResetPassword ? 
+          <Form>
           {loginError && (
               <Form.Text className="text-danger">Invalid login or password</Form.Text>
           )}
@@ -129,7 +142,7 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
           <Row className="mt-2">
             <Col md={8} className="d-flex">
               No account?
-              <Button className="ms-2" type="button" onClick={onSwitchForm}>
+              <Button className="ms-2" onClick={onSwitchForm}>
                 Sign up!
               </Button>
             </Col>
@@ -139,7 +152,14 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
               </Button>
             </Col>
           </Row>
+            <NavLink onClick={() => showResetPasswordForm()}>
+              Forgot password?
+            </NavLink>
         </Form>
+        :
+        <FormResetPassword onClose={() => setShowResetPassword(!showResetPassword)}/>
+        }
+        
       </Modal.Body>
     </Modal>
   );
