@@ -11,41 +11,39 @@ const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
 
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
 
   // Были ли мы в ipnut
-  const [usernameDirty, setUsernameDirty] = useState(false);
-  const [firstNameDirty, setFirstNameDirty] = useState(false);
-  const [lastNameDirty, setLastNameDirty] = useState(false);
-  const [emailDirty, setEmailDirty] = useState(false);
-  const [passwordDirty, setPasswordDirty] = useState(false);
+  const [firstNameDirty, setFirstNameDirty] = useState(false)
+  const [lastNameDirty, setLastNameDirty] = useState(false)
+  const [emailDirty, setEmailDirty] = useState(false)
+  const [passwordDirty, setPasswordDirty] = useState(false)
+  
   // Ошибка полей
-  const [usernameError, setUsernameError] = useState("Username cannot be empty");
-  const [firstNameError, setFirstNameError] = useState("First name cannot be empty");
-  const [lastNameError, setLastNameError] = useState("Last name cannot be empty");
-  const [emailError, setEmailError] = useState("Email cannot be empty");
-  const [passwordError, setPasswordError] = useState("Password cannot be empty");
+  const [firstNameError, setFirstNameError] = useState("First name cannot be empty")
+  const [lastNameError, setLastNameError] = useState("Last name cannot be empty")
+  const [emailError, setEmailError] = useState("Email cannot be empty")
+  const [passwordError, setPasswordError] = useState("Password cannot be empty")
 
   // Общая проверка валидации формы
   const [formValid, setFormValid] = useState(false);
 
 
   useEffect(() => {
-    if (usernameError, firstNameError || lastNameError || passwordError || emailError) {
+    if (firstNameError || lastNameError || passwordError || emailError) {
       setFormValid(false);
     } else {
       setFormValid(true);
     }
-  }, [usernameError, firstNameError, lastNameError, passwordError, emailError]);
+  }, [firstNameError, lastNameError, passwordError, emailError]);
 
   const registerUser = () => {
-    registration(firstName, lastName, email, password, username).then((userData) => {
+    registration(firstName, lastName, email, password).then((userData) => {
       onSwitchForm()
       navigate(MAIN_ROUTE);
     })
@@ -69,18 +67,6 @@ const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
       setEmailError("Invalid email");
     } else {
       setEmailError("");
-    }
-  };
-
-  const usernameHandler = (e) => {
-    setUsername(e.target.value);
-    if (e.target.value.length < 5) {
-      setUsernameError("First name must be longer than 5 characters");
-      if (!e.target.value) {
-        setUsernameError("First name cannot be empty");
-      }
-    } else {
-      setUsernameError("");
     }
   };
 
@@ -122,9 +108,6 @@ const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
 
   const blurHandler = (e) => {
     switch (e.target.name) {
-      case "username":
-        setUsernameDirty(true);
-        break;
       case "firstName":
         setFirstNameDirty(true);
         break;
@@ -163,21 +146,6 @@ const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
             />
             {emailDirty && emailError && (
               <Form.Text className="text-danger">{emailError}</Form.Text>
-            )}
-          </Form.Group>
-
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              onBlur={(e) => blurHandler(e)}
-              name="username"
-              type="text"
-              placeholder="Enter username"
-              value={username}
-              onChange={(e) => usernameHandler(e)}
-            />
-            {usernameDirty && usernameError && (
-              <Form.Text className="text-danger">{usernameError}</Form.Text>
             )}
           </Form.Group>
 
