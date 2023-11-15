@@ -8,7 +8,7 @@ const PhotoModal = ({ image, onClose }) => {
   return (
     <Modal show={true} onHide={onClose}>
       <Modal.Body>
-        <Image src={image} fluid />
+        <Image src={process.env.REACT_APP_API_URL + image} fluid />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onClose}>
