@@ -1,4 +1,4 @@
-import {ACTIVE_WORKOUT_ROUTE, CREATE_WORKOUT_ROUTE, MAIN_ROUTE, PROFILE_ROUTE, SHOP_ROUTE, WORKOUTS_ROUTE, WORKOUT_ROUTE, RESET_USER_PASSWORD_ROUTE, GROUP_WORKOUTS_ROUTE } from './utils/consts'
+import {ACTIVE_WORKOUT_ROUTE, CREATE_WORKOUT_ROUTE, MAIN_ROUTE, PROFILE_ROUTE, SHOP_ROUTE, WORKOUTS_ROUTE, WORKOUT_ROUTE, RESET_USER_PASSWORD_ROUTE, GROUP_WORKOUTS_ROUTE, PAGE_404_ROUTE } from './utils/consts'
 import MainPage from './pages/MainPage/MainPage'
 import WorkoutsPage from './pages/WorkoutsPage/WorkoutsPage'
 import ProfilePage from './pages/Profile/Profile'
@@ -8,6 +8,7 @@ import ActiveWorkoutPage from './pages/ActiveWorkoutPage/ActiveWorkoutPage'
 import Shop from './pages/Shop/Shop'
 import ResetUserPassword from './pages/ResetUserPassword/ResetUserPassword'
 import GroupWorkouts from './pages/GroupWorkouts/GroupWorkouts'
+import Page404 from './pages/Page404/Page404'
 
 export const authRoutes = [
   {
@@ -48,5 +49,9 @@ export const publicRoutes = [
   {
     path: GROUP_WORKOUTS_ROUTE,
     Component: GroupWorkouts
+  },
+  {
+    path: PAGE_404_ROUTE,
+    Component: Page404
   }
 ]
