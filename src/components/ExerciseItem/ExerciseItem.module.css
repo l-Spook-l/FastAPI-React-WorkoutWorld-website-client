@@ -1,6 +1,8 @@
 .exerciseName {
   font-size: 28px;
-  background-color: rgb(228, 197, 132);
+  /* background-color: rgb(228, 197, 132); */
+  background-color:rgb(32, 28, 28);
+  color: rgb(248, 253, 224);
   margin-top: 10px;
   padding: 5px;
   border-radius: 8px;
@@ -11,20 +13,25 @@
   overflow-x:hidden;
   /* width: 900px; */
   margin-bottom: 15px;
-  background-color: rgb(228, 197, 132);
+  /* background-color: rgb(228, 197, 132); */
+  background-color:rgb(32, 28, 28);
+  color: rgb(248, 253, 224);
   padding: 5px;
   border-radius: 8px;
 }
 
 .myAccordion {
   margin-bottom: 30px;
-  background-color: rgb(228, 197, 132);
+  /* background-color: rgb(228, 197, 132); */
+  background-color:rgb(32, 28, 28);
+  color: rgb(248, 253, 224);
   padding: 5px;
   border-radius: 8px;
 }
 
 .myAccordionHeaderText {
   font-size: 23px;
+  color: rgb(248, 253, 224);
 }
 
 .myAccordionHeaderText:hover {
@@ -33,7 +40,7 @@
 
 .myAccordionBody {
   margin: 0 28px;
-  border: 2px solid black;
+  border: 1px solid black;
   border-radius: 8px;
   max-width: 950px;
 }
@@ -41,13 +48,12 @@
 .exerciseImage {
   width: 200px;
   height: 200px;
-  /* margin-right: 50px; */
-  /* margin: 5px auto; */
-  /* cursor: pointer; */
 }
 
 .restTimeTimer {
-  background-color: rgb(228, 197, 132);
+  /* background-color: rgb(228, 197, 132); */
+  background-color:rgb(32, 28, 28);
+  color: rgb(248, 253, 224);
   max-width: 550px;
   margin: 0 auto 15px auto;
   padding: 5px;
@@ -56,7 +62,10 @@
 }
 
 .exerciseSection {
-  background-color: rgb(228, 197, 132);
+  /* background-color: rgb(228, 197, 132); */
+  background-color:rgb(32, 28, 28);
+  color: rgb(248, 253, 224);
+
 }
 
 .exerciseTitle {
@@ -83,6 +92,10 @@
 
 .set {
   display: flex;
+}
+
+.loadingSpinner {
+  text-align: center;
 }
 
 .blockInSet {
@@ -113,8 +126,8 @@
 .buttonFinish {
   margin-top: 10px;
   font-size: 22px;
-  color: bisque;
-  background-color: rgb(27, 44, 19);
+  color: rgb(31, 25, 18);
+  background-color: rgb(240, 227, 209);
   margin: auto;
   width: 500px;
   border-radius: 8px;

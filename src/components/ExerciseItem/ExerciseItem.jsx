@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../..'
 import style from './ExerciseItem.module.css'
-import { Accordion, Card, Col, Container, Image, Row } from 'react-bootstrap'
+import { Accordion, Card, Col, Container, Image, Row, Spinner } from 'react-bootstrap'
 import { updateSet } from '../../http/workoutAPI'
 import UpdateSetModal from '../Modals/UpdateSetModal/UpdateSetModal'
 import RestIntervalTimer from '../Timers/RestIntervalTimer/RestIntervalTimer'
@@ -11,7 +11,7 @@ import ExerciseImageSlider from '../Sliders/ExerciseImageSlider/ExerciseImageSli
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 
 
-const ExerciseInfo = observer(({ exercise, sets }) => {
+const ExerciseInfo = observer(({ exercise, sets, loading }) => {
   const {user} = useContext(Context)
 
   // делаем новые обькты, а не ссылки на - sets
@@ -25,6 +25,8 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
   const [activeRestTimer, setActiveRestTimer] = useState(false)
   
   const [setSaveList, setSetSaveList] = useState([])
+
+  const [statusViewPhotos, setStatusViewPhotos] = useState(true)
 
   useEffect(() => {
     setOldSets(JSON.parse(JSON.stringify(sets)))
@@ -62,17 +64,29 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
   // console.log('newSets', newSets)
   // console.log('activeRestTimer', activeRestTimer)
   // console.log('setSaveList3', setSaveList)
+  console.log('setSaveList3 loading ', loading)
 
   return (
     <Container>
       <p className={style.exerciseName}>{exercise.name}</p>
       <div className={style.exerciseDescription}><CustomToggleDescription body={exercise.description} color='dark'/></div>
 
-      {exercise.photo.length !== 0 &&
+      {loading 
+      ?
+      <div className={style.loadingSpinner}>
+        <Spinner variant="dark"/>
+      </div>
+      : 
+      exercise.photo.length !== 0 &&
       <Accordion bsPrefix='myAccordion' className={style.myAccordion}>
         <Accordion.Item eventKey="1">
-          <Accordion.Header bsPrefix='myAccordionHeader'>
-            <span className={style.myAccordionHeaderText}>Photos</span>
+          <Accordion.Header bsPrefix='myAccordionHeader' onClick={() => setStatusViewPhotos(!statusViewPhotos)} >
+            <span className={style.myAccordionHeaderText}>
+              {statusViewPhotos 
+              ? 'View photos'
+              : 'Hide photos'
+              }
+            </span>
           </Accordion.Header>
           <Accordion.Body bsPrefix='myAccordionBody' className={style.myAccordionBody}>
             <ExerciseImageSlider photos={exercise.photo}/>
@@ -106,8 +120,14 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
             <Col className={style.textUnderTitle}><p>Repetitions and weight</p></Col>
             <Col className={style.textUnderTitle}><p>Save result</p></Col>
           </Row>
+          {loading && 
+            <div className={style.loadingSpinner}>
+              <Spinner variant="light"/>
+            </div>
+          }
           {oldSets.map((set, index) => 
             <div key={set.Set.id} className={style.set}>
+
               <Col className={style.blockInSet}>
                 <p>{set.Set.repetition}</p>
                 /
@@ -119,7 +139,6 @@ const ExerciseInfo = observer(({ exercise, sets }) => {
                 <p>{newSets[index].Set.weight} kg</p>
               </Col>
               <Col className={style.blockInSet}>
-              {/* className={`${style.buttonSave} ${setSaveList.includes(index) && ? style.buttonSaveActive : ""}`} */}
                 <button 
                   // className={style.buttonSave} 
                   disabled={setSaveList.includes(index)}
