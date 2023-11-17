@@ -1,51 +1,62 @@
+.mainBlock {
+  background-color: rgb(248, 253, 224);
+}
+
 .titleWorkout {
-  background-color: aqua;
+  background-color:rgb(27, 21, 21);
   display: flex;
-  justify-content: space-around;
-  height: 100px;
+  right: 0;
 }
 
 .mainSection {
-  background-color: blanchedalmond;
+  background-color: rgb(255, 235, 205);
   display: flex;
-  height: 100%;
+  min-height: 100vh;
 }
 
-.exercisesSection {
-  background-color: burlywood;
-  width: 200px;
-  height: 700px;
+.exerciseListSection {
+  background-color:rgb(32, 28, 28);
+  width: 250px;
+}
+
+.loadingSpinner {
+  text-align: center;
 }
 
 .alertMenu {
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  background-color:rgb(255, 255, 255);
-  border: 1px solid rgba(0, 0, 0, 0.35);
-  color: black;
+  border: 2px solid rgb(248, 253, 224);
+  background-color:rgb(37, 28, 28);
+  color: rgb(248, 253, 224);
 }
 
 .alertMenu:hover {
-  background-color:rgb(99, 214, 151);
+  background-color: rgb(228, 197, 132);
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  color: black;
 }
 
 .alertMenuActive {
-  background-color:rgb(99, 214, 151);
+  background-color: rgb(228, 197, 132);
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  color: black;
 }
 
-.blockWithMenu {
+/* .blockWithMenu {
   margin: 30px 0 230px 0;
 }
 
 .contentBlock {
   background-color: cadetblue;
-}
+} */
 
 .exerciseItem {
-  background-color: chartreuse;
-  width: 1000px;
-  height: 1000px;
+  /* background-color: chartreuse; */
+  width: 1100px;
+  margin-bottom: 25px;
+  /* height: 1000px; */
 }
 
 @media (max-width: 769px) {
