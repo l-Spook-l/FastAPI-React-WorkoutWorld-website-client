@@ -8,7 +8,8 @@
 }
 
 .myInput {
-  width: 375px;
+  width: 275px;
+  height: 40px;
 }
 
 .image {
@@ -29,12 +30,28 @@
 }
 
 .dropdownMenu {
-  width: 375px;
+  width: 275px;
   padding: 5px;
   max-height: 225px;
   overflow-y: auto;
   background-color: rgb(245, 239, 239);
   border-radius: 5px;
+}
+
+.myDropdownItem {
+  text-decoration: none;
+}
+
+.workoutItem {
+  color: black;
+  margin: 0 20px;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.workoutItem:hover {
+  color: aliceblue;
+  background-color: black;
 }
 
 @media (max-width: 1199px) {

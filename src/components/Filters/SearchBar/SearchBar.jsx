@@ -6,24 +6,54 @@ import style from "./SearchBar.module.css";
 import { useNavigate } from "react-router-dom";
 import { WORKOUT_ROUTE } from "../../../utils/consts";
 import { AiOutlineClose } from "react-icons/ai";
-import { fetchWorkouts } from "../../../http/workoutAPI";
+import { fetchAddUserWorkout, fetchMyWorkouts, fetchWorkouts } from "../../../http/workoutAPI";
 
-const SearchBar = observer(() => {
-  const { workout } = useContext(Context);
-  const navigate = useNavigate();
+const SearchBar = observer(({ typeWorkout, statusWorkout=undefined }) => {
+  const { workout } = useContext(Context)
+  const { user } = useContext(Context)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
-    fetchWorkouts(
-      null,
-      null,
-      workout.selectedSearchWorkouts
-    ).then((data) => {
-      workout.setSearchWorkouts(data);
-    })
-  }, [workout.selectedSearchWorkouts]);
+    switch(typeWorkout) {
+      case "All":
+        fetchWorkouts(
+          null,
+          null,
+          null,
+          workout.selectedSearchWorkouts
+        ).then((data) => {
+          workout.setSearchWorkouts(data)
+        })
+        break
+      case "Created":
+        fetchMyWorkouts(
+          user.user.id,
+          workout.selectedSearchWorkouts,
+          null,
+          null,
+          null,
+          statusWorkout,
+        ).then((data) => {
+          workout.setSearchWorkouts(data)
+        })
+        break
+      case "Added":
+        fetchAddUserWorkout(
+          user.user.id,
+          workout.selectedSearchWorkouts,
+          null,
+          null,
+          null,
+        ).then((data) => {
+          workout.setSearchWorkouts(data)
+        })
+        break
+    }
+  }, [statusWorkout, workout.selectedSearchWorkouts])
 
   const clearSearch = () => {
-    workout.setSelectedSearchWorkouts("");
+    workout.setSelectedSearchWorkouts("")
   };
 
   return (
@@ -49,14 +79,16 @@ const SearchBar = observer(() => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu className={style.dropdownMenu}>
-        {workout.searchWorkouts.length !== 0 ? (
-          workout.searchWorkouts.length > 4 ? (
-            workout.searchWorkouts.data.map((workoutItem) => (
+        {workout.searchWorkouts.length !== 0 
+        ? (workout.searchWorkouts.length > 4 
+          ? (workout.searchWorkouts.data.map((workoutItem) => (
               <Dropdown.Item
+              bsPrefix="myDropdownItem"
+              className={style.myDropdownItem}
                 key={workoutItem.Workout.id}
                 onClick={() => navigate(`${WORKOUT_ROUTE}/${workoutItem.Workout.id}`)}
               >
-                <div>
+                <div className={style.workoutItem}>
                   {workoutItem.Workout.name}
                 </div>
               </Dropdown.Item>
@@ -66,12 +98,14 @@ const SearchBar = observer(() => {
               .slice(0, workout.searchWorkouts.length)
               .map((workoutItem) => (
                 <Dropdown.Item
+                bsPrefix="myDropdownItem"
+                className={style.myDropdownItem}
                   key={workoutItem.Workout.id}
                   onClick={() =>
                     navigate(`${WORKOUT_ROUTE}/${workoutItem.Workout.id}`)
                   }
                 >
-                  <div>
+                  <div className={style.workoutItem}>
                       {workoutItem.Workout.name}
                   </div>
                 </Dropdown.Item>
