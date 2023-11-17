@@ -3,41 +3,51 @@ import { Button, Card, Col, Form, Row } from 'react-bootstrap'
 import { createExercise, createSet } from '../../../http/workoutAPI';
 import { Context } from '../../..';
 
-// const FormCreateExercise = ({ exercise, onChange, onRemove }) => {
 const FormCreateExercise = ({ showForm, workoutId }) => {
   const { user } = useContext(Context)
 
   const [confirm, setConfirm] = useState(true)
 
   // Общая проверка валидации формы
-  const [formValidError, setFormValidError] = useState(false);
+  const [formValidError, setFormValidError] = useState(false)
 
-  const [newExercises, setNewExercises] = useState([{ name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, photo: '', video: '' },])
+  const [newExercises, setNewExercises] = useState([{ name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, video: '', photo: [] }])
 
   // добавляем упражнение в обьект как обьект ))
   // ...prevData.exercises - добавляем что уже было
   const addExercise = () => {
     setNewExercises(() => ([
       ...newExercises,
-      { name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, photo: '', video: '' }
-    ]));
+      { name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, video: '', photo: [] }
+    ]))
     setConfirm(true)
-  };
+  }
 
   // отвечает за поля упражнения
   const exerciseChange = (index, property, value) => {
-    const updatedExercises = [...newExercises];
-    updatedExercises[index][property] = value;
-    setNewExercises(updatedExercises)
-  };
+    const updatedExercises = [...newExercises]
+    switch (property) {
+      case "photo":
+        console.log('photo', value.target.files)
+        updatedExercises[index][property] = value.target.files
+        // setNewExercises((prevData) => ({ ...prevData, exercises: updatedExercises }))
+        setNewExercises(updatedExercises)
+        break;
+      default:
+        updatedExercises[index][property] = value
+        // setNewExercises((prevData) => ({ ...prevData, exercises: updatedExercises }))
+        setNewExercises(updatedExercises)
+        break;
+    }
+  }
 
 // удалить упражнение вернуться и оптимизировать !!!!!!!!!!!!!!!!!
   const removeExercise = (index) => {
-    const updatedExercises = [...newExercises]; 
-    updatedExercises.splice(index, 1);
+    const updatedExercises = [...newExercises]
+    updatedExercises.splice(index, 1)
     setNewExercises(updatedExercises)
     updatedExercises.length < 1 && setConfirm(false)  // если ничего нет в массиве кнопка не активна
-  };
+  }
 
   // сохраняем тренировку
   const submitNewExercise = () => {
@@ -55,13 +65,14 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
           exercise.description, 
           exercise.sets, 
           exercise.maximumRepetitions, 
-          exercise.restTime, 
-          exercise.photo, 
+          exercise.restTime,
           exercise.video).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0))
       )
-      window.location.reload()
+      // window.location.reload()
     }
-  };
+  }
+
+  console.log('ewqeqw', newExercises)
 
   return (
     <Form>
@@ -149,8 +160,8 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                   <Form.Control
                     type="file"
                     placeholder="Enter photo URL"
-                    value={exercise.photo}
-                    onChange={(e) => exerciseChange(index, 'photo', e.target.value)}
+                    multiple // для загрузки нескольких файлов
+                    onChange={(e) => exerciseChange(index, 'photo', e)}
                   />
                 </Col> Optional
               </Form.Group>
@@ -160,12 +171,17 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                   Video
                 </Form.Label>
                 <Col md={5}>
-                  <Form.Control
+                  {/* <Form.Control
                     type="file"
                     placeholder="Enter video URL"
-                    value={exercise.video}
-                    onChange={(e) => exerciseChange(index, 'video', e.target.value)}
-                  />
+                    onChange={(e) => exerciseChange(index, 'video', e)}
+                  /> */}
+                  <Form.Control
+                      type="text"
+                      placeholder="Enter video URL"
+                      value={exercise.video}
+                      onChange={(e) => exerciseChange(index, 'video', e.target.value)}
+                    />
                 </Col> Optional
               </Form.Group>
 
