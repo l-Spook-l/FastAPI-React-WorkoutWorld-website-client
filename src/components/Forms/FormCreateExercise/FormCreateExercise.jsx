@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react'
-import { Button, Card, Col, Form, Row } from 'react-bootstrap'
+import { Accordion, Button, Card, Col, Form, Row } from 'react-bootstrap'
 import { createExercise, createSet } from '../../../http/workoutAPI';
 import { Context } from '../../..';
+import style from './FormCreateExercise.module.css'
 
 const FormCreateExercise = ({ showForm, workoutId }) => {
   const { user } = useContext(Context)
@@ -14,7 +15,6 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
   const [newExercises, setNewExercises] = useState([{ name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, video: '', photo: [] }])
 
   // добавляем упражнение в обьект как обьект ))
-  // ...prevData.exercises - добавляем что уже было
   const addExercise = () => {
     setNewExercises(() => ([
       ...newExercises,
@@ -30,12 +30,10 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
       case "photo":
         console.log('photo', value.target.files)
         updatedExercises[index][property] = value.target.files
-        // setNewExercises((prevData) => ({ ...prevData, exercises: updatedExercises }))
         setNewExercises(updatedExercises)
         break;
       default:
         updatedExercises[index][property] = value
-        // setNewExercises((prevData) => ({ ...prevData, exercises: updatedExercises }))
         setNewExercises(updatedExercises)
         break;
     }
@@ -66,7 +64,8 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
           exercise.sets, 
           exercise.maximumRepetitions, 
           exercise.restTime,
-          exercise.video).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0))
+          exercise.video,
+          exercise.photo).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0))
       )
       // window.location.reload()
     }
@@ -159,7 +158,7 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                 <Col md={5}>
                   <Form.Control
                     type="file"
-                    placeholder="Enter photo URL"
+                    placeholder="Enter video link"
                     multiple // для загрузки нескольких файлов
                     onChange={(e) => exerciseChange(index, 'photo', e)}
                   />
@@ -171,11 +170,6 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                   Video
                 </Form.Label>
                 <Col md={5}>
-                  {/* <Form.Control
-                    type="file"
-                    placeholder="Enter video URL"
-                    onChange={(e) => exerciseChange(index, 'video', e)}
-                  /> */}
                   <Form.Control
                       type="text"
                       placeholder="Enter video URL"
@@ -183,6 +177,24 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                       onChange={(e) => exerciseChange(index, 'video', e.target.value)}
                     />
                 </Col> Optional
+                <Col>
+                  <Accordion bsPrefix='myAccordion' className={style.myAccordion}>
+                    <Accordion.Item eventKey="1">
+                      <Accordion.Header bsPrefix='myAccordionHeader'  >
+                        <span className={style.myAccordionHeaderText}>
+                          Instructions on how to add a link.
+                        </span>
+                      </Accordion.Header>
+                      <Accordion.Body bsPrefix='myAccordionBody'>
+                        <a target='blank' href="https://support.google.com/youtube/answer/171780?hl=en">Instructions on how to copy a YouTube link.</a>
+                        <p></p>
+                        <a target='blank' href="https://support.google.com/youtube/answer/57407?hl=en&co=GENIE.Platform%3DDesktop">
+                          Instructions on how to upload a video to YouTube.
+                        </a>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </Col>
               </Form.Group>
 
                 <Button variant="danger" onClick={() => removeExercise(index)}>
