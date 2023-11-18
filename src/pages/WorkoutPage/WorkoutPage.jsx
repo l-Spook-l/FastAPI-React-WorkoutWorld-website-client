@@ -4,7 +4,7 @@ import { Context } from '../..'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { addWorkoutToUser, createSet, deleteAddedSets, deleteAddedWorkout, deleteCreatedWorkout, fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
 import { Breadcrumb, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
-import { ACTIVE_WORKOUT_ROUTE, MAIN_ROUTE, PROFILE_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
+import { ACTIVE_WORKOUT_ROUTE, MAIN_ROUTE, PAGE_404_ROUTE, PROFILE_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
 import ExerciseInfo from '../../components/ExerciseInfo/ExerciseInfo'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import style from './WorkoutPage.module.css'
@@ -12,7 +12,7 @@ import FormCreateExercise from '../../components/Forms/FormCreateExercise/FormCr
 import ChangeStatusModal from '../../components/Modals/ChangeStatusModal/ChangeStatusModal'
 import { IoIosAddCircleOutline } from 'react-icons/io'
 import { RiDeleteBin2Line } from 'react-icons/ri'
-import DeleteWorkoutModal from '../../components/Modals/DeleteWorkoutModal/DeleteWorkoutModal'
+import DeleteModal from '../../components/Modals/DeleteModal/DeleteModal'
 import SaveChangesWorkoutModal from '../../components/Modals/SaveChangesWorkoutModal/SaveChangesWorkoutModal'
 import FormLogin from '../../components/Forms/FormLogin/FormLogin'
 import FormRegister from '../../components/Forms/FormRegister/FormRegister'
@@ -21,9 +21,9 @@ import CustomToggleDescription from '../../components/CustomToggleDescription/Cu
 const WorkoutPage = observer(() => {
   const { user } = useContext(Context)
   const { workout } = useContext(Context)
-  const { workout_id }  = useParams();
+  const { workout_id }  = useParams()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const [loading, setLoading] = useState(true);
   
@@ -39,8 +39,8 @@ const WorkoutPage = observer(() => {
   const [showModalChangeStatus, setShowModalChangeStatus] = useState(false)
   const [showModalDeleteWorkout, setShowModalDeleteWorkout] = useState(false)
   const [showModalSaveChanges, setShowModalSaveChanges] = useState(false)
-  const [showModalLogin, setShowModalLogin] = useState(false);
-  const [showLogin, setShowLogin] = useState(true);
+  const [showModalLogin, setShowModalLogin] = useState(false)
+  const [showLogin, setShowLogin] = useState(true)
 
   const [workoutAlreadyAdded, setWorkoutAlreadyAdded] = useState(false)
 
@@ -58,12 +58,19 @@ const WorkoutPage = observer(() => {
       if (workout.addedWorkouts.data !== undefined) {
         setWorkoutAlreadyAdded(workout.addedWorkouts.data.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id))
       }
-    }).finally(() => setLoading(false))
+    }).catch((error) => {
+      if (error.response.status === 404) {
+        navigate(PAGE_404_ROUTE)
+      }
+      if (error.response.status === 403) {
+        navigate(PAGE_404_ROUTE)
+      }
+      if (error.response.status === 422) {
+        navigate(PAGE_404_ROUTE)
+      }
+    })
+    .finally(() => setLoading(false))
   },[workout_id, updatePage, user.isAuth])
-
-  if (loading) {
-    return <Spinner animation="grow" />;
-  }
 
   const editParamWorkout = () => {
     workout.setEditWorkout(true)
@@ -88,7 +95,7 @@ const WorkoutPage = observer(() => {
     setShowModalChangeStatus(false)
     setShowModalDeleteWorkout(false)
     setShowModalSaveChanges(false)
-  };
+  }
 
   const changeStatusWorkout = () => {
     setWorkoutIsPublic(!workoutIsPublic)
@@ -102,19 +109,19 @@ const WorkoutPage = observer(() => {
       createSet(exercise.number_of_sets, exercise.id, user.user.id, 0, 0)
     )
     setUpdatePage(!updatePage)
-    // navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
+    navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
   }
 
   const deleteWorkout = () => {
     if (!workout.selectedWorkout.data.Workout.is_public) {
       deleteCreatedWorkout(workout.selectedWorkout.data.Workout.id)
-      // navigate(PROFILE_ROUTE, {state: 'createdWorkouts'} );
+      navigate(PROFILE_ROUTE, {state: 'createdWorkouts'} )
     } else {
       deleteAddedWorkout(workout.selectedWorkout.data.Workout.id, user.user.id)
       workout.selectedWorkout.data.Workout.exercise.map((exercise) => {
         deleteAddedSets(exercise.id, user.user.id)
       })
-      // navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
+      navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} )
     }
     setShowModalDeleteWorkout(false);
   }
@@ -132,11 +139,13 @@ const WorkoutPage = observer(() => {
   const clickLogin = () => {
     setShowModalLogin(true);
     setShowLogin(true);
-  };
+  }
 
   const switchForm = () => {
     setShowModalLogin(!showLogin);
-  };
+  }
+  console.log('public1', workoutIsPublic)
+
 
   return (
     <div className={style.mainBlock}>
@@ -150,16 +159,24 @@ const WorkoutPage = observer(() => {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{workoutName}</Breadcrumb.Item>
       </Breadcrumb>
-      {!user.isAuth &&
-        <p className={style.ifNotLoginTitle}> 
-          <span className={style.login} onClick={clickLogin}>Log in </span>
-          to view the full workout information, add it to your workouts, and start exercising!</p>
-      }
-      
       <Row>
         <Col md={12}>
           <Card className={style.workoutCard}>
+            {loading 
+            ? 
+              <div className={style.loadingSpinner}>
+                <Spinner variant="light"/>
+              </div>
+            :
+            // workoutIsPublic === false 
+            // ? 
+            // :
             <Card.Body>
+            {!user.isAuth &&
+              <p className={style.ifNotLoginTitle}> 
+              <span className={style.login} onClick={clickLogin}>Log in </span>
+              to view the full workout information, add it to your workouts, and start exercising!</p>
+            }
               <div className={style.workoutTitle}>
                   {editWorkout
                     ? <input type="text" value={workoutName} onChange={(el) => setWorkoutName(el.target.value)} />
@@ -264,11 +281,13 @@ const WorkoutPage = observer(() => {
                 )}
               </ul>
             </Card.Body>
+            }
           </Card>
         </Col>
       </Row>
+
       <ChangeStatusModal show={showModalChangeStatus} status={workoutIsPublic} onClose={closeModal} changeStatus={changeStatusWorkout} />
-      <DeleteWorkoutModal show={showModalDeleteWorkout} onClose={closeModal} deleteWorkout={deleteWorkout} />
+      <DeleteModal show={showModalDeleteWorkout} onClose={closeModal} deleteValue={deleteWorkout} value='workout'/>
       <SaveChangesWorkoutModal show={showModalSaveChanges} onClose={closeModal} saveChanges={updateParamWorkout} />
       {showLogin ? 
         <FormLogin
