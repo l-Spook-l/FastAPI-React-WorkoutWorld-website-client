@@ -44,7 +44,13 @@ const ActiveWorkoutPage = observer(() => {
       fetchSets(user.user.id, arrayOfIds).then((data) => setSets(data.data)).finally(() => setLoadingSets(false))
       
     }).catch((error) => {
-      if (error.response.data.detail === "This workout not found") {
+      if (error.response.status === 404) {
+        navigate(PAGE_404_ROUTE)
+      }
+      if (error.response.status === 403) {
+        navigate(PAGE_404_ROUTE)
+      }
+      if (error.response.status === 422) {
         navigate(PAGE_404_ROUTE)
       }
     })
