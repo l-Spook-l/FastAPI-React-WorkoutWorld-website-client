@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
-import { Container, Form, Button, Col, Row, Card } from 'react-bootstrap';
+import { Container, Form, Button, Col, Row, Card, Accordion } from 'react-bootstrap';
 import { createExercise, createSet, createWorkout } from '../../http/workoutAPI';
 import { Context } from "../..";
 import style from './CreateWorkoutPage.module.css'
@@ -51,11 +51,6 @@ const CreateWorkoutPage = observer(() => {
   const exerciseChange = (index, property, value) => {
     const updatedExercises = [...workoutData.exercises];
     switch (property) {
-      case "video":
-        console.log('video', value.target.files)
-        updatedExercises[index][property] = value.target.files[0]
-        setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }))
-        break;
       case "photo":
         console.log('photo', value.target.files)
         updatedExercises[index][property] = value.target.files
@@ -112,7 +107,7 @@ const CreateWorkoutPage = observer(() => {
             Create Workout
           </Button>
         </div>
-        {formValidError && <p>Fill in all fields!</p>}
+        {formValidError && <p className={style.statusFields}>Fill in all fields!</p>}
 
       <Form>
         <Form.Group className="mb-3">
@@ -255,14 +250,35 @@ const CreateWorkoutPage = observer(() => {
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm="2">
                   Video
+                  {/* Currently, only video links (preferably from YouTube) are available. */}
+                  {/* You can upload your video to YouTube and copy the link here for direct access during the workout */}
                 </Form.Label>
                 <Col md={5}>
                   <Form.Control
-                    type="file"
-                    placeholder="Enter video URL"
-                    onChange={(e) => exerciseChange(index, 'video', e)}
+                    type="text"
+                    placeholder="Enter video link"
+                    value={exercise.video}
+                    onChange={(e) => exerciseChange(index, 'video', e.target.value)}
                   />
                 </Col> Optional
+                <Col>
+                  <Accordion bsPrefix='myAccordion' className={style.myAccordion}>
+                    <Accordion.Item eventKey="1">
+                      <Accordion.Header bsPrefix='myAccordionHeader'  >
+                        <span className={style.myAccordionHeaderText}>
+                          Instructions on how to add a link.
+                        </span>
+                      </Accordion.Header>
+                      <Accordion.Body bsPrefix='myAccordionBody'>
+                        <a target='blank' href="https://support.google.com/youtube/answer/171780?hl=en">Instructions on how to copy a YouTube link.</a>
+                        <p></p>
+                        <a target='blank' href="https://support.google.com/youtube/answer/57407?hl=en&co=GENIE.Platform%3DDesktop">
+                          Instructions on how to upload a video to YouTube.
+                        </a>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </Col>
               </Form.Group>
 
               <Button variant="danger" onClick={() => removeExercise(index)}>
