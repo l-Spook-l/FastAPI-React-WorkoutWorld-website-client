@@ -11,16 +11,38 @@ const ExerciseImageSlider = ({ photos, onSelect }) => {
   const [showModalPhoto, setShowModalPhoto] = useState(false)
   const [selectedPhoto, setSelectedPhoto] = useState(0)
 
+  const CustomPrevArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "green", borderRadius: '50%' }}
+        onClick={onClick}
+      />
+    )
+  }
+
+  const CustomNextArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "green", borderRadius: '50%' }}
+        onClick={onClick}
+      />
+    )
+  }
+
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: photos.length > 4 ? 4 : photos.length,
+    slidesToShow: photos.length > 3 ? 3 : photos.length,
     slidesToScroll: 1,
     arrows: true,
-  };
-
-  // console.log('change photo', photos)
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+  }
 
   const selectPhoto = (image) => {
     setSelectedPhoto(image);
@@ -48,7 +70,7 @@ const ExerciseImageSlider = ({ photos, onSelect }) => {
         <PhotoModal image={selectedPhoto} onClose={handleCloseModalPhoto} />
       )}
     </div>
-  );
-};
+  )
+}
 
 export default ExerciseImageSlider;
