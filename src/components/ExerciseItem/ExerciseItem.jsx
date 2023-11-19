@@ -6,9 +6,10 @@ import { Accordion, Card, Col, Container, Image, Row, Spinner } from 'react-boot
 import { updateSet } from '../../http/workoutAPI'
 import UpdateSetModal from '../Modals/UpdateSetModal/UpdateSetModal'
 import RestIntervalTimer from '../Timers/RestIntervalTimer/RestIntervalTimer'
-import CustomToggleDescription from '../CustomToggleDescription/CustomToggleDescription'
+import CustomToggleDescription from '../CustomToggles/CustomToggleDescription/CustomToggleDescription'
 import ExerciseImageSlider from '../Sliders/ExerciseImageSlider/ExerciseImageSlider'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
+import CustomTogglePhotos from '../CustomToggles/CustomTogglePhotos/CustomTogglePhotos'
 
 
 const ExerciseInfo = observer(({ exercise, sets, loading }) => {
@@ -64,7 +65,7 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
   // console.log('newSets', newSets)
   // console.log('activeRestTimer', activeRestTimer)
   // console.log('setSaveList3', setSaveList)
-  console.log('setSaveList3 loading ', loading)
+  // console.log('setSaveList3 loading ', loading)
 
   return (
     <Container>
@@ -78,23 +79,8 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
       </div>
       : 
       exercise.photo.length !== 0 &&
-      <Accordion bsPrefix='myAccordion' className={style.myAccordion}>
-        <Accordion.Item eventKey="1">
-          <Accordion.Header bsPrefix='myAccordionHeader' onClick={() => setStatusViewPhotos(!statusViewPhotos)} >
-            <span className={style.myAccordionHeaderText}>
-              {statusViewPhotos 
-              ? 'View photos'
-              : 'Hide photos'
-              }
-            </span>
-          </Accordion.Header>
-          <Accordion.Body bsPrefix='myAccordionBody' className={style.myAccordionBody}>
-            <ExerciseImageSlider photos={exercise.photo}/>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
+      <div className={style.exercisePhotos}><CustomTogglePhotos photos={exercise.photo} color='dark'/></div>
       }
-
       <div className={style.restTimeTimer}>
         <RestIntervalTimer initialSeconds={exercise.rest_time} active={activeRestTimer}/>
       </div>
