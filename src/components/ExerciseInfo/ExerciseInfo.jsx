@@ -1,12 +1,16 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
-import { Card, Col, Image, Row } from 'react-bootstrap'
+import { Accordion, Card, Col, Image, Row } from 'react-bootstrap'
 import { Context } from '../..'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
+import { RiDeleteBin2Line } from 'react-icons/ri'
 import style from './ExerciseInfo.module.css'
-import { updateExercise } from '../../http/workoutAPI';
+import { deleteExercise, updateExercise } from '../../http/workoutAPI';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
-import CustomToggleDescription from '../CustomToggleDescription/CustomToggleDescription';
+import CustomToggleDescription from '../CustomToggles/CustomToggleDescription/CustomToggleDescription';
+import DeleteModal from '../Modals/DeleteModal/DeleteModal';
+import ExerciseImageSlider from '../Sliders/ExerciseImageSlider/ExerciseImageSlider';
+import CustomTogglePhotos from '../CustomToggles/CustomTogglePhotos/CustomTogglePhotos';
 
 const ExerciseItem = observer(
   ({ exerciseId, name, description, numberOfSets, maximumRepetitions, restTime, video, photos }) => {
@@ -15,6 +19,7 @@ const ExerciseItem = observer(
   const { workout } = useContext(Context)
 
   const [editExercise, setEditExercise] = useState()
+  const [showModalDeleteExercise, setShowModalDeleteExercise] = useState(false)
 
   useEffect(() => {
     setEditExercise(false)
@@ -25,16 +30,33 @@ const ExerciseItem = observer(
   const [exerciseNumberOfSets, setExerciseNumberOfSets] = useState(numberOfSets)
   const [exerciseMaximumRepetitions, setExerciseMaximumRepetitions] = useState(maximumRepetitions)
   const [exerciseRestTime, setExerciseRestTime] = useState(restTime)
+  const [exerciseVideo, setExerciseVideo] = useState(video)
+
+  const [statusViewPhotos, setStatusViewPhotos] = useState(true)
 
   const updateParamExercise = () => {
-    updateExercise(exerciseId, exerciseName, exerciseDescription, exerciseNumberOfSets, exerciseMaximumRepetitions, exerciseRestTime)
+    updateExercise(exerciseId, exerciseName, exerciseDescription, exerciseNumberOfSets, exerciseMaximumRepetitions, exerciseRestTime, exerciseVideo)
     setEditExercise(false)
   }
 
   const closeParamExercise = () => {
     setEditExercise(false)
   }
+
+  const deleteWorkoutExercise = () => {
+    deleteExercise(exerciseId)
+    console.log('exercise delete success')
+    setShowModalDeleteExercise(false)
+  }
+
+  const closeModal = () => {
+    // setShowModalChangeStatus(false)
+    setShowModalDeleteExercise(false)
+    // setShowModalSaveChanges(false)
+  }
+
   // console.log('ExerciseItem', video)
+  console.log('workout.selectedWorkout.data.Workout.exercise', workout.selectedWorkout.data.Workout.exercise.length)
 
   return (
     <Card className={style.container}>
@@ -50,14 +72,28 @@ const ExerciseItem = observer(
                 <div>
                   <button className={style.changeButton} onClick={() => updateParamExercise()}><AiOutlineCheck/></button>
                   <button className={style.changeButton} onClick={() => closeParamExercise()}><AiOutlineClose/></button>
+                  {(workout.selectedWorkout.data.Workout.exercise.length > 1) &&
+                  <button className={style.deleteExerciseButton} onClick={() => setShowModalDeleteExercise(true)}><RiDeleteBin2Line/></button>
+                  }
                 </div>
               : <button className={style.changeButton} onClick={() => setEditExercise(true)}><AiFillEdit/></button>)
           }
         </div>
         <div className={style.infoBlock}>
-          {photos.length !== 0 && 
-            <Card.Img className={style.exerciseImage} src={process.env.REACT_APP_API_URL + photos[0].photo}/>
+          {photos.length !== 0 &&
+            <CustomTogglePhotos photos={photos} color='dark'/>
           }
+          <div>
+            {editExercise
+            ? 
+            <div className='d-flex flex-column'>
+              <label>Video:</label>
+              <textarea type="text" placeholder='' value={exerciseVideo} onChange={(el) => setExerciseVideo(el.target.value)} />
+            </div>
+            : video && <VideoPlayer videoUrl={video} color='dark'/>
+            }
+            
+          </div>
           <div className={style.descriptionBlock}>
             {editExercise
               ? 
@@ -69,9 +105,6 @@ const ExerciseItem = observer(
               <CustomToggleDescription body={exerciseDescription} color='dark'/>
               }
 
-            {/* <VideoPlayer videoUrl='https://www.youtube.com/watch?v=yyXyKbdWslw&ab_channel=iFlame'/> */}
-            {/* {photos.map((el) => <Image src={process.env.REACT_APP_API_URL + el.photo}/>)} */}
-          
             <div className={style.exerciseParam}>
               <div>Number of sets
                 {editExercise
@@ -94,8 +127,8 @@ const ExerciseItem = observer(
             </div>
           </div>
         </div>
-        
       </Card.Body>
+      <DeleteModal show={showModalDeleteExercise} onClose={closeModal} deleteValue={deleteWorkoutExercise} value="exercise"/>
     </Card>
   )
 })
