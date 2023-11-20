@@ -1,16 +1,15 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
-import { Accordion, Card, Col, Image, Row } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { Context } from '../..'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import { RiDeleteBin2Line } from 'react-icons/ri'
 import style from './ExerciseInfo.module.css'
-import { deleteExercise, updateExercise } from '../../http/workoutAPI';
-import VideoPlayer from '../VideoPlayer/VideoPlayer';
+import { createSet, deleteExercise, deleteSets, updateExercise } from '../../http/workoutAPI';
 import CustomToggleDescription from '../CustomToggles/CustomToggleDescription/CustomToggleDescription';
 import DeleteModal from '../Modals/DeleteModal/DeleteModal';
-import ExerciseImageSlider from '../Sliders/ExerciseImageSlider/ExerciseImageSlider';
 import CustomTogglePhotos from '../CustomToggles/CustomTogglePhotos/CustomTogglePhotos';
+import CustomToggleVideo from '../CustomToggles/CustomToggleVideo/CustomToggleVideo';
 
 const ExerciseItem = observer(
   ({ exerciseId, name, description, numberOfSets, maximumRepetitions, restTime, video, photos }) => {
@@ -32,10 +31,17 @@ const ExerciseItem = observer(
   const [exerciseRestTime, setExerciseRestTime] = useState(restTime)
   const [exerciseVideo, setExerciseVideo] = useState(video)
 
-  const [statusViewPhotos, setStatusViewPhotos] = useState(true)
-
   const updateParamExercise = () => {
-    updateExercise(exerciseId, exerciseName, exerciseDescription, exerciseNumberOfSets, exerciseMaximumRepetitions, exerciseRestTime, exerciseVideo)
+    console.log('test', numberOfSets, exerciseNumberOfSets)
+    console.log('user', workout.selectedWorkout.data.Workout.user_id)
+    if (numberOfSets !== exerciseNumberOfSets) {
+      console.log('www')
+      updateExercise(exerciseId, exerciseName, exerciseDescription, exerciseNumberOfSets, exerciseMaximumRepetitions, exerciseRestTime, exerciseVideo)
+      deleteSets(exerciseId, workout.selectedWorkout.data.Workout.user_id)
+      createSet(exerciseNumberOfSets, exerciseId, workout.selectedWorkout.data.Workout.user_id, 0, 0)
+    } else {
+      updateExercise(exerciseId, exerciseName, exerciseDescription, numberOfSets, exerciseMaximumRepetitions, exerciseRestTime, exerciseVideo)
+    }
     setEditExercise(false)
   }
 
@@ -90,7 +96,7 @@ const ExerciseItem = observer(
               <label>Video:</label>
               <textarea type="text" placeholder='' value={exerciseVideo} onChange={(el) => setExerciseVideo(el.target.value)} />
             </div>
-            : video && <VideoPlayer videoUrl={video} color='dark'/>
+            : video && <CustomToggleVideo video={video} color='dark'/>
             }
             
           </div>
