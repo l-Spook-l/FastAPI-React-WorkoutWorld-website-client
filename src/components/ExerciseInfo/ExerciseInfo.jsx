@@ -10,6 +10,7 @@ import CustomToggleDescription from '../CustomToggles/CustomToggleDescription/Cu
 import DeleteModal from '../Modals/DeleteModal/DeleteModal';
 import CustomTogglePhotos from '../CustomToggles/CustomTogglePhotos/CustomTogglePhotos';
 import CustomToggleVideo from '../CustomToggles/CustomToggleVideo/CustomToggleVideo';
+import WarningTooltip from '../WarningTooltip/WarningTooltip';
 
 const ExerciseItem = observer(
   ({ exerciseId, name, description, numberOfSets, maximumRepetitions, restTime, video, photos }) => {
@@ -32,10 +33,7 @@ const ExerciseItem = observer(
   const [exerciseVideo, setExerciseVideo] = useState(video)
 
   const updateParamExercise = () => {
-    console.log('test', numberOfSets, exerciseNumberOfSets)
-    console.log('user', workout.selectedWorkout.data.Workout.user_id)
     if (numberOfSets !== exerciseNumberOfSets) {
-      console.log('www')
       updateExercise(exerciseId, exerciseName, exerciseDescription, exerciseNumberOfSets, exerciseMaximumRepetitions, exerciseRestTime, exerciseVideo)
       deleteSets(exerciseId, workout.selectedWorkout.data.Workout.user_id)
       createSet(exerciseNumberOfSets, exerciseId, workout.selectedWorkout.data.Workout.user_id, 0, 0)
@@ -51,7 +49,6 @@ const ExerciseItem = observer(
 
   const deleteWorkoutExercise = () => {
     deleteExercise(exerciseId)
-    console.log('exercise delete success')
     setShowModalDeleteExercise(false)
   }
 
@@ -62,7 +59,7 @@ const ExerciseItem = observer(
   }
 
   // console.log('ExerciseItem', video)
-  console.log('workout.selectedWorkout.data.Workout.exercise', workout.selectedWorkout.data.Workout.exercise.length)
+  // console.log('workout.selectedWorkout.data.Workout.exercise', workout.selectedWorkout.data.Workout.exercise.length)
 
   return (
     <Card className={style.container}>
@@ -114,19 +111,29 @@ const ExerciseItem = observer(
             <div className={style.exerciseParam}>
               <div>Number of sets
                 {editExercise
-                ? <input className={style.countInput} type="number" value={exerciseNumberOfSets} onChange={(el) => setExerciseNumberOfSets(el.target.value)} />
+                ? 
+                <div>
+                  <input className={style.countInput} type="number" value={exerciseNumberOfSets} onChange={(el) => setExerciseNumberOfSets(el.target.value)} />
+                  <WarningTooltip/>
+                </div>
                 : <p className={style.count}>{exerciseNumberOfSets}</p>
                 }
               </div>
               <div>Maximum repetitions
                 {editExercise
-                  ? <input className={style.countInput} type="number" value={exerciseMaximumRepetitions} onChange={(el) => setExerciseMaximumRepetitions(el.target.value)} />
+                  ? 
+                  <div>
+                    <input className={style.countInput} type="number" value={exerciseMaximumRepetitions} onChange={(el) => setExerciseMaximumRepetitions(el.target.value)} />
+                  </div>
                   : <p className={style.count}>{exerciseMaximumRepetitions}</p>
                 }
               </div>
               <div>Rest time
                 {editExercise
-                  ? <input className={style.countInput} type="number" value={exerciseRestTime} onChange={(el) => setExerciseRestTime(el.target.value)} />
+                  ? 
+                  <div>
+                    <input className={style.countInput} type="number" value={exerciseRestTime} onChange={(el) => setExerciseRestTime(el.target.value)} />
+                  </div>
                   : <p className={style.count}>{exerciseRestTime}</p>
                 }
               </div>
