@@ -1,0 +1,10 @@
+.warningTooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.warningTooltip .exclamationIcon {
+  color: red; /* Цвет иконки */
+  font-size: 20px; /* Размер иконки */
+  cursor: pointer;
+}
