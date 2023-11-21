@@ -6,6 +6,7 @@ import { Context } from "../..";
 import style from './CreateWorkoutPage.module.css'
 import { useNavigate } from 'react-router-dom';
 import { WORKOUT_ROUTE } from '../../utils/consts';
+import Loader from '../../components/Loader/Loader';
 
 const CreateWorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -15,9 +16,10 @@ const CreateWorkoutPage = observer(() => {
 
   const [confirm, setConfirm] = useState(false)
   const [difficulty, setDifficulty] = useState('Easy')
+  const [saveLoad, setSaveLoad] = useState(false)
 
   // Общая проверка валидации формы
-  const [formValidError, setFormValidError] = useState(false);
+  const [formValidError, setFormValidError] = useState(false)
 
   // создаем обьект тренировки
   const [workoutData, setWorkoutData] = useState({
@@ -26,7 +28,7 @@ const CreateWorkoutPage = observer(() => {
     isPublic: false,
     totalTime: '0',
     exercises: [],
-  });
+  })
 
   // добавляем значение в обьект workoutData меняя сосояние
   // ...prevData - добавляем что уже было
@@ -34,8 +36,8 @@ const CreateWorkoutPage = observer(() => {
     const { name, value, checked } = el.target;
     // eсли это чекбокс, используем значение checked
     const newValue = el.target.type === 'checkbox' ? checked : value;
-    setWorkoutData((prevData) => ({ ...prevData, [name]: newValue }));  // [name] - ключем будет именно значение в переменной, а без [] будет - 'name'
-  };
+    setWorkoutData((prevData) => ({ ...prevData, [name]: newValue }))  // [name] - ключем будет именно значение в переменной, а без [] будет - 'name'
+  }
 
   // добавляем упражнение в обьект как обьект ))
   // ...prevData.exercises - добавляем что уже было
@@ -43,13 +45,13 @@ const CreateWorkoutPage = observer(() => {
     setWorkoutData((prevData) => ({
       ...prevData,
       exercises: [...prevData.exercises, { name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, video: '', photo: [] }],
-    }));
+    }))
     setConfirm(true)
-  };
+  }
 
   // отвечает за поля упражнения
   const exerciseChange = (index, property, value) => {
-    const updatedExercises = [...workoutData.exercises];
+    const updatedExercises = [...workoutData.exercises]
     switch (property) {
       case "photo":
         console.log('photo', value.target.files)
@@ -57,11 +59,18 @@ const CreateWorkoutPage = observer(() => {
         setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }))
         break;
       default:
-        updatedExercises[index][property] = value;
-        setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }));
+        const number = parseInt(value, 10)
+        if (!isNaN(number)) {
+          if (number < 1) {
+            alert('The value must be greater than 1')
+          } else {
+            updatedExercises[index][property] = value
+            setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }))
+          }
+        }
         break;
     }
-  };
+  }
 
   // удалить упражнение
   const removeExercise = (index) => {
@@ -69,7 +78,7 @@ const CreateWorkoutPage = observer(() => {
     updatedExercises.splice(index, 1);
     setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }))
     updatedExercises.length < 1 && setConfirm(false)  // если ничего нет в массив кнопка не активна
-  };
+  }
 
   // сохраняем тренировку
   const submitCreateWorkout = () => {
@@ -93,10 +102,14 @@ const CreateWorkoutPage = observer(() => {
           exercise.restTime,
           exercise.video,
           exercise.photo).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0)),
-      navigate(`${WORKOUT_ROUTE}/${data.workout_ID}`)
+      setSaveLoad(true),
+      setTimeout(() => {
+        setSaveLoad(false)
+        navigate(`${WORKOUT_ROUTE}/${data.workout_ID}`)
+      }, 1000)
       ))
     }
-  };
+  }
 
   return (
     <div className={style.mainBlock}>
@@ -200,6 +213,7 @@ const CreateWorkoutPage = observer(() => {
                     placeholder="Enter number of sets"
                     value={exercise.sets}
                     onChange={(e) => exerciseChange(index, 'sets', e.target.value)}
+                    min={1}
                   />
                 </Col>
               </Form.Group>
@@ -214,6 +228,7 @@ const CreateWorkoutPage = observer(() => {
                     placeholder="Enter maximum repetitions"
                     value={exercise.maximumRepetitions}
                     onChange={(e) => exerciseChange(index, 'maximumRepetitions', e.target.value)}
+                    min={1}
                   />
                 </Col>
               </Form.Group>
@@ -228,6 +243,7 @@ const CreateWorkoutPage = observer(() => {
                     placeholder="Enter rest time"
                     value={exercise.restTime}
                     onChange={(e) => exerciseChange(index, 'restTime', e.target.value)}
+                    min={1}
                   />
                 </Col>
               </Form.Group>
@@ -255,13 +271,14 @@ const CreateWorkoutPage = observer(() => {
                 </Form.Label>
                 <Col md={5}>
                   <Form.Control
-                    type="text"
+                    as="textarea"
+                    rows={1}
                     placeholder="Enter video link"
                     value={exercise.video}
                     onChange={(e) => exerciseChange(index, 'video', e.target.value)}
                   />
                 </Col> Optional
-                <Col>
+                <Col md={4}>
                   <Accordion bsPrefix='myAccordion' className={style.myAccordion}>
                     <Accordion.Item eventKey="1">
                       <Accordion.Header bsPrefix='myAccordionHeader'  >
@@ -291,6 +308,7 @@ const CreateWorkoutPage = observer(() => {
           Add Exercise
         </Button>
       </Form>
+     {saveLoad &&  <Loader/>}
     </Container>
     </div>
   )
