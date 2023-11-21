@@ -33,8 +33,15 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
         setNewExercises(updatedExercises)
         break;
       default:
-        updatedExercises[index][property] = value
-        setNewExercises(updatedExercises)
+        const number = parseInt(value, 10)
+        if (!isNaN(number)) {
+          if (number < 1) {
+            alert('The value must be greater than 1')
+          } else {
+            updatedExercises[index][property] = value
+            setNewExercises(updatedExercises)
+          }
+        }
         break;
     }
   }
@@ -119,6 +126,7 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                     placeholder="Enter number of sets"
                     value={exercise.sets}
                     onChange={(e) => exerciseChange(index, 'sets', e.target.value)}
+                    min={1}
                   />
                 </Col>
               </Form.Group>
@@ -133,6 +141,7 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                     placeholder="Enter maximum repetitions"
                     value={exercise.maximumRepetitions}
                     onChange={(e) => exerciseChange(index, 'maximumRepetitions', e.target.value)}
+                    min={1}
                   />
                 </Col>
               </Form.Group>
@@ -147,6 +156,7 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                     placeholder="Enter rest time"
                     value={exercise.restTime}
                     onChange={(e) => exerciseChange(index, 'restTime', e.target.value)}
+                    min={1}
                   />
                 </Col>
               </Form.Group>
@@ -171,13 +181,14 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                 </Form.Label>
                 <Col md={5}>
                   <Form.Control
-                      type="text"
+                      as="textarea"
+                      rows={1}
                       placeholder="Enter video URL"
                       value={exercise.video}
                       onChange={(e) => exerciseChange(index, 'video', e.target.value)}
                     />
                 </Col> Optional
-                <Col>
+                <Col md={4}>
                   <Accordion bsPrefix='myAccordion' className={style.myAccordion}>
                     <Accordion.Item eventKey="1">
                       <Accordion.Header bsPrefix='myAccordionHeader'  >
