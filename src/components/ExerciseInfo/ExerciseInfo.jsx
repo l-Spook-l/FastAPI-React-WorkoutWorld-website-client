@@ -33,14 +33,22 @@ const ExerciseItem = observer(
   const [exerciseVideo, setExerciseVideo] = useState(video)
 
   const updateParamExercise = () => {
-    if (numberOfSets !== exerciseNumberOfSets) {
-      updateExercise(exerciseId, exerciseName, exerciseDescription, exerciseNumberOfSets, exerciseMaximumRepetitions, exerciseRestTime, exerciseVideo)
-      deleteSets(exerciseId, workout.selectedWorkout.data.Workout.user_id)
-      createSet(exerciseNumberOfSets, exerciseId, workout.selectedWorkout.data.Workout.user_id, 0, 0)
+    if (
+      exerciseNumberOfSets >= 1 &&
+      exerciseMaximumRepetitions >= 1 &&
+      exerciseRestTime >= 1
+    ) {
+      if (numberOfSets !== exerciseNumberOfSets) {
+        updateExercise(exerciseId, exerciseName, exerciseDescription, exerciseNumberOfSets, exerciseMaximumRepetitions, exerciseRestTime, exerciseVideo)
+        deleteSets(exerciseId, workout.selectedWorkout.data.Workout.user_id)
+        createSet(exerciseNumberOfSets, exerciseId, workout.selectedWorkout.data.Workout.user_id, 0, 0)
+      } else {
+        updateExercise(exerciseId, exerciseName, exerciseDescription, numberOfSets, exerciseMaximumRepetitions, exerciseRestTime, exerciseVideo)
+      }
+      setEditExercise(false)
     } else {
-      updateExercise(exerciseId, exerciseName, exerciseDescription, numberOfSets, exerciseMaximumRepetitions, exerciseRestTime, exerciseVideo)
+      alert('The value must be greater than 1')
     }
-    setEditExercise(false)
   }
 
   const closeParamExercise = () => {
