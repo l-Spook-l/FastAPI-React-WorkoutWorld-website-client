@@ -83,6 +83,14 @@ export const addWorkoutToUser = async(user_id, workout_id) => {
   return response.data
 }
 
+export const addNewPhotos = async(exercise_id, exercise_name, photos) => {
+  const formData = new FormData()
+  photos && Object.values(photos).forEach((photo) => formData.append('photos', photo))
+  const response = await $authHost.post(`workouts/add-new-photos?exercise_id=${exercise_id}&exercise_name=${exercise_name}`, formData)
+  console.log('addNewPhotos response', response)
+  return response.data
+}
+
 // изменить host - на auhost
 export const updateWorkout = async(name, workout_id, description, is_public, difficulty) => {
   const response = await $authHost.patch(`workouts/workout/update/${workout_id}`, {name, description, is_public, difficulty})
@@ -129,7 +137,7 @@ export const deleteSets = async(exercise_id, user_id) => {
 }
 
 export const deletePhotos = async(exercise_id, photo_ids) => {
-  const response = await $host.delete(`workouts/delete/photo`, {params: {exercise_id:exercise_id, photo_ids:photo_ids}, paramsSerializer: {indexes: null}})
+  const response = await $authHost.delete(`workouts/delete/photo`, {params: {exercise_id:exercise_id, photo_ids:photo_ids}, paramsSerializer: {indexes: null}})
   console.log('deletePhotos response', response)
   return response.data
 }
