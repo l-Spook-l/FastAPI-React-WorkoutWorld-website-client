@@ -2,14 +2,14 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../..'
 import style from './ExerciseItem.module.css'
-import { Accordion, Card, Col, Container, Image, Row, Spinner } from 'react-bootstrap'
+import { Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { updateSet } from '../../http/workoutAPI'
 import UpdateSetModal from '../Modals/UpdateSetModal/UpdateSetModal'
 import RestIntervalTimer from '../Timers/RestIntervalTimer/RestIntervalTimer'
 import CustomToggleDescription from '../CustomToggles/CustomToggleDescription/CustomToggleDescription'
-import ExerciseImageSlider from '../Sliders/ExerciseImageSlider/ExerciseImageSlider'
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import CustomTogglePhotos from '../CustomToggles/CustomTogglePhotos/CustomTogglePhotos'
+import CustomToggleVideo from '../CustomToggles/CustomToggleVideo/CustomToggleVideo'
 
 
 const ExerciseInfo = observer(({ exercise, sets, loading }) => {
@@ -24,10 +24,9 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
   const [setId, setSetId] = useState(0)
   const [setIndex, setSetIndex] = useState(0)
   const [activeRestTimer, setActiveRestTimer] = useState(false)
+  const [finishExerciseStatus, setFinishExerciseStatus] = useState(false)
   
   const [setSaveList, setSetSaveList] = useState([])
-
-  const [statusViewPhotos, setStatusViewPhotos] = useState(true)
 
   useEffect(() => {
     setOldSets(JSON.parse(JSON.stringify(sets)))
@@ -56,16 +55,19 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
     closeModal();
     setSaveList.push(setIndex)
     setActiveRestTimer(true)
-  };
+  }
+
+  const timerFinish = () => {
+    setActiveRestTimer(false)
+  }
 
   const finishExercise = () => {
     console.log('save exercise')
+    setFinishExerciseStatus(true)
   }
 
   // console.log('newSets', newSets)
   // console.log('activeRestTimer', activeRestTimer)
-  // console.log('setSaveList3', setSaveList)
-  // console.log('setSaveList3 loading ', loading)
 
   return (
     <Container>
@@ -78,11 +80,18 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
         <Spinner variant="dark"/>
       </div>
       : 
-      exercise.photo.length !== 0 &&
-      <div className={style.exercisePhotos}><CustomTogglePhotos photos={exercise.photo} color='dark'/></div>
+      <div>
+        {exercise.photo.length !== 0 &&
+        <div className={style.exercisePhotos}><CustomTogglePhotos photos={exercise.photo} color='dark'/></div>
+        }
+        {exercise.video &&
+        <div className={style.exercisePhotos}><CustomToggleVideo video={exercise.video} color='dark'/></div>
+        }
+      </div>
+      
       }
       <div className={style.restTimeTimer}>
-        <RestIntervalTimer initialSeconds={exercise.rest_time} active={activeRestTimer}/>
+        <RestIntervalTimer initialSeconds={exercise.rest_time} active={activeRestTimer} onFinish={timerFinish}/>
       </div>
       <Card className={style.exerciseSection}>
         <Card.Title className={style.exerciseTitle}>
@@ -126,11 +135,10 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
               </Col>
               <Col className={style.blockInSet}>
                 <button 
-                  // className={style.buttonSave} 
-                  disabled={setSaveList.includes(index)}
-                  className={`${style.buttonSave} ${setSaveList.includes(index) ? style.buttonSaveActive : ""}`}
+                  disabled={setSaveList.includes(index) || finishExerciseStatus}
+                  className={`${style.buttonSave} ${(setSaveList.includes(index) || finishExerciseStatus) ? style.buttonSaveActive : ""}`}
                   onClick={() => openModal(set.Set.id, index)}>
-                    {setSaveList.includes(index) && <span><AiOutlineCheck/></span>}
+                    {(setSaveList.includes(index) || finishExerciseStatus)&& <span><AiOutlineCheck/></span>}
                 </button>
               </Col>
             </div>
