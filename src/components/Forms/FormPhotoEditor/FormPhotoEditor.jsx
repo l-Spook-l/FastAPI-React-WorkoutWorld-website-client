@@ -37,6 +37,7 @@ const FormPhotoEditor = ({ exerciseId, exerciseName, existingPhotos }) => {
 
   const saveNewPhotos = () => {
     addNewPhotos(exerciseId, exerciseName, newPhotos[0])
+    setNewPhotos([])
   }
 
   return (
