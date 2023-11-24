@@ -19,14 +19,24 @@ const UserInfo = observer(() => {
   const [phoneNumber, setPhoneNumber] = useState(user.user.phone)
   const [email, setEmail] = useState(user.user.email)
 
+  const [emailError, setEmailError] = useState(false)
+
   const updateFirstLastName = () => {
     updateUserData({first_name: firstName, last_name: lastName})
     setEditFirstLastName(false)
   }
 
   const updatePhoneNumberEmail = () => {
-    updateUserData({phone: phoneNumber, email: email})
-    setEditPhoneNumberEmail(false)
+    updateUserData({ phone: phoneNumber, email: email })
+      .then(() => {
+        setEditPhoneNumberEmail(false)
+        setEmailError(false)
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 422) {
+          setEmailError(true)
+        }
+      })
   }
 
   const resetPassword = () => {
@@ -85,6 +95,7 @@ const UserInfo = observer(() => {
                 : email
                 }
               </Col>
+              {emailError && <p className={style.messageError}>You have entered the wrong email address. Please try again.</p>}
             </Row>
             {editPhoneNumberEmail 
             ? <div>
