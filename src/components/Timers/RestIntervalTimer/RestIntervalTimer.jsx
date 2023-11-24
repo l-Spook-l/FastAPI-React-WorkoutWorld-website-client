@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import style from './RestIntervalTimer.module.css'
 
-const RestIntervalTimer = ({ active, initialSeconds }) => {
-  const [seconds, setSeconds] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [isActive, setIsActive] = useState(false); // Добавили состояние для активации/деактивации таймера
+const RestIntervalTimer = ({ active, initialSeconds, onFinish  }) => {
+  const [seconds, setSeconds] = useState(0)
+  const [progress, setProgress] = useState(0)
+  const [isActive, setIsActive] = useState(false)
 
 
   useEffect(() => {
@@ -16,22 +16,24 @@ const RestIntervalTimer = ({ active, initialSeconds }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (isActive && seconds > 0) {
-        setSeconds((prevSeconds) => prevSeconds - 1);
-        const newProgress = 100 - (seconds / initialSeconds) * 100;
-        setProgress(newProgress);
+        setSeconds((prevSeconds) => prevSeconds - 1)
+        const newProgress = 102 - (seconds / initialSeconds) * 100
+        setProgress(newProgress)
       } else {
-        clearInterval(interval);
+        clearInterval(interval)
         setIsActive(false)
+        onFinish()
       }
     }, 1000);
 
-    return () => clearInterval(interval);
-  }, [seconds, isActive]);
+    return () => clearInterval(interval)
+  }, [seconds, isActive])
 
   const skipRest = () => {
     setIsActive(false)
     setProgress(0)
     setSeconds(initialSeconds)
+    onFinish()
   }
   
   return (
@@ -47,7 +49,7 @@ const RestIntervalTimer = ({ active, initialSeconds }) => {
               width: `${progress}%`,
               height: '100%',
               borderRadius: '7px',
-              backgroundColor: 'rgb(27, 44, 19)',
+              backgroundColor: 'rgb(255, 235, 205)',
             }}
           />
         </div>
@@ -56,4 +58,4 @@ const RestIntervalTimer = ({ active, initialSeconds }) => {
   );
 };
 
-export default RestIntervalTimer;
+export default RestIntervalTimer
