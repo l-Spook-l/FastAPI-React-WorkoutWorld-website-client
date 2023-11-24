@@ -1,14 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Accordion } from 'react-bootstrap';
 import style from './CustomTogglePhotos.module.css'
 import ExerciseImageSlider from '../../Sliders/ExerciseImageSlider/ExerciseImageSlider';
+import { Context } from '../../..';
+import { observer } from 'mobx-react-lite';
 
-const CustomTogglePhotos = ({ color, photos }) => {
+const CustomTogglePhotos = observer(({ color, photos }) => {
+  const { user } = useContext(Context)
 
   const [statusViewPhotos, setStatusViewPhotos] = useState(true)
 
   return (
-    <Accordion bsPrefix='myAccordion' className={style.accordionDark}>
+    user.isAuth 
+    ? 
+    <Accordion bsPrefix='myAccordion' className={!statusViewPhotos && style.accordionDarkOpen}>
       <Accordion.Item eventKey="1">
         <Accordion.Header bsPrefix='myAccordionHeader' onClick={() => setStatusViewPhotos(!statusViewPhotos)} >
         <span className={color === 'dark' ? style.accordionHeaderTextDark : style.accordionHeaderTextLight}>
@@ -24,7 +29,9 @@ const CustomTogglePhotos = ({ color, photos }) => {
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
+    :
+    <p className={color === 'dark' ? style.accordionHeaderTextDark : style.accordionHeaderTextLight}>Sign in to view the photos</p>
   )
-}
+})
 
 export default CustomTogglePhotos
