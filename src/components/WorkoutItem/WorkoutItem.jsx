@@ -9,7 +9,7 @@ import { WORKOUT_ROUTE } from '../../utils/consts'
 
 const WorkoutItem = observer(({ selectedWorkout }) => {
   const { user } = useContext(Context)
-  // const { workout } = useContext(Context)
+  
   const navigate = useNavigate()
 
   return (

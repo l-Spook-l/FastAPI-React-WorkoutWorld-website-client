@@ -5,6 +5,7 @@
   background-color:rgb(37, 28, 28);
   border: 3px solid rgb(5, 5, 5);
 }
+
 .nameWorkout {
   display: block;
   text-align: center;
@@ -16,6 +17,7 @@
 
 .nameWorkout:hover {
   color: aliceblue;
+  text-decoration: underline;
 }
 
 .status {
@@ -32,14 +34,6 @@
   color: aliceblue;
 }
 
-.buttonAddWorkout {
-  
-}
-/* .titleSection {
-  display: flex;
-  justify-content: space-between;
-} */
-
 .buttonSeeMore {
   display: block;
   font-size: 18px;
@@ -49,4 +43,9 @@
   border-radius: 7px  ;
   color: aliceblue;
   background-color:rgb(58, 54, 49);
+  transition: transform 0.1s ease;
+}
+
+.buttonSeeMore:hover {
+  transform: scale(1.1);
 }
