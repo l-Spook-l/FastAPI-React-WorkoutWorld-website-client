@@ -15,6 +15,13 @@ export const fetchOneWorkout = async(workout_id, user_id) => {
   return response.data
 }
 
+export const fetchActiveWorkout = async(workout_id, user_id) => {
+  const response = await $host.get(`workouts/active-workout/${workout_id}`, {params: {user_id:user_id}})
+  console.log('fetchOneWorkout response', response)
+  return response.data
+}
+
+
 // изменить host - на auhost
 export const fetchMyWorkouts = async(user_id, name, difficulty, skip, limit, is_public) => {
   const response = await $authHost.get('workouts/user-workouts/', 
