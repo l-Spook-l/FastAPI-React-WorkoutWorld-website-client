@@ -4,7 +4,7 @@ import { Alert, Container, Spinner } from 'react-bootstrap'
 import { Context } from "../..";
 import style from './ActiveWorkoutPage.module.css'
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchOneWorkout, fetchSets } from '../../http/workoutAPI';
+import { fetchActiveWorkout, fetchSets } from '../../http/workoutAPI';
 import ExerciseItem from '../../components/ExerciseItem/ExerciseItem';
 import WorkoutTimeTracker from '../../components/Timers/WorkoutTimeTracker/WorkoutTimeTracker';
 import { PAGE_404_ROUTE } from '../../utils/consts';
@@ -29,9 +29,9 @@ const ActiveWorkoutPage = observer(() => {
   const [workoutName, setWorkoutName] = useState('')
   const [workoutDifficulty, setWorkoutDifficulty] = useState('')
   const [workoutDescription, setWorkoutDescription] = useState('')
-
+  
   useEffect(() => {
-    fetchOneWorkout(workout_id)
+    fetchActiveWorkout(workout_id, user.user.id)
     .then((data) => {
       workout.setSelectedWorkout(data)
       setWorkoutName(data.data.Workout.name)
@@ -53,9 +53,7 @@ const ActiveWorkoutPage = observer(() => {
       if (error.response.status === 422) {
         navigate(PAGE_404_ROUTE)
       }
-    })
-    .finally(() => setLoadingWorkout(false))
-
+    }).finally(() => setLoadingWorkout(false))
   },[workout_id])
 
 
@@ -93,7 +91,7 @@ const ActiveWorkoutPage = observer(() => {
     setExerciseData(exercise)
     console.log('exercise',  exercise.id)
   }
-
+  
   // console.log('sets', sets)
   // console.log('exerciseSets', exerciseSets)
 
