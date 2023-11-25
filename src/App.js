@@ -14,7 +14,8 @@ const App = observer(() => {
   const { user } = useContext(Context)
   const { workout } = useContext(Context)
 
-  const [loading, setLoading] = useState(true)
+  const [loadingCheck, setLoadingCheck] = useState(true)
+  const [loadingAddedWorkout, setLoadingAddedWorkout] = useState(true)
 
   useEffect(() => {
     //console.log('начал работать useEffect check', user)
@@ -26,15 +27,18 @@ const App = observer(() => {
       user.setIsAuth(true)
       fetchAddUserWorkout(user.user.id).then((data) => {
         workout.setAddedWorkouts(data)      
-      })
+      }).finally(() => setLoadingAddedWorkout(false))
     }).catch((error) => {
       //console.log('Error login', error);
       // Обработка других ошибок, возникших при выполнении запроса
-    }).finally(() => setLoading(false))
+    }).finally(() => setLoadingCheck(false))
 
   }, [user.isAuth])
 
-  if (loading) {
+  if (loadingCheck) {
+    return <Spinner animation='grow'/>
+  }
+  if (loadingAddedWorkout) {
     return <Spinner animation='grow'/>
   }
 
