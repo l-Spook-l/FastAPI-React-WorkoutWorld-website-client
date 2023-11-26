@@ -22,7 +22,7 @@
 .clearSearch {
   position: absolute;
   color: black;
-  margin-left: 350px;
+  margin-left: 250px;
   margin-top: 4px;
   font-size: 18px;
   cursor: pointer;
@@ -59,12 +59,13 @@
     max-width: 300px;
   }
   .clearSearch {
-    margin-left: 275px;
+    margin-left: 250px;
   }
 }
 
 @media (max-width: 1050px) {
-  .myInput{
+  .myInput,
+  .dropdownMenu{
     max-width: 250px;
   }
   .clearSearch {
@@ -72,11 +73,11 @@
   }
 }
 
-@media (max-width: 960px) {
-  .myInput{
-    max-width: 300px;
+@media (max-width: 810px) {
+  .myDropdown {
+    margin-bottom: 20px;
   }
-  .clearSearch {
-    margin-left: 275px;
+  .myInput {
+    border: 2px solid black;
   }
 }
