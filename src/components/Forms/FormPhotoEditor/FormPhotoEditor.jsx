@@ -58,7 +58,11 @@ const FormPhotoEditor = ({ exerciseId, exerciseName, existingPhotos }) => {
           ))}
         </div>
         }
-        <button className={style.buttonDeletePhoto} disabled={!selectedPhotos.length > 0} onClick={() => deleteSelectPhotos()}>Delete</button>
+        <button 
+          className={style.buttonDeletePhoto} disabled={!selectedPhotos.length > 0} 
+          onClick={() => deleteSelectPhotos()}>
+            Delete photo
+          </button>
       </div>
     </div>
   )
