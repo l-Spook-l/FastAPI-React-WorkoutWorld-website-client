@@ -10,11 +10,14 @@ import { WORKOUTS_ROUTE } from '../../utils/consts'
 import MyPagination from '../MyPagination/MyPagination'
 import SearchBar from '../Filters/SearchBar/SearchBar'
 import DifficultyBar from '../Filters/DifficultyBar/DifficultyBar'
+import MyOffcanvasFilters from '../MyOffcanvasFilters/MyOffcanvasFilters'
 
 const AddedWorkouts = observer(() => {
   const { user } = useContext(Context)
   const { workout } = useContext(Context)
   const [loading, setLoading] = useState(true)
+
+  const [showOffcanvas, setShowOffcanvas] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -32,7 +35,7 @@ const AddedWorkouts = observer(() => {
       null,
       ).then((data) => {
       workout.setAddedWorkouts(data)
-      // workout.setTotalCount(data.total_count)
+      workout.setTotalCount(data.total_count)
       workout.setSkip(data.skip)
       workout.setLimit(data.limit)   
     }).finally(() => setLoading(false))
@@ -43,13 +46,31 @@ const AddedWorkouts = observer(() => {
     return <Spinner animation='grow'/>
   }
 
+  const closeOffcanvas = () => {
+    setShowOffcanvas(false)
+  }
+
+  const openOffcanvas = () => {
+    setShowOffcanvas(true)
+  }
+
   return (
     <Container className={style.myContainer}>
       <div className={style.titleAddedWorkout}>
         <h2>Added workouts</h2>
-        <SearchBar typeWorkout='Added'/>
+        <div className={style.navBlock}>
+          <div className={style.filters}>
+            <SearchBar typeWorkout='Added'/>
+            <DifficultyBar/>
+          </div>
+          <button className={style.filterButton} onClick={openOffcanvas}>
+            Other filters
+          </button>
+          <NavLink className={style.addWorkoutButton} to={WORKOUTS_ROUTE}>Add workout</NavLink>
+        </div>
+        {/* <SearchBar typeWorkout='Added'/>
         <DifficultyBar/>
-        <NavLink className={style.addWorkoutButton} to={WORKOUTS_ROUTE}>Add a new workout</NavLink>
+        <NavLink className={style.addWorkoutButton} to={WORKOUTS_ROUTE}>Add workout</NavLink> */}
       </div>
       
       {workout.addedWorkouts.data.length === 0
@@ -68,6 +89,11 @@ const AddedWorkouts = observer(() => {
           </div>
         </div>
       }
+      <MyOffcanvasFilters         
+        showOffcanvas={showOffcanvas}
+        setShowOffcanvas={closeOffcanvas}
+        typeWorkout='Created'
+      />
     </Container>
   )
 })
