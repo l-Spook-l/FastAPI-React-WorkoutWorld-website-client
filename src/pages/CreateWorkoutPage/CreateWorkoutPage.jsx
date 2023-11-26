@@ -272,8 +272,6 @@ const CreateWorkoutPage = observer(() => {
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm="2">
                   Video
-                  {/* Currently, only video links (preferably from YouTube) are available. */}
-                  {/* You can upload your video to YouTube and copy the link here for direct access during the workout */}
                 </Form.Label>
                 <Col md={5}>
                   <Form.Control
