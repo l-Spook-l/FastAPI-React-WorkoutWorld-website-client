@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../..'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
-import { addWorkoutToUser, createSet, deleteAddedSets, deleteAddedWorkout, deleteCreatedWorkout, fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
+import { addWorkoutToUser, createSet, deleteSets, deleteAddedWorkout, deleteCreatedWorkout, fetchOneWorkout, updateWorkout } from '../../http/workoutAPI'
 import { Breadcrumb, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { ACTIVE_WORKOUT_ROUTE, MAIN_ROUTE, PAGE_404_ROUTE, PROFILE_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
 import ExerciseInfo from '../../components/ExerciseInfo/ExerciseInfo'
@@ -16,7 +16,7 @@ import DeleteModal from '../../components/Modals/DeleteModal/DeleteModal'
 import SaveChangesWorkoutModal from '../../components/Modals/SaveChangesWorkoutModal/SaveChangesWorkoutModal'
 import FormLogin from '../../components/Forms/FormLogin/FormLogin'
 import FormRegister from '../../components/Forms/FormRegister/FormRegister'
-import CustomToggleDescription from '../../components/CustomToggleDescription/CustomToggleDescription'
+import CustomToggleDescription from '../../components/CustomToggles/CustomToggleDescription/CustomToggleDescription'
 
 const WorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -25,7 +25,7 @@ const WorkoutPage = observer(() => {
 
   const navigate = useNavigate()
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
   
   const [editWorkout, setEditWorkout] = useState(false)
   
@@ -47,7 +47,7 @@ const WorkoutPage = observer(() => {
   const [updatePage, setUpdatePage] = useState(false)
 
   useEffect(() => {
-    fetchOneWorkout(workout_id)
+    fetchOneWorkout(workout_id, user.user.id)
     .then((data) => {
       workout.setSelectedWorkout(data)
       setWorkoutName(data.data.Workout.name)
@@ -68,8 +68,7 @@ const WorkoutPage = observer(() => {
       if (error.response.status === 422) {
         navigate(PAGE_404_ROUTE)
       }
-    })
-    .finally(() => setLoading(false))
+    }).finally(() => setLoading(false))
   },[workout_id, updatePage, user.isAuth])
 
   const editParamWorkout = () => {
@@ -83,6 +82,7 @@ const WorkoutPage = observer(() => {
     workout.setEditWorkout(false)
     setUpdatePage(!updatePage)
     setShowModalSaveChanges(false)
+    setShowFormAddExercise(false)
   }
 
   const closeParamWorkout = () => {
@@ -109,7 +109,7 @@ const WorkoutPage = observer(() => {
       createSet(exercise.number_of_sets, exercise.id, user.user.id, 0, 0)
     )
     setUpdatePage(!updatePage)
-    navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} );
+    navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} )
   }
 
   const deleteWorkout = () => {
@@ -119,33 +119,21 @@ const WorkoutPage = observer(() => {
     } else {
       deleteAddedWorkout(workout.selectedWorkout.data.Workout.id, user.user.id)
       workout.selectedWorkout.data.Workout.exercise.map((exercise) => {
-        deleteAddedSets(exercise.id, user.user.id)
+        deleteSets(exercise.id, user.user.id)
       })
       navigate(PROFILE_ROUTE, {state: 'addedWorkouts'} )
     }
-    setShowModalDeleteWorkout(false);
+    setShowModalDeleteWorkout(false)
   }
 
-  // console.log('add swowow1', workout.addedWorkouts.workouts)
-  // console.log('testese', ((workout.selectedWorkout.data.Workout.user_id !== user.user.id) || 
-  // (workout.addedWorkouts.workouts.some((el) => el.id === workout.selectedWorkout.data.Workout.id))))
-  // console.log('add swowow2', workout.selectedWorkout.data.Workout.user_id, 'SS', user.user.id)
-  // workout.addedWorkouts.workouts.some((el) => console.log('eellele', el.Workout.id === workout.selectedWorkout.data.Workout.id))
-  // const workoutAlreadyAdded = workout.addedWorkouts.workouts.some((el) => el.Workout.id === workout.selectedWorkout.data.Workout.id)
-  // console.log('add swowow3', workoutAlreadyAdded)
-  // console.log('add swowow4', workout.addedWorkouts.workouts)
-  // console.log('add swowow5', workoutDifficulty)
-
   const clickLogin = () => {
-    setShowModalLogin(true);
-    setShowLogin(true);
+    setShowModalLogin(true)
+    setShowLogin(true)
   }
 
   const switchForm = () => {
-    setShowModalLogin(!showLogin);
+    setShowModalLogin(!showLogin)
   }
-  console.log('public1', workoutIsPublic)
-
 
   return (
     <div className={style.mainBlock}>
@@ -168,14 +156,12 @@ const WorkoutPage = observer(() => {
                 <Spinner variant="light"/>
               </div>
             :
-            // workoutIsPublic === false 
-            // ? 
-            // :
             <Card.Body>
             {!user.isAuth &&
               <p className={style.ifNotLoginTitle}> 
-              <span className={style.login} onClick={clickLogin}>Log in </span>
-              to view the full workout information, add it to your workouts, and start exercising!</p>
+                <span className={style.login} onClick={clickLogin}>Log in </span>
+                to view the full workout information, add it to your workouts, and start exercising!
+              </p>
             }
               <div className={style.workoutTitle}>
                   {editWorkout
