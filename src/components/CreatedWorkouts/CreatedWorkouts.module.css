@@ -3,10 +3,7 @@
 }
 
 .titleCreatedWorkout {
-  /* max-height: 50px; */
   padding-bottom: 8px;
-  /* display: flex;
-  justify-content: space-between; */
   border-bottom: 2px solid black;
 }
 
@@ -14,6 +11,21 @@
   display: flex;
   justify-content: space-between;
   max-height: 45px;
+}
+
+.filters {
+  display: flex;
+}
+
+.filterButton {
+  display: none;
+  margin-right: 15px;
+  width: 150px;
+  font-size: 20px;
+  border-radius: 8px;
+  color: white;
+  background-color: black;
+  border: 1px solid rgba(0, 0, 0, 0.35);
 }
 
 .createWorkoutButton {
@@ -34,8 +46,14 @@
   justify-content: center;
 }
 
-@media (max-width: 769px) {
-  .contentSection {
-    justify-content: space-between;
+@media (max-width: 1199px) {
+  .shopMainBlock {
+    display: block;
+  }
+  .filters {
+    display: none;
+  }
+  .filterButton {
+    display: block;
   }
 }

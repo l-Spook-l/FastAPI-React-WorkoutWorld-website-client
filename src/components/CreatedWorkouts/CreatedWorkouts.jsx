@@ -11,6 +11,7 @@ import MyPagination from '../MyPagination/MyPagination'
 import SearchBar from '../Filters/SearchBar/SearchBar'
 import DifficultyBar from '../Filters/DifficultyBar/DifficultyBar'
 import IsPublicBar from '../Filters/IsPublicBar/IsPublicBar'
+import MyOffcanvasFilters from '../MyOffcanvasFilters/MyOffcanvasFilters'
 
 const UserWorkouts = observer(() => {
   const { user } = useContext(Context)
@@ -18,6 +19,7 @@ const UserWorkouts = observer(() => {
   const [loading, setLoading] = useState(true)
 
   const [statusWorkout, setStatusWorkout] = useState()
+  const [showOffcanvas, setShowOffcanvas] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -44,10 +46,18 @@ const UserWorkouts = observer(() => {
 
   const changeStatusWorkout = (newStatus) => {
     setStatusWorkout(newStatus)
-  };
+  }
 
   if (loading) {
     return <Spinner animation='grow'/>
+  }
+
+  const closeOffcanvas = () => {
+    setShowOffcanvas(false)
+  }
+
+  const openOffcanvas = () => {
+    setShowOffcanvas(true)
   }
 
   return (
@@ -55,10 +65,17 @@ const UserWorkouts = observer(() => {
       <div className={style.titleCreatedWorkout}>
         <h2>Created workouts</h2>
         <div className={style.navBlock}>
-          <SearchBar typeWorkout='Created' statusWorkout={statusWorkout}/>
-          <DifficultyBar/>
+          <div className={style.filters}>
+            <SearchBar typeWorkout='Created' statusWorkout={statusWorkout}/>
+            <DifficultyBar/>
+          </div>
+          <button className={style.filterButton} onClick={openOffcanvas}>
+            Other filters
+          </button>
+          {/* <SearchBar typeWorkout='Created' statusWorkout={statusWorkout}/>
+          <DifficultyBar/> */}
           <IsPublicBar statusWorkout={changeStatusWorkout}/>
-          <NavLink className={style.createWorkoutButton} to={CREATE_WORKOUT_ROUTE}>Created a new workout</NavLink>
+          <NavLink className={style.createWorkoutButton} to={CREATE_WORKOUT_ROUTE}>Created workout</NavLink>
         </div>
       </div>
       
@@ -77,8 +94,13 @@ const UserWorkouts = observer(() => {
           )}
           </div>
         </div>
-        
       }
+      <MyOffcanvasFilters         
+        showOffcanvas={showOffcanvas}
+        setShowOffcanvas={closeOffcanvas}
+        typeWorkout='Created'
+        statusWorkout={statusWorkout}
+      />
     </Container>
   )
 })
