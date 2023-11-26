@@ -12,31 +12,34 @@ import FormRegister from "../Forms/FormRegister/FormRegister";
 
 const NavBar = observer(() => {
   const { user } = useContext(Context)
-  // const { workout } = useContext(Context)
 
   const navigate = useNavigate()  // для перехода по страницам
 
-  const [showLogin, setShowLogin] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [showLogin, setShowLogin] = useState(true)
+  const [showModal, setShowModal] = useState(false)
   
   // Выход из профиля
   const logOut = () => {
-    user.setUser({});
-    user.setIsAuth(false);
+    user.setUser({})
+    user.setIsAuth(false)
     localStorage.setItem("token", null);  // заменить наверно на logout
-  };
+  }
 
   const clickLogin = () => {
-    setShowModal(true);
-    setShowLogin(true);
-  };
+    setShowModal(true)
+    setShowLogin(true)
+  }
 
   const switchForm = () => {
-    setShowLogin(!showLogin);
-  };
+    setShowLogin(!showLogin)
+  }
 
   return (
-    <Navbar expand='lg' className={style.myNavbar}>
+    <Navbar         
+      collapseOnSelect
+      expand="lg"
+      bg="black"
+      variant="dark" className={style.myNavbar}>
     <Container fluid className={style.container}>
       <NavLink className={style.logo} to={MAIN_ROUTE}>
         <span className={style.logoImg}><CiDumbbell/></span>
