@@ -4,22 +4,23 @@ import { Breadcrumb, Container, Spinner } from 'react-bootstrap'
 import { Context } from '../..'
 import { fetchWorkouts } from '../../http/workoutAPI'
 import WorkoutList from '../../components/WorkoutList/WorkoutList'
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { CREATE_WORKOUT_ROUTE, MAIN_ROUTE } from '../../utils/consts'
 import style from './WorkoutsPage.module.css'
 import MyPagination from '../../components/MyPagination/MyPagination'
 import SearchBar from '../../components/Filters/SearchBar/SearchBar'
 import DifficultyBar from '../../components/Filters/DifficultyBar/DifficultyBar'
+import MyOffcanvasFilters from '../../components/MyOffcanvasFilters/MyOffcanvasFilters'
 
 
 const WorkoutsPage = observer(() => {
   const { user } = useContext(Context)
   const { workout } = useContext(Context)
-  const { slug } = useParams()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const [loading, setLoading] = useState(true)
+  const [showOffcanvas, setShowOffcanvas] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -47,7 +48,13 @@ const WorkoutsPage = observer(() => {
     return <Spinner animation='grow'/>
   }
 
-  console.log('WorkoutsPage workout', workout)
+  const closeOffcanvas = () => {
+    setShowOffcanvas(false)
+  }
+
+  const openOffcanvas = () => {
+    setShowOffcanvas(true)
+  }
 
   return (
     <Container fluid className={style.container}>
@@ -59,16 +66,25 @@ const WorkoutsPage = observer(() => {
           <Breadcrumb.Item active>Workouts</Breadcrumb.Item>
         </Breadcrumb>
         <div className={style.navBlock}>
-          <SearchBar typeWorkout='All'/>
-          <DifficultyBar/>  
+          <div className={style.filters}>
+            <SearchBar typeWorkout='All'/>
+            <DifficultyBar/>
+          </div>
+          <button className={style.filterButton} onClick={openOffcanvas}>
+            Filters
+          </button>
           {user.isAuth && <NavLink to={CREATE_WORKOUT_ROUTE} className={style.createWorkoutButton}>Create workout</NavLink> }
         </div>
       </div>
       <hr />
-      <div className={style.workoutSections}>
+      <div>
         <WorkoutList/>
         <MyPagination/>
       </div>
+      <MyOffcanvasFilters         
+        showOffcanvas={showOffcanvas}
+        setShowOffcanvas={closeOffcanvas}
+      />
     </Container>
   )
 })
