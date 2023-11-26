@@ -21,7 +21,7 @@ const MainPageContactFrom = () => {
   };
 
   return (
-    <Form  className={style.containerForm} onSubmit={handleSubmit}>
+    <Form className={style.containerForm} onSubmit={handleSubmit}>
       <Row>
         <Form.Group as={Col} md="6" className="mb-3" controlId="formName">
           <Form.Label>Name</Form.Label>
