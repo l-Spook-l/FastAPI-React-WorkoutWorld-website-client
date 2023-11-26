@@ -3,7 +3,7 @@ import { Offcanvas } from "react-bootstrap";
 import SearchBar from "../Filters/SearchBar/SearchBar";
 import DifficultyBar from "../Filters/DifficultyBar/DifficultyBar";
 
-const MyOffcanvasFilters = ({ showOffcanvas, setShowOffcanvas }) => {
+const MyOffcanvasFilters = ({ showOffcanvas, setShowOffcanvas, typeWorkout, statusWorkout }) => {
 
   const offcanvasClose = () => {
     setShowOffcanvas(false)
@@ -16,7 +16,7 @@ const MyOffcanvasFilters = ({ showOffcanvas, setShowOffcanvas }) => {
           <Offcanvas.Title>Filters</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <SearchBar typeWorkout='All'/>
+          <SearchBar typeWorkout={typeWorkout} statusWorkout={statusWorkout}/>
           <DifficultyBar/> 
         </Offcanvas.Body>
       </Offcanvas>
