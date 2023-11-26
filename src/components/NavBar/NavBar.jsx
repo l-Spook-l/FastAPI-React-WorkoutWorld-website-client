@@ -2,16 +2,17 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useState } from 'react'
 import { Context } from '../..'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { Button, Container, Form, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap'
+import { Container, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap'
 import { MAIN_ROUTE, PROFILE_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
 import style from "./NavBar.module.css";
 import { AiOutlineProfile, AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
+import { CiDumbbell } from "react-icons/ci";
 import FormLogin from "../Forms/FormLogin/FormLogin";
 import FormRegister from "../Forms/FormRegister/FormRegister";
 
 const NavBar = observer(() => {
   const { user } = useContext(Context)
-  const { workout } = useContext(Context)
+  // const { workout } = useContext(Context)
 
   const navigate = useNavigate()  // для перехода по страницам
 
@@ -38,6 +39,7 @@ const NavBar = observer(() => {
     <Navbar expand='lg' className={style.myNavbar}>
     <Container fluid className={style.container}>
       <NavLink className={style.logo} to={MAIN_ROUTE}>
+        <span className={style.logoImg}><CiDumbbell/></span>
         WorkoutWorld
       </NavLink>
       <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
