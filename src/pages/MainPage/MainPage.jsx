@@ -102,7 +102,7 @@ const MainPage = observer(() => {
               <FaInstagram/>
             </div>
           </div>
-          <div><MainPageContactForm/></div>
+          <div className={style.contactForm}><MainPageContactForm/></div>
         </div>
       </Container>
     </div>
