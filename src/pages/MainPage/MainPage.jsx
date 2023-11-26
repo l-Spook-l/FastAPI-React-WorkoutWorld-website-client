@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import SliderForMainPage from '../../components/Sliders/SliderForMainPage/SliderForMainPage';
 import { Container, Image } from 'react-bootstrap';
 import style from './MainPage.module.css'
@@ -10,13 +10,11 @@ import imgGroupWorkouts from '../../assets/group workouts.png'
 import imgSportsGoodsStore from '../../assets/store goods.png'
 import imgHomeGym from '../../assets/home gym.png'
 import ReviewMainPage from '../../components/Sliders/ReviewMainPage/ReviewMainPage';
-import MainPageContactFrom from '../../components/Forms/MainPageContactFrom/MainPageContactFrom';
+import MainPageContactForm from '../../components/Forms/MainPageContactForm/MainPageContactForm';
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
 import { GROUP_WORKOUTS_ROUTE, SHOP_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts';
 
 const MainPage = observer(() => {
-
-  const navigate = useNavigate();
 
   useEffect(() => {
    window.scrollTo(0, 0);
@@ -104,7 +102,7 @@ const MainPage = observer(() => {
               <FaInstagram/>
             </div>
           </div>
-          <div className={style.contactForm}><MainPageContactFrom/></div>
+          <div><MainPageContactForm/></div>
         </div>
       </Container>
     </div>
