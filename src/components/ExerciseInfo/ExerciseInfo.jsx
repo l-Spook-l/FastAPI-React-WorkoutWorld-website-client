@@ -11,11 +11,11 @@ import DeleteModal from '../Modals/DeleteModal/DeleteModal';
 import CustomTogglePhotos from '../CustomToggles/CustomTogglePhotos/CustomTogglePhotos';
 import CustomToggleVideo from '../CustomToggles/CustomToggleVideo/CustomToggleVideo';
 import WarningTooltip from '../WarningTooltip/WarningTooltip';
+import FormPhotoEditor from '../Forms/FormPhotoEditor/FormPhotoEditor';
 
 const ExerciseItem = observer(
   ({ exerciseId, name, description, numberOfSets, maximumRepetitions, restTime, video, photos }) => {
   
-  const { user } = useContext(Context)
   const { workout } = useContext(Context)
 
   const [editExercise, setEditExercise] = useState()
@@ -30,7 +30,7 @@ const ExerciseItem = observer(
   const [exerciseNumberOfSets, setExerciseNumberOfSets] = useState(numberOfSets)
   const [exerciseMaximumRepetitions, setExerciseMaximumRepetitions] = useState(maximumRepetitions)
   const [exerciseRestTime, setExerciseRestTime] = useState(restTime)
-  const [exerciseVideo, setExerciseVideo] = useState(video)
+  const [exerciseVideo, setExerciseVideo] = useState(video ? video : '')
 
   const updateParamExercise = () => {
     if (
@@ -66,15 +66,16 @@ const ExerciseItem = observer(
     // setShowModalSaveChanges(false)
   }
 
-  // console.log('ExerciseItem', video)
-  // console.log('workout.selectedWorkout.data.Workout.exercise', workout.selectedWorkout.data.Workout.exercise.length)
-
   return (
     <Card className={style.container}>
       <Card.Body>
         <div className={style.titleSection}>
           {editExercise
-          ? <input type="text" value={exerciseName} onChange={(el) => setExerciseName(el.target.value)} />
+          ? 
+          <div>
+            <label htmlFor="">Name exercise: </label>
+            <input type="text" value={exerciseName} onChange={(el) => setExerciseName(el.target.value)} />
+          </div>
           : <p className={style.exerciseName}>{exerciseName}</p>
           }
           {workout.editWorkout && 
@@ -90,10 +91,13 @@ const ExerciseItem = observer(
               : <button className={style.changeButton} onClick={() => setEditExercise(true)}><AiFillEdit/></button>)
           }
         </div>
-        <div className={style.infoBlock}>
-          {photos.length !== 0 &&
-            <CustomTogglePhotos photos={photos} color='dark'/>
-          }
+        <div>
+          <div>
+            {editExercise
+            ? <FormPhotoEditor exerciseId={exerciseId} exerciseName={name} existingPhotos={photos}/>
+            : photos.length !== 0 && <CustomTogglePhotos photos={photos} color='dark'/>
+            }
+          </div>
           <div>
             {editExercise
             ? 
@@ -117,17 +121,19 @@ const ExerciseItem = observer(
               }
 
             <div className={style.exerciseParam}>
-              <div>Number of sets
+              <div>
+                <span className={style.titleParam}>Number of sets</span>
                 {editExercise
                 ? 
-                <div>
+                <div className='d-flex'>
                   <input className={style.countInput} type="number" value={exerciseNumberOfSets} onChange={(el) => setExerciseNumberOfSets(el.target.value)} />
                   <WarningTooltip/>
                 </div>
                 : <p className={style.count}>{exerciseNumberOfSets}</p>
                 }
               </div>
-              <div>Maximum repetitions
+              <div>
+                <span className={style.titleParam}>Maximum repetitions</span>
                 {editExercise
                   ? 
                   <div>
@@ -136,13 +142,14 @@ const ExerciseItem = observer(
                   : <p className={style.count}>{exerciseMaximumRepetitions}</p>
                 }
               </div>
-              <div>Rest time
+              <div>
+                <span className={style.titleParam}>Rest time</span>
                 {editExercise
                   ? 
                   <div>
                     <input className={style.countInput} type="number" value={exerciseRestTime} onChange={(el) => setExerciseRestTime(el.target.value)} />
                   </div>
-                  : <p className={style.count}>{exerciseRestTime}</p>
+                  : <p className={style.count}>{exerciseRestTime} s</p>
                 }
               </div>
             </div>
