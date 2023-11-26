@@ -24,7 +24,7 @@ const DifficultyBar = observer(() => {
             <div key={difficulty.DifficultyWorkout.id} className="form-check">
               <input
                 type="checkbox"
-                className="form-check-input me-3 "
+                className="form-check-input me-3"
                 checked={workout.selectedDifficulty.includes(difficulty)}
                 onChange={() => workout.setSelectedDifficulty(difficulty)}
               />

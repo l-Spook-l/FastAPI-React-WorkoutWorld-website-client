@@ -1,10 +1,11 @@
 .accordion {
-  min-width: 125px;
+  max-width: 175px;
   margin-right: 1.2rem;
-  padding: 5px;
+  padding: 8px;
   border-radius: 8px;
   color: aliceblue;
   background-color:rgb(37, 28, 28);
+  z-index: 10;
 }
 
 .accordionHeader {
@@ -13,7 +14,8 @@
 
 .accordionBody {
   background-color:rgb(32, 29, 29);
-  z-index: 10;
+  padding: 3px;
+  border-radius: 8px;
 }
 
 .arrow {
@@ -24,4 +26,13 @@
 .labelCheck {
   color: rgb(236, 218, 196);
   cursor: pointer;
+}
+
+@media (max-width: 810px) {
+  .accordion {
+    max-width: 250px;
+  }
+  .arrow {
+    margin-left: 130px;
+  }
 }
