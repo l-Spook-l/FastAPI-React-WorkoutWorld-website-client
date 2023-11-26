@@ -10,7 +10,7 @@ import { WORKOUTS_ROUTE } from '../../utils/consts'
 import MyPagination from '../MyPagination/MyPagination'
 import SearchBar from '../Filters/SearchBar/SearchBar'
 import DifficultyBar from '../Filters/DifficultyBar/DifficultyBar'
-import MyOffcanvasFilters from '../MyOffcanvasFilters/MyOffcanvasFilters'
+import MyOffcanvasFilters from '../Offcanvas/MyOffcanvasFilters/MyOffcanvasFilters'
 
 const AddedWorkouts = observer(() => {
   const { user } = useContext(Context)

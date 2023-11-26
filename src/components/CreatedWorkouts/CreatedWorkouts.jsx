@@ -11,7 +11,7 @@ import MyPagination from '../MyPagination/MyPagination'
 import SearchBar from '../Filters/SearchBar/SearchBar'
 import DifficultyBar from '../Filters/DifficultyBar/DifficultyBar'
 import IsPublicBar from '../Filters/IsPublicBar/IsPublicBar'
-import MyOffcanvasFilters from '../MyOffcanvasFilters/MyOffcanvasFilters'
+import MyOffcanvasFilters from '../Offcanvas/MyOffcanvasFilters/MyOffcanvasFilters'
 
 const UserWorkouts = observer(() => {
   const { user } = useContext(Context)

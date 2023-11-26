@@ -10,7 +10,7 @@ import style from './WorkoutsPage.module.css'
 import MyPagination from '../../components/MyPagination/MyPagination'
 import SearchBar from '../../components/Filters/SearchBar/SearchBar'
 import DifficultyBar from '../../components/Filters/DifficultyBar/DifficultyBar'
-import MyOffcanvasFilters from '../../components/MyOffcanvasFilters/MyOffcanvasFilters'
+import MyOffcanvasFilters from '../../components/Offcanvas/MyOffcanvasFilters/MyOffcanvasFilters'
 
 
 const WorkoutsPage = observer(() => {
