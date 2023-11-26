@@ -137,10 +137,10 @@ const WorkoutPage = observer(() => {
 
   return (
     <div className={style.mainBlock}>
-    <Container className={style.workoutContainer}>
+    <Container>
       <Breadcrumb className={style.myBreadcrumb}>
         <Breadcrumb.Item  onClick={() => navigate(MAIN_ROUTE)}>
-          <span className={style.myBreadcrumbItem}>Home</span>
+          Home
         </Breadcrumb.Item>
         <Breadcrumb.Item onClick={() => navigate(WORKOUTS_ROUTE)}>
           Workouts
