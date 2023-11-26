@@ -3,7 +3,6 @@ import { Offcanvas } from "react-bootstrap";
 import SearchBar from "../Filters/SearchBar/SearchBar";
 import DifficultyBar from "../Filters/DifficultyBar/DifficultyBar";
 
-// Выпадающие меню для фильтров
 const MyOffcanvasFilters = ({ showOffcanvas, setShowOffcanvas }) => {
 
   const offcanvasClose = () => {
