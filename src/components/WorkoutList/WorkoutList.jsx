@@ -11,7 +11,7 @@ const WorkoutList = observer(() => {
   return (
     <Container className={style.myContainer}>
       {workout.workouts.data.map((el) => 
-        <WorkoutItem key={el.Workout.id} workout={el.Workout}/>
+        <WorkoutItem key={el.Workout.id} selectedWorkout={el.Workout}/>
       )}
     </Container>
   )
