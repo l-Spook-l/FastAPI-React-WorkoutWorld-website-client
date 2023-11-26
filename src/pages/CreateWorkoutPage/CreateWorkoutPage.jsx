@@ -58,6 +58,12 @@ const CreateWorkoutPage = observer(() => {
         updatedExercises[index][property] = value.target.files
         setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }))
         break;
+      case "name":
+      case "description":
+      case "video":
+        updatedExercises[index][property] = value
+        setWorkoutData((prevData) => ({ ...prevData, exercises: updatedExercises }))
+        break;
       default:
         const number = parseInt(value, 10)
         if (!isNaN(number)) {
@@ -173,7 +179,7 @@ const CreateWorkoutPage = observer(() => {
 
         <h2>Exercises</h2>
         {workoutData.exercises.map((exercise, index) => 
-          <Card key={index}>
+          <Card key={index} className='mt-3'>
             <Card.Body>
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm="2">
@@ -256,7 +262,7 @@ const CreateWorkoutPage = observer(() => {
                   <Form.Control
                     type="file"
                     placeholder="Enter photo URL"
-                    // accept=''    можно настроить нужные рашсирения файла
+                    accept="image/*" //  можно настроить нужные рашсирения файла
                     multiple // для загрузки нескольких файлов
                     onChange={(e) => exerciseChange(index, 'photo', e)}
                   />
