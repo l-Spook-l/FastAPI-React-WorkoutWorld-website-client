@@ -11,6 +11,7 @@ import MyPagination from '../MyPagination/MyPagination'
 import SearchBar from '../Filters/SearchBar/SearchBar'
 import DifficultyBar from '../Filters/DifficultyBar/DifficultyBar'
 import MyOffcanvasFilters from '../Offcanvas/MyOffcanvasFilters/MyOffcanvasFilters'
+import {  IoFilter, IoAdd } from "react-icons/io5";
 
 const AddedWorkouts = observer(() => {
   const { user } = useContext(Context)
@@ -66,7 +67,11 @@ const AddedWorkouts = observer(() => {
           <button className={style.filterButton} onClick={openOffcanvas}>
             Other filters
           </button>
+          <button className={style.filterButtonIcon} onClick={openOffcanvas}>
+            <IoFilter/>
+          </button>
           <NavLink className={style.addWorkoutButton} to={WORKOUTS_ROUTE}>Add workout</NavLink>
+          <NavLink className={style.addWorkoutButtonIcon} to={WORKOUTS_ROUTE}><IoAdd/></NavLink>
         </div>
         {/* <SearchBar typeWorkout='Added'/>
         <DifficultyBar/>

@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className={style.container}>
       <p className="text-center">
-        &copy; 2023 My Website. All rights reserved.
+        &copy; 2023 WorkoutWorld. All rights reserved.
       </p>
     </footer>
   );

@@ -32,6 +32,12 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
         updatedExercises[index][property] = value.target.files
         setNewExercises(updatedExercises)
         break;
+      case "name":
+      case "description":
+      case "video":
+        updatedExercises[index][property] = value
+        setNewExercises(updatedExercises)
+        break;
       default:
         const number = parseInt(value, 10)
         if (!isNaN(number)) {
@@ -169,6 +175,7 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                   <Form.Control
                     type="file"
                     placeholder="Enter video link"
+                    accept="image/*"
                     multiple // для загрузки нескольких файлов
                     onChange={(e) => exerciseChange(index, 'photo', e)}
                   />

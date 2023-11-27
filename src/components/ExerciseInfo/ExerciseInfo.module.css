@@ -68,3 +68,8 @@
     width: 600px;
   }
 }
+@media (max-width: 380px) {
+  .titleParam {
+    font-size: 18px;
+  }
+}

@@ -12,6 +12,7 @@ import SearchBar from '../Filters/SearchBar/SearchBar'
 import DifficultyBar from '../Filters/DifficultyBar/DifficultyBar'
 import IsPublicBar from '../Filters/IsPublicBar/IsPublicBar'
 import MyOffcanvasFilters from '../Offcanvas/MyOffcanvasFilters/MyOffcanvasFilters'
+import { IoFilter, IoCreate  } from "react-icons/io5";
 
 const UserWorkouts = observer(() => {
   const { user } = useContext(Context)
@@ -72,10 +73,14 @@ const UserWorkouts = observer(() => {
           <button className={style.filterButton} onClick={openOffcanvas}>
             Other filters
           </button>
+          <button className={style.filterButtonIcon} onClick={openOffcanvas}>
+            <IoFilter/>
+          </button>
           {/* <SearchBar typeWorkout='Created' statusWorkout={statusWorkout}/>
           <DifficultyBar/> */}
           <IsPublicBar statusWorkout={changeStatusWorkout}/>
           <NavLink className={style.createWorkoutButton} to={CREATE_WORKOUT_ROUTE}>Created workout</NavLink>
+          <NavLink className={style.createWorkoutButtonIcon} to={CREATE_WORKOUT_ROUTE}><IoCreate/></NavLink>
         </div>
       </div>
       

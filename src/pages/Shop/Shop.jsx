@@ -1,9 +1,13 @@
-import React from 'react'
-import { Container, Button } from 'react-bootstrap';
+import React, { useEffect } from 'react'
+import { Container } from 'react-bootstrap';
 import { AiFillSetting } from 'react-icons/ai';
 import style from './Shop.module.css'
 
 const Shop = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+   },[])
+
   return (
     <Container className={style.container}>
       <p className={style.setIcon}><AiFillSetting/></p>

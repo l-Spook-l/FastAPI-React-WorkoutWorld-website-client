@@ -18,8 +18,17 @@
   background-color: azure;
 }
 
-.titleOnSlider {
+.titleOnSlider1 {
   font-size: 38px;
+}
+
+.titleOnSlider2 {
+  font-size: 38px;
+  color: black;
+}
+
+.titleOnSlider2Text {
+  color: black;
 }
 
 .carouselItem {

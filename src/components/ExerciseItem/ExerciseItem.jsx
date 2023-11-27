@@ -1,20 +1,18 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useEffect, useState } from 'react'
-import { Context } from '../..'
+import React, { useEffect, useState } from 'react'
 import style from './ExerciseItem.module.css'
 import { Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { updateSet } from '../../http/workoutAPI'
 import UpdateSetModal from '../Modals/UpdateSetModal/UpdateSetModal'
 import RestIntervalTimer from '../Timers/RestIntervalTimer/RestIntervalTimer'
 import CustomToggleDescription from '../CustomToggles/CustomToggleDescription/CustomToggleDescription'
-import { AiFillEdit, AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
+import { AiOutlineCheck } from "react-icons/ai";
 import CustomTogglePhotos from '../CustomToggles/CustomTogglePhotos/CustomTogglePhotos'
 import CustomToggleVideo from '../CustomToggles/CustomToggleVideo/CustomToggleVideo'
 
 
 const ExerciseInfo = observer(({ exercise, sets, loading }) => {
-  const {user} = useContext(Context)
-
+  
   // делаем новые обькты, а не ссылки на - sets
   const [oldSets, setOldSets] = useState(JSON.parse(JSON.stringify(sets)))
   // в этом обьекте обнуляем значения нужных полей
@@ -24,7 +22,7 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
   const [setId, setSetId] = useState(0)
   const [setIndex, setSetIndex] = useState(0)
   const [activeRestTimer, setActiveRestTimer] = useState(false)
-  const [finishExerciseStatus, setFinishExerciseStatus] = useState(false)
+  const [finishExerciseStatus, setFinishExerciseStatus] = useState([])
   
   const [setSaveList, setSetSaveList] = useState([])
 
@@ -33,8 +31,6 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
     setNewSets(JSON.parse(JSON.stringify(sets.map((el) => ({ "Set": { ...el.Set, "repetition": 0, "weight": 0 } })))))
     setActiveRestTimer(false)
   }, [sets]);
-
-  //console.log('newSets', newSets)
 
   const openModal = (setId, index) => {
     setModalOpen(true)
@@ -53,7 +49,7 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
     updateSet(setId, newReps, newWeight)
 
     closeModal();
-    setSaveList.push(setIndex)
+    setSaveList.push(setId)
     setActiveRestTimer(true)
   }
 
@@ -62,12 +58,9 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
   }
 
   const finishExercise = () => {
-    console.log('save exercise')
-    setFinishExerciseStatus(true)
+    setFinishExerciseStatus([...finishExerciseStatus, exercise.id])
+    setSetSaveList([...setSaveList, ...oldSets.map((set) => set.Set.id)])
   }
-
-  // console.log('newSets', newSets)
-  // console.log('activeRestTimer', activeRestTimer)
 
   return (
     <Container>
@@ -104,12 +97,11 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
             <p>{exercise.maximum_repetitions}</p>
           </Col>
           <Col  className={style.blockInTitle}>
-            <p>Rest time (sec)</p>
+            <p>Rest (sec)</p>
             <p>{exercise.rest_time}</p>
           </Col>
         </Card.Title>
-
-        <Card.Body className={style.setSection}>
+        <div>
           <Row>
             <Col className={style.textUnderTitle}><p>Previous result</p></Col>
             <Col className={style.textUnderTitle}><p>Repetitions and weight</p></Col>
@@ -122,7 +114,6 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
           }
           {oldSets.map((set, index) => 
             <div key={set.Set.id} className={style.set}>
-
               <Col className={style.blockInSet}>
                 <p>{set.Set.repetition}</p>
                 /
@@ -135,16 +126,22 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
               </Col>
               <Col className={style.blockInSet}>
                 <button 
-                  disabled={setSaveList.includes(index) || finishExerciseStatus}
-                  className={`${style.buttonSave} ${(setSaveList.includes(index) || finishExerciseStatus) ? style.buttonSaveActive : ""}`}
+                  disabled={setSaveList.includes(set.Set.id)}
+                  className={`${style.buttonSave} ${setSaveList.includes(set.Set.id) ? style.buttonSaveActive : ""}`}
                   onClick={() => openModal(set.Set.id, index)}>
-                    {(setSaveList.includes(index) || finishExerciseStatus)&& <span><AiOutlineCheck/></span>}
+                    {setSaveList.includes(set.Set.id) && <span><AiOutlineCheck/></span>}
                 </button>
               </Col>
             </div>
           )}          
-        </Card.Body>
-        <button className={style.buttonFinish} onClick={finishExercise}>Finish exercise</button>
+        </div>
+        {finishExerciseStatus.includes(exercise.id)
+        ? <p className={style.exerciseCompletedText}>Exercise completed</p>
+        :
+        <button className={style.buttonFinish} onClick={finishExercise}>
+            Finish exercise
+        </button>
+        }
       </Card>
       <UpdateSetModal 
         show={modalOpen}

@@ -11,18 +11,16 @@ const SliderForMainPage = () => {
       <Carousel.Item className={style.carouselItem}>
       <img className={style.carouselImage} src={sliderCalisthenics} alt="Ski"/>
         <Carousel.Caption>
-          <h2 className={style.titleOnSlider}>Achieve Your Fitness Goals</h2>
+          <h2 className={style.titleOnSlider1}>Achieve Your Fitness Goals</h2>
           <h4>Get in shape and stay healthy with our expertly designed workouts and high-quality sports goods.</h4>
-          {/* <NavLink to={`${BRAND_ROUTE}/callaway-golf`} className={style.buttonOnCarousel}>Learn More</NavLink> */}
         </Carousel.Caption>
       </Carousel.Item>
 
       <Carousel.Item className={style.carouselItem}>
       <img className={style.carouselImage} src={sliderSki} alt="Ski"/>
         <Carousel.Caption>
-          <h2 className={style.titleOnSlider}>Achieve Your Fitness Goals</h2>
-          <h4>Get in shape and stay healthy with our expertly designed workouts and high-quality sports goods.</h4>
-          {/* <NavLink to={`${BRAND_ROUTE}/callaway-golf`} className={style.buttonOnCarousel}>Learn More</NavLink> */}
+          <h2 className={style.titleOnSlider2}>Achieve Your Fitness Goals</h2>
+          <h4 className={style.titleOnSlider2Text}>Get in shape and stay healthy with our expertly designed workouts and high-quality sports goods.</h4>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>

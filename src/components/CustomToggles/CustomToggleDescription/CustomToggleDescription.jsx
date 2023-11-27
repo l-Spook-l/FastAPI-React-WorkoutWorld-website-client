@@ -1,18 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Accordion } from 'react-bootstrap';
-import style from './CustomToggleVideo.module.css'
-import VideoPlayer from '../../VideoPlayer/VideoPlayer';
-import { observer } from 'mobx-react-lite';
-import { Context } from '../../..';
+import style from './CustomToggleDescription.module.css'
 
-const CustomToggleVideo = observer(({ video, color }) => {
-  const { user } = useContext(Context)
+const CustomToggleDescription = ({ body, color }) => {
 
   const [status, setStatus] = useState(true)
 
   return (
-    user.isAuth
-    ?
     <Accordion bsPrefix='myAccordion'>
       <Accordion.Item eventKey="0">
         <Accordion.Header 
@@ -20,19 +14,17 @@ const CustomToggleVideo = observer(({ video, color }) => {
           bsPrefix='myAccordionHeader'>
           <span className={color === 'dark' ? style.accordionHeaderTextDark : style.accordionHeaderTextLight}>
             {status 
-            ? 'View video'
-            : 'Hide video'
+            ? 'View description'
+            : 'Hide description'
             }
             </span>
         </Accordion.Header>
         <Accordion.Body bsPrefix='myAccordionBody' className={color === 'dark' ? style.accordionBodyDark : style.accordionBodyLight}>
-          <VideoPlayer videoUrl={video} color='dark'/>
+          {body}
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
-    :
-    <p className={color === 'dark' ? style.accordionHeaderTextDark : style.accordionHeaderTextLight}>Sign in to view video.</p>
   )
-})
+}
 
-export default CustomToggleVideo
+export default CustomToggleDescription

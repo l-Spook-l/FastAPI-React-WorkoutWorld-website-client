@@ -21,7 +21,6 @@
   flex-direction: column;
   justify-content: center;
   max-width: 700px;
-  max-height: 700px;
   margin-left: 15px;
   color: rgb(218, 219, 219);
   font-size: 20px;
@@ -216,5 +215,35 @@
   }
   .contactForm {
     width: 450px;
+  }
+}
+@media (max-width: 528px) {
+  .imgAboutUs,
+  .imgHomeGym {
+    max-width: 400px;
+    max-height: 300px;
+    border-radius: 8px;
+  }
+  .contactForm {
+    width: 350px;
+  }
+  .imgServices {
+    max-width: 350px;
+    max-height: 350px;
+  }
+}
+@media (max-width: 428px) {
+  .imgAboutUs,
+  .imgHomeGym {
+    max-width: 320px;
+    max-height: 240px;
+    border-radius: 8px;
+  }
+  .contactForm {
+    width: 320px;
+  }
+  .imgServices {
+    max-width: 300px;
+    max-height: 300px;
   }
 }

@@ -27,16 +27,12 @@ const ActiveWorkoutPage = observer(() => {
   const [loadingSets, setLoadingSets] = useState(true)
 
   const [workoutName, setWorkoutName] = useState('')
-  const [workoutDifficulty, setWorkoutDifficulty] = useState('')
-  const [workoutDescription, setWorkoutDescription] = useState('')
   
   useEffect(() => {
     fetchActiveWorkout(workout_id, user.user.id)
     .then((data) => {
       workout.setSelectedWorkout(data)
       setWorkoutName(data.data.Workout.name)
-      setWorkoutDifficulty(data.data.Workout.difficulty)
-      setWorkoutDescription(data.data.Workout.description)
 
       setExerciseData(data.data.Workout.exercise[0])
 
@@ -91,20 +87,22 @@ const ActiveWorkoutPage = observer(() => {
     setExerciseData(exercise)
     console.log('exercise',  exercise.id)
   }
-  
-  // console.log('sets', sets)
-  // console.log('exerciseSets', exerciseSets)
 
   return (
     <div className={style.mainBlock}>
-    <Container>
+    <Container > 
       <div className={style.titleWorkout}>
-        <WorkoutTimeTracker 
-          onStart={handleStart}
-          onStop={handleStop}
-          onReset={handleReset}
-          onTimeUpdate={handleTimeUpdate}
-        />
+        <div>
+          <WorkoutTimeTracker 
+            onStart={handleStart}
+            onStop={handleStop}
+            onReset={handleReset}
+            onTimeUpdate={handleTimeUpdate}
+          />
+        </div>
+        <div className={style.nameWorkout}>
+          {workoutName}
+        </div>
       </div>
       <div className={style.mainSection}>
         <div className={style.exerciseListSection}>
@@ -115,13 +113,13 @@ const ActiveWorkoutPage = observer(() => {
           </div>
           :
           workout.selectedWorkout.data.Workout.exercise.map((exercise, index) => 
-          <Alert 
-            className={`${style.alertMenu} ${activeTab === index ? style.alertMenuActive : ""}`}
-            key={exercise.id}
-            onClick={() => selectExercise(index, exercise)}
-            >
-            {exercise.name}
-          </Alert>
+            <Alert 
+              className={`${style.alertMenu} ${activeTab === index ? style.alertMenuActive : ""}`}
+              key={exercise.id}
+              onClick={() => selectExercise(index, exercise)}
+              >
+              Exercise {index + 1}
+            </Alert>
           )
           }
         </div>

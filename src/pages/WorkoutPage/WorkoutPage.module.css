@@ -15,7 +15,6 @@
   margin: 0 auto 10px auto;
   max-width: 820px;
   font-size: 18px;
-  /* border: 2px solid black ; */
   border-radius: 15px;
   text-align: center;
   background-color: blanchedalmond;
@@ -141,5 +140,15 @@
 @media (max-width: 767px) {
   .workoutCard {
     width: 450px;
+  }
+}
+@media (max-width: 473px) {
+  .workoutCard {
+    width: 350px;
+  }
+}
+@media (max-width: 380px) {
+  .workoutCard {
+    width: 300px;
   }
 }

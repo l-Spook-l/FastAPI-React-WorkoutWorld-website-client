@@ -17,13 +17,13 @@ const UpdateSetModal = ({ show, onHide, onSubmit }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="formWeight">
-            <Form.Label>Weight:</Form.Label>
-            <Form.Control type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
-          </Form.Group>
           <Form.Group controlId="formReps">
             <Form.Label>Reps:</Form.Label>
             <Form.Control type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
+          </Form.Group>
+          <Form.Group controlId="formWeight">
+            <Form.Label>Weight:</Form.Label>
+            <Form.Control type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
           </Form.Group>
         </Form>
       </Modal.Body>

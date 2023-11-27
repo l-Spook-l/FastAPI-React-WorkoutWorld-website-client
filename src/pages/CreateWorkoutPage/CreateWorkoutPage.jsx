@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Container, Form, Button, Col, Row, Card, Accordion } from 'react-bootstrap';
 import { createExercise, createSet, createWorkout } from '../../http/workoutAPI';
 import { Context } from "../..";
@@ -20,6 +20,10 @@ const CreateWorkoutPage = observer(() => {
 
   // Общая проверка валидации формы
   const [formValidError, setFormValidError] = useState(false)
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+   },[])
 
   // создаем обьект тренировки
   const [workoutData, setWorkoutData] = useState({

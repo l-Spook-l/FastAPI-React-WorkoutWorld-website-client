@@ -40,9 +40,17 @@
 }
 
 @media (max-width:697px) {
-  .carousel,
-  .carouselImage,
-  .carouselItem {
-    height: 450px;
+  .text {
+    font-size: 22px;
+  }
+}
+@media (max-width:528px) {
+  .text {
+    font-size: 20px;
+  }
+}
+@media (max-width:428px) {
+  .text {
+    font-size: 17px;
   }
 }

@@ -30,7 +30,7 @@ const CustomTogglePhotos = observer(({ color, photos }) => {
       </Accordion.Item>
     </Accordion>
     :
-    <p className={color === 'dark' ? style.accordionHeaderTextDark : style.accordionHeaderTextLight}>Sign in to view the photos</p>
+    <p className={color === 'dark' ? style.accordionHeaderTextDark : style.accordionHeaderTextLight}>Sign in to view photos</p>
   )
 })
 

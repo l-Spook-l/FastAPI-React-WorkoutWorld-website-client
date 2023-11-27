@@ -28,12 +28,33 @@
   border: 1px solid rgba(0, 0, 0, 0.35);
 }
 
+.filterButtonIcon {
+  display: none;
+  font-size: 25px;
+  border-radius: 8px;
+  background-color: black;
+  color: rgb(236, 221, 199);
+}
+
 .createWorkoutButton {
   padding: 10px;
   border-radius: 8px;
   text-decoration: none;
   color:rgb(9, 17, 9) ;
   background-color: rgb(236, 221, 199);
+}
+
+.createWorkoutButtonIcon {
+  display: none;
+  align-items: center;
+  font-size: 30px;
+  height: 50px;
+  width: 40px;
+  padding-left: 7px;
+  border-radius: 8px;
+  width: 40px;
+  color: rgb(236, 221, 199);
+  background-color: black;
 }
 
 .createWorkoutButton:hover {
@@ -57,3 +78,15 @@
     display: block;
   }
 }
+
+@media (max-width: 520px) {
+  .filterButton,
+  .createWorkoutButton {
+    display: none;
+  }
+  .filterButtonIcon,
+  .createWorkoutButtonIcon {
+    display: block;
+  }
+}
+

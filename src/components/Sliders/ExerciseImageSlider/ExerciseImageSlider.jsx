@@ -49,7 +49,7 @@ const ExerciseImageSlider = ({ photos, onSelect }) => {
     setShowModalPhoto(true);
   }
 
-  const handleCloseModalPhoto = () => {
+  const closeModalPhoto = () => {
     setShowModalPhoto(false);
   }
 
@@ -67,7 +67,7 @@ const ExerciseImageSlider = ({ photos, onSelect }) => {
         ))}
       </Slider>
       {showModalPhoto && (
-        <PhotoModal image={selectedPhoto} onClose={handleCloseModalPhoto} />
+        <PhotoModal image={selectedPhoto} onClose={closeModalPhoto} />
       )}
     </div>
   )

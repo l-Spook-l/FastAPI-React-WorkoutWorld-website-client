@@ -60,3 +60,11 @@
     display: block;
   }
 }
+
+@media (max-width: 440px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    height: 90px;
+  }
+}
