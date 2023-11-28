@@ -1,9 +1,9 @@
 import jwt_decode from "jwt-decode";
 import { $authHost, $host } from "./index";
 
-export const registration = async (first_name, last_name, email, password, username, phone='') => {
+export const registration = async (first_name, last_name, email, password, phone='') => {
   //console.log('registration', first_name, last_name, email, password, username)
-  const response = await $host.post("auth/register/", { email, password, username, first_name, last_name, phone })
+  const response = await $host.post("auth/register/", { email, password, first_name, last_name, phone })
   //console.log("регистрация response", response);
   return response.data
 }
@@ -18,7 +18,7 @@ export const login = async ( username, password ) => {
   })
   console.log("авторизация response", response); 
   console.log("авторизация data", response.data);
-  localStorage.setItem("token", response.data.access_token); // глянь на этот ответ 2:11:7
+  localStorage.setItem("token", response.data.access_token);
   console.log("авторизация response.data.access_token", response.data.access_token); 
   console.log("авторизация jwt_decode(response.data.access_token)", jwt_decode(response.data.access_token)); 
   console.log("авторизация jwt_decode(response.data.access_token)", jwt_decode(response.data.access_token).sub); 
@@ -29,7 +29,7 @@ export const login = async ( username, password ) => {
   console.log("авторизация auth/users/me/ responseUserMe", responseUserMe);
   console.log("авторизация auth/users/me/ responseUserMe data", responseUserMe.data);
 
-  return response;
+  return response
 }
 
 // Проверка токена на валидность
@@ -53,18 +53,24 @@ export const check = async () => {
 
 export const updateUserData = async (data) => {
   const response = await $authHost.patch(`/users/me`, data);
-  console.log("updateUserData response", response);
+  console.log("updateUserData response", response)
   return response.data
 }
 
-export const forgotPassword = async (email) => {
-  const response = await $host.post('auth/forgot-password', email)
-  console.log("forgotPassword response", response);
+export const forgotUserPassword = async (email) => {
+  const response = await $host.post('/request-password-reset', {email})
+  console.log("forgotPassword response", response)
   return response.data
 }
 
-export const resetPassword = async (token, password) => {
-  const response = await $host.post('auth/forgot-password', {token, password})
-  console.log("resetPassword response", response);
+export const resetUserPassword = async (token, password) => {
+  const response = await $host.post('auth/reset-password', {token, password})
+  console.log("resetPassword response", response)
+  return response.data
+}
+
+export const adminPanel = async () => {
+  const response = await $authHost.post('admin')
+  console.log("adminPanel response", response)
   return response.data
 }
