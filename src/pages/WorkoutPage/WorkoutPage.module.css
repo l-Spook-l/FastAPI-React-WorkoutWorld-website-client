@@ -146,6 +146,9 @@
   .workoutCard {
     width: 350px;
   }
+  .workoutTitle {
+    display: block;
+  }
 }
 @media (max-width: 380px) {
   .workoutCard {

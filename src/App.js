@@ -18,19 +18,17 @@ const App = observer(() => {
   const [loadingAddedWorkout, setLoadingAddedWorkout] = useState(true)
 
   useEffect(() => {
-    //console.log('начал работать useEffect check', user)
     fetchDifficultiesWorkout().then((data) => workout.setDifficulties(data))
 
     check().then((data) => {
-      //console.log('qqqqqqqqqqqqqqq', data)
       user.setUser(data)
       user.setIsAuth(true)
       fetchAddUserWorkout(user.user.id).then((data) => {
         workout.setAddedWorkouts(data)      
       }).finally(() => setLoadingAddedWorkout(false))
     }).catch((error) => {
-      //console.log('Error login', error);
-      // Обработка других ошибок, возникших при выполнении запроса
+      // console.log('Error login', error)
+      setLoadingAddedWorkout(false)
     }).finally(() => setLoadingCheck(false))
 
   }, [user.isAuth])
@@ -38,9 +36,10 @@ const App = observer(() => {
   if (loadingCheck) {
     return <Spinner animation='grow'/>
   }
+
   if (loadingAddedWorkout) {
     return <Spinner animation='grow'/>
-  }
+  } 
 
   return (
     <BrowserRouter>

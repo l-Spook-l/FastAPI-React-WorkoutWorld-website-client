@@ -55,15 +55,28 @@ const ExerciseItem = observer(
     setEditExercise(false)
   }
 
-  const deleteWorkoutExercise = () => {
+   const deleteWorkoutExercise = () => {
     deleteExercise(exerciseId)
     setShowModalDeleteExercise(false)
+  
+    const updatedExercises = workout.selectedWorkout.data.Workout.exercise.filter(
+      (exercise) => exercise.id !== exerciseId
+    )
+  
+    workout.setSelectedWorkout({
+      ...workout.selectedWorkout,
+      data: {
+        ...workout.selectedWorkout.data,
+        Workout: {
+          ...workout.selectedWorkout.data.Workout,
+          exercise: updatedExercises,
+        },
+      },
+    })
   }
-
+  
   const closeModal = () => {
-    // setShowModalChangeStatus(false)
     setShowModalDeleteExercise(false)
-    // setShowModalSaveChanges(false)
   }
 
   return (

@@ -16,13 +16,11 @@ export const fetchOneWorkout = async(workout_id, user_id) => {
 }
 
 export const fetchActiveWorkout = async(workout_id, user_id) => {
-  const response = await $host.get(`workouts/active-workout/${workout_id}`, {params: {user_id:user_id}})
+  const response = await $authHost.get(`workouts/active-workout`, {params: {workout_id:workout_id, user_id:user_id}})
   console.log('fetchOneWorkout response', response)
   return response.data
 }
 
-
-// изменить host - на auhost
 export const fetchMyWorkouts = async(user_id, name, difficulty, skip, limit, is_public) => {
   const response = await $authHost.get('workouts/user-workouts/', 
   {params: {user_id:user_id, name:name, difficulty:difficulty, skip:skip, limit:limit, is_public:is_public}, paramsSerializer: {indexes: null}})
@@ -32,7 +30,7 @@ export const fetchMyWorkouts = async(user_id, name, difficulty, skip, limit, is_
 
 // изменить host - на auhost  ОШИБКА
 export const fetchSets = async(user_id, exercise_ids) => {
-  const response = await $host.get(`workouts/sets`, {params: {user_id:user_id, exercise_ids:exercise_ids}, paramsSerializer: {indexes: null}})
+  const response = await $authHost.get(`workouts/sets`, {params: {user_id:user_id, exercise_ids:exercise_ids}, paramsSerializer: {indexes: null}})
   console.log('fetchSets response', response)
   return response.data
 }

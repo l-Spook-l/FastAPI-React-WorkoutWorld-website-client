@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-//import UserStore from './stores/UserStore'
+import UserStore from './stores/UserStore'
 import WorkoutStore from './stores/WorkoutStore';
 
 
@@ -19,7 +19,7 @@ root.render(
   // value - обьект который нам нужно сделать глобальным
   // их и вызываем с помощью хука useContext
     value={{
-      //user: new UserStore(),
+      user: new UserStore(),
       workout: new WorkoutStore(),
     }}
   >

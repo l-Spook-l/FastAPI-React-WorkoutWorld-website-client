@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Accordion, Button, Card, Col, Form, Row } from 'react-bootstrap'
 import { createExercise, createSet } from '../../../http/workoutAPI';
 import { Context } from '../../..';
@@ -8,6 +8,11 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
   const { user } = useContext(Context)
 
   const [confirm, setConfirm] = useState(true)
+  const [showFormExercise, setShowFormExercise] = useState(false)
+
+  useEffect(() => {
+    setShowFormExercise(showForm)
+  },[showForm])
 
   // Общая проверка валидации формы
   const [formValidError, setFormValidError] = useState(false)
@@ -28,7 +33,6 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
     const updatedExercises = [...newExercises]
     switch (property) {
       case "photo":
-        console.log('photo', value.target.files)
         updatedExercises[index][property] = value.target.files
         setNewExercises(updatedExercises)
         break;
@@ -52,15 +56,13 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
     }
   }
 
-// удалить упражнение вернуться и оптимизировать !!!!!!!!!!!!!!!!!
   const removeExercise = (index) => {
     const updatedExercises = [...newExercises]
     updatedExercises.splice(index, 1)
     setNewExercises(updatedExercises)
-    updatedExercises.length < 1 && setConfirm(false)  // если ничего нет в массиве кнопка не активна
+    updatedExercises.length < 1 && setConfirm(false)
   }
 
-  // сохраняем тренировку
   const submitNewExercise = () => {
     const checkDataExercise = newExercises.every((el) => Object.values(el).slice(0, -2).every((value) => value !== ''))
 
@@ -80,15 +82,13 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
           exercise.video,
           exercise.photo).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0))
       )
-      // window.location.reload()
+      setShowFormExercise(false)
     }
   }
 
-  console.log('ewqeqw', newExercises)
-
   return (
     <Form>
-      {showForm &&
+      {showFormExercise &&
         <div>
           <h2>New exercises</h2>
           {newExercises.map((exercise, index) => 
@@ -224,10 +224,10 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
           <Button variant="primary" onClick={addExercise}>
             Add Exercise
           </Button>
-          <Button className="" disabled={!confirm} variant={confirm ? undefined : "success"} onClick={submitNewExercise}>
-            Save
+          <Button className="ms-2" disabled={!confirm} variant={confirm ? undefined : "success"} onClick={submitNewExercise}>
+            Save exercises
           </Button>
-          {formValidError && <p>Fill in all fields!</p>}
+          {formValidError && <p className='bg-danger'>Fill in all fields!</p>}
         </div>
       }
     </Form>
