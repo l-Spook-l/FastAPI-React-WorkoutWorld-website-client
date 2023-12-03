@@ -66,22 +66,22 @@ const ActiveWorkoutPage = observer(() => {
   const handleStart = () => {
     console.log('Timer started!');
     // Место для логики, которая должна выполняться при старте таймера
-  };
+  }
 
   const handleStop = (elapsedTime) => {
     console.log(`Timer stopped! Elapsed time: ${elapsedTime} seconds`);
     // Место для логики, которая должна выполняться при остановке таймера
-  };
+  }
 
   const handleReset = () => {
     console.log('Timer reset!');
     // Место для логики, которая должна выполняться при сбросе таймера
-  };
+  }
 
   const handleTimeUpdate = (currentTime) => {
     console.log(`Timer updated! Current time: ${currentTime} seconds`);
     // Место для логики, которая должна выполняться при каждом обновлении времени таймера
-  };
+  }
   // ======================================================================================
 
   const selectExercise = (index, exercise) => {

@@ -9,13 +9,14 @@ import { useNavigate } from 'react-router-dom'
 import AdminUserInfo from '../../components/AdminComponents/AdminUserInfo/AdminUserInfo'
 import AdminWorkoutsInfo from '../../components/AdminComponents/AdminWorkoutsInfo/AdminWorkoutsInfo'
 import AdminRolesInfo from '../../components/AdminComponents/AdminRolesInfo/AdminRolesInfo'
+import AdminGetOneWorkout from '../../components/AdminComponents/AdminGetOneWorkout/AdminGetOneWorkout'
 
 const AdminPanelPage = observer(() => {
 
   const [users, setUsers] = useState()
   const [roles, setRoles] = useState()
   const [workouts, setWorkouts] = useState()
-  
+
   const [view, setView] = useState()
   const [activeTab, setActiveTab] = useState("users")
   
@@ -40,13 +41,13 @@ const AdminPanelPage = observer(() => {
     switch (tab) {
       case "users":
         setView(<AdminUserInfo  dataUsers={users}/>)
-        break;
+        break
       case "roles":
         setView(<AdminRolesInfo dataRoles={roles}/>)
-        break;
+        break
       case "workouts":
         setView(<AdminWorkoutsInfo dataWorkouts={workouts}/>)
-        break;
+        break
     }
   }
 
