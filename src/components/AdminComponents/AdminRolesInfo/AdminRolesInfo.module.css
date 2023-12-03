@@ -1,0 +1,36 @@
+.roleNav {
+  display: flex;
+  margin: 10px;
+  background-color: rgb(202, 160, 108);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.columnId {
+  width: 60px;
+}
+
+.columnRole,
+.columnName {
+  width: 180px;
+  word-wrap: break-word;
+}
+
+.roleInfo {
+  display: flex;
+  background-color: rgb(202, 160, 108);
+  margin: 10px;
+}
+

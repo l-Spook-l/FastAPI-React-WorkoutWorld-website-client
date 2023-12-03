@@ -3,8 +3,6 @@ import style from './AdminUserInfo.module.css'
 
 const AdminUserInfo = ({dataUsers}) => {
 
-  console.log('data users', dataUsers.data_users)
-
   return (
     <table>
       <thead>
