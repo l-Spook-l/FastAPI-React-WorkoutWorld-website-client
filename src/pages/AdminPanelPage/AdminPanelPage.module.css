@@ -27,8 +27,15 @@
   cursor: pointer;
 }
 
+.alertMenu:hover {
+  color: black;
+  background-color: rgb(32, 121, 121);
+}
+
 .alertMenuActive {
   cursor: pointer;
+  color: black;
+  background-color: rgb(32, 121, 121);
 }
 
 .infoBlock {

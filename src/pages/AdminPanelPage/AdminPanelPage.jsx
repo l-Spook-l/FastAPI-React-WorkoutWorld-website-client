@@ -22,6 +22,7 @@ const AdminPanelPage = observer(() => {
   const [loadingAdminPanel, setLoadingAdminPanel] = useState(true)
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     adminPanel().then((data)=> {
       setUsers(data.data.users)
       setRoles(data.data.roles)
