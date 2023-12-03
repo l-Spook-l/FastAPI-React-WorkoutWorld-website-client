@@ -4,6 +4,8 @@ import { Context } from "../..";
 import style from "./UserInfo.module.css"
 import { observer } from "mobx-react-lite";
 import { forgotUserPassword, updateUserData } from "../../http/userAPI";
+import { NavLink } from "react-router-dom";
+import { ADMIN_PANEL_ROUTE } from "../../utils/consts";
 
 const UserInfo = observer(() => {
   const { user } = useContext(Context);
@@ -45,7 +47,10 @@ const UserInfo = observer(() => {
 
   return (
     <Container className={style.forContainer}>
-      <h2>Personal information</h2>
+      <div className={style.headerBlock}>
+        <h2>Personal information</h2>
+        {user.user.is_superuser && <NavLink to={ADMIN_PANEL_ROUTE}>Admin panel</NavLink>}
+      </div>
       <Accordion alwaysOpen defaultActiveKey='0'>
         <Accordion.Item eventKey="0" className="mb-2">
           <Accordion.Header>Personal information</Accordion.Header>

@@ -2,6 +2,11 @@
   margin-top: 20px;
 }
 
+.headerBlock {
+  display: flex;
+  justify-content: space-between;
+}
+
 .messageError {
   color: red;
 }
