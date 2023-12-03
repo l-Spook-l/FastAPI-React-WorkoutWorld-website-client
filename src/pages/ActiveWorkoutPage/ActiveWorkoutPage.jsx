@@ -8,6 +8,8 @@ import { fetchActiveWorkout, fetchSets } from '../../http/workoutAPI';
 import ExerciseItem from '../../components/ExerciseItem/ExerciseItem';
 import WorkoutTimeTracker from '../../components/Timers/WorkoutTimeTracker/WorkoutTimeTracker';
 import { PAGE_404_ROUTE } from '../../utils/consts';
+import { AiOutlineCheck } from "react-icons/ai";
+
 
 const ActiveWorkoutPage = observer(() => {
   const { user } = useContext(Context)
@@ -21,6 +23,7 @@ const ActiveWorkoutPage = observer(() => {
   const [exerciseData, setExerciseData] = useState({})
   const [sets, setSets] = useState([])
   const [exerciseSets, setExerciseSets] = useState([])
+  const [completedExercises, setCompletedExercises] = useState([])
 
   // =============== заменить наверно  на redis или что-то еще, т.к. иногда будет 2 загрузки =====
   const [loadingWorkout, setLoadingWorkout] = useState(true);
@@ -54,12 +57,12 @@ const ActiveWorkoutPage = observer(() => {
 
 
   useEffect(() => {
-    // console.log('sets useEffect', sets)
     const setsForSelectedExercise = sets.filter((el) => el.Set.exercise_id === exerciseData.id)
-    // console.log('setsForSelectedExercise', setsForSelectedExercise)
     setExerciseSets(setsForSelectedExercise)
   }, [sets, exerciseData])
 
+
+  // ======================================================================================
   const handleStart = () => {
     console.log('Timer started!');
     // Место для логики, которая должна выполняться при старте таймера
@@ -79,13 +82,15 @@ const ActiveWorkoutPage = observer(() => {
     console.log(`Timer updated! Current time: ${currentTime} seconds`);
     // Место для логики, которая должна выполняться при каждом обновлении времени таймера
   };
-
   // ======================================================================================
 
   const selectExercise = (index, exercise) => {
     setActiveTab(index)
     setExerciseData(exercise)
-    console.log('exercise',  exercise.id)
+  }
+
+  const completedExercisesCheck = (ids) => {
+    setCompletedExercises(ids)
   }
 
   return (
@@ -119,12 +124,13 @@ const ActiveWorkoutPage = observer(() => {
               onClick={() => selectExercise(index, exercise)}
               >
               Exercise {index + 1}
+              {completedExercises.includes(exercise.id) && <AiOutlineCheck />}
             </Alert>
           )
           }
         </div>
         <div className={style.exerciseItem}>
-          <ExerciseItem exercise={exerciseData} sets={exerciseSets} loading={loadingSets}/>
+          <ExerciseItem exercise={exerciseData} sets={exerciseSets} loading={loadingSets} completedExercises={completedExercisesCheck}/>
         </div>
       </div>
     </Container>

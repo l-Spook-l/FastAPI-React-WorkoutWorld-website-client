@@ -11,7 +11,7 @@ import CustomTogglePhotos from '../CustomToggles/CustomTogglePhotos/CustomToggle
 import CustomToggleVideo from '../CustomToggles/CustomToggleVideo/CustomToggleVideo'
 
 
-const ExerciseInfo = observer(({ exercise, sets, loading }) => {
+const ExerciseInfo = observer(({ exercise, sets, loading, completedExercises }) => {
   
   // делаем новые обькты, а не ссылки на - sets
   const [oldSets, setOldSets] = useState(JSON.parse(JSON.stringify(sets)))
@@ -26,17 +26,18 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
   
   const [setSaveList, setSetSaveList] = useState([])
 
+
   useEffect(() => {
     setOldSets(JSON.parse(JSON.stringify(sets)))
     setNewSets(JSON.parse(JSON.stringify(sets.map((el) => ({ "Set": { ...el.Set, "repetition": 0, "weight": 0 } })))))
     setActiveRestTimer(false)
-  }, [sets]);
+  }, [sets])
 
   const openModal = (setId, index) => {
     setModalOpen(true)
     setSetId(setId)
     setSetIndex(index)
-  };
+  }
 
   const closeModal = () => setModalOpen(false);
 
@@ -60,7 +61,9 @@ const ExerciseInfo = observer(({ exercise, sets, loading }) => {
   const finishExercise = () => {
     setFinishExerciseStatus([...finishExerciseStatus, exercise.id])
     setSetSaveList([...setSaveList, ...oldSets.map((set) => set.Set.id)])
+    completedExercises((prevIds) => [...prevIds, exercise.id])
   }
+
 
   return (
     <Container>
