@@ -209,6 +209,13 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
                         <a target='blank' href="https://support.google.com/youtube/answer/57407?hl=en&co=GENIE.Platform%3DDesktop">
                           Instructions on how to upload a video to YouTube.
                         </a>
+                        <p>Example link </p>
+                        <textarea
+                          rows="6"
+                          cols="35"
+                          value={`<iframe width="560" height="315" src="https://www.youtube.com/embed/jNQXAC9IVRw?si=Y93IpV0-dNdU4JMJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`}
+                          readOnly
+                        />
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
