@@ -14,18 +14,18 @@ const AdminPanelPage = observer(() => {
 
   const [users, setUsers] = useState()
   const [roles, setRoles] = useState()
+  const [workouts, setWorkouts] = useState()
   
   const [view, setView] = useState()
   const [activeTab, setActiveTab] = useState("users")
   
-
   const [loadingAdminPanel, setLoadingAdminPanel] = useState(true)
-
 
   useEffect(() => {
     adminPanel().then((data)=> {
       setUsers(data.data.users)
       setRoles(data.data.roles)
+      setWorkouts(data.data.workouts)
       setView(<AdminUserInfo dataUsers={data.data.users}/>)
     }).catch((error) => {
       navigate(PAGE_404_ROUTE)
@@ -41,10 +41,10 @@ const AdminPanelPage = observer(() => {
         setView(<AdminUserInfo  dataUsers={users}/>)
         break;
       case "roles":
-        setView(<AdminRolesInfo />)
+        setView(<AdminRolesInfo dataRoles={roles}/>)
         break;
       case "workouts":
-        setView(<AdminWorkoutsInfo />)
+        setView(<AdminWorkoutsInfo dataWorkouts={workouts}/>)
         break;
     }
   }
