@@ -53,24 +53,25 @@ export const check = async () => {
 
 export const updateUserData = async (data) => {
   const response = await $authHost.patch(`/users/me`, data);
-  console.log("updateUserData response", response)
   return response.data
 }
 
 export const forgotUserPassword = async (email) => {
   const response = await $host.post('/request-password-reset', {email})
-  console.log("forgotPassword response", response)
   return response.data
 }
 
 export const resetUserPassword = async (token, password) => {
   const response = await $host.post('auth/reset-password', {token, password})
-  console.log("resetPassword response", response)
   return response.data
 }
 
 export const adminPanel = async () => {
   const response = await $authHost.post('admin')
-  console.log("adminPanel response", response)
+  return response.data
+}
+
+export const adminFetchWorkout = async (workout_id) => {
+  const response = await $authHost.get(`admin/workout/${workout_id}`)
   return response.data
 }
