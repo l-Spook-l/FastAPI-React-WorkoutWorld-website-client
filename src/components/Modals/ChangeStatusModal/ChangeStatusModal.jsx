@@ -27,7 +27,7 @@ const ChangeStatusModal = ({ show, onClose, status, changeStatus }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
-};
+  )
+}
 
 export default ChangeStatusModal;

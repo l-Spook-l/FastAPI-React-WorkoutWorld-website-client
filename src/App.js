@@ -27,7 +27,6 @@ const App = observer(() => {
         workout.setAddedWorkouts(data)      
       }).finally(() => setLoadingAddedWorkout(false))
     }).catch((error) => {
-      // console.log('Error login', error)
       setLoadingAddedWorkout(false)
     }).finally(() => setLoadingCheck(false))
 

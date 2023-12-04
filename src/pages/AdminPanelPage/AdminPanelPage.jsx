@@ -2,14 +2,13 @@ import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import style from './AdminPanelPage.module.css'
 import { adminPanel } from '../../http/userAPI'
-import { Alert, Spinner } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import Loader from '../../components/Loader/Loader'
 import { PAGE_404_ROUTE } from '../../utils/consts'
 import { useNavigate } from 'react-router-dom'
 import AdminUserInfo from '../../components/AdminComponents/AdminUserInfo/AdminUserInfo'
 import AdminWorkoutsInfo from '../../components/AdminComponents/AdminWorkoutsInfo/AdminWorkoutsInfo'
 import AdminRolesInfo from '../../components/AdminComponents/AdminRolesInfo/AdminRolesInfo'
-import AdminGetOneWorkout from '../../components/AdminComponents/AdminGetOneWorkout/AdminGetOneWorkout'
 
 const AdminPanelPage = observer(() => {
 

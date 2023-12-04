@@ -76,8 +76,6 @@ const UserWorkouts = observer(() => {
           <button className={style.filterButtonIcon} onClick={openOffcanvas}>
             <IoFilter/>
           </button>
-          {/* <SearchBar typeWorkout='Created' statusWorkout={statusWorkout}/>
-          <DifficultyBar/> */}
           <IsPublicBar statusWorkout={changeStatusWorkout}/>
           <NavLink className={style.createWorkoutButton} to={CREATE_WORKOUT_ROUTE}>Created workout</NavLink>
           <NavLink className={style.createWorkoutButtonIcon} to={CREATE_WORKOUT_ROUTE}><IoCreate/></NavLink>

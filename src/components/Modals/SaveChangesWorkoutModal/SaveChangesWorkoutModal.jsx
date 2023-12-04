@@ -21,7 +21,7 @@ const SaveChangesWorkoutModal = ({ show, onClose, saveChanges }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
+  )
 }
 
 export default SaveChangesWorkoutModal

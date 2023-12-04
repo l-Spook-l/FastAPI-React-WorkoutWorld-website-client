@@ -26,7 +26,6 @@ const ExerciseInfo = observer(({ exercise, sets, loading, completedExercises }) 
   
   const [setSaveList, setSetSaveList] = useState([])
 
-
   useEffect(() => {
     setOldSets(JSON.parse(JSON.stringify(sets)))
     setNewSets(JSON.parse(JSON.stringify(sets.map((el) => ({ "Set": { ...el.Set, "repetition": 0, "weight": 0 } })))))

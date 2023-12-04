@@ -6,9 +6,9 @@ import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import style from "./DifficultyBar.module.css";
 
 const DifficultyBar = observer(() => {
-  const { workout } = useContext(Context);
+  const { workout } = useContext(Context)
 
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(true)
 
   return (
     <Accordion bsPrefix="my-accordion" className={style.accordion}>

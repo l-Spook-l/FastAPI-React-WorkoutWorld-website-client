@@ -11,11 +11,11 @@ const MainPageContactForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value })
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     // Здесь вы можете добавить логику отправки данных на сервер или другую необходимую обработку
     console.log('Отправленные данные:', formData);
   }
@@ -66,8 +66,8 @@ const MainPageContactForm = () => {
         </button>        
       </Row>
     </Form>
-  );
-};
+  )
+}
 
 export default MainPageContactForm;
 

@@ -6,7 +6,6 @@ const RestIntervalTimer = ({ active, initialSeconds, onFinish  }) => {
   const [progress, setProgress] = useState(0)
   const [isActive, setIsActive] = useState(false)
 
-
   useEffect(() => {
     setIsActive(active)
     setSeconds(initialSeconds)
@@ -24,7 +23,7 @@ const RestIntervalTimer = ({ active, initialSeconds, onFinish  }) => {
         setIsActive(false)
         onFinish()
       }
-    }, 1000);
+    }, 1000)
 
     return () => clearInterval(interval)
   }, [seconds, isActive])

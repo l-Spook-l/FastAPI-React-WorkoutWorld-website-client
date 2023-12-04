@@ -25,16 +25,16 @@ const ResetUserPassword = () => {
 
   useEffect(() => {
     if (passwordError) {
-      setFormValid(false);
+      setFormValid(false)
     } else {
-      setFormValid(true);
+      setFormValid(true)
     }
   }, [passwordError])
 
   const blurHandler = (e) => {
     switch (e.target.name) {
       case "password":
-        setPasswordDirty(true);
+        setPasswordDirty(true)
         break;
     }
   }
@@ -42,12 +42,12 @@ const ResetUserPassword = () => {
   const passwordHandler = (e) => {
     setPassword(e.target.value);
     if (e.target.value.length < 8) {
-      setPasswordError("Password must be longer than 8 characters");
+      setPasswordError("Password must be longer than 8 characters")
       if (!e.target.value) {
-        setPasswordError("Password cannot be empty");
+        setPasswordError("Password cannot be empty")
       }
     } else {
-      setPasswordError("");
+      setPasswordError("")
     }
   }
 
@@ -112,7 +112,7 @@ const ResetUserPassword = () => {
           </Row>
         </Form>
     </div>
-    <ChangePasswordConfirmModal show={showModal} handleClose={closeModal}/>
+    <ChangePasswordConfirmModal show={showModal} close={closeModal}/>
     </Container>
   )
 }

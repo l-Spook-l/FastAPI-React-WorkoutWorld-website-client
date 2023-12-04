@@ -17,7 +17,7 @@ const MyPagination = observer(() => {
 
   if (pagesCount <= 8 ) {
     for (let i = 0; i < pagesCount; i++) {
-      pages.push(i + 1);
+      pages.push(i + 1)
     }
   } else {
     if (workout.page === 1) { 

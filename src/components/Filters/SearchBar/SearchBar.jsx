@@ -54,7 +54,7 @@ const SearchBar = observer(({ typeWorkout, statusWorkout=undefined }) => {
 
   const clearSearch = () => {
     workout.setSelectedSearchWorkouts("")
-  };
+  }
 
   return (
     <Dropdown className={style.myDropdown}>

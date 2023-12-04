@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 import { ADMIN_PANEL_ROUTE } from "../../utils/consts";
 
 const UserInfo = observer(() => {
-  const { user } = useContext(Context);
+  const { user } = useContext(Context)
 
   const [editFirstLastName, setEditFirstLastName] = useState(false)
   const [editPhoneNumberEmail, setEditPhoneNumberEmail] = useState(false)

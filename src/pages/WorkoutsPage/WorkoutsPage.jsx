@@ -12,7 +12,6 @@ import SearchBar from '../../components/Filters/SearchBar/SearchBar'
 import DifficultyBar from '../../components/Filters/DifficultyBar/DifficultyBar'
 import MyOffcanvasFilters from '../../components/Offcanvas/MyOffcanvasFilters/MyOffcanvasFilters'
 
-
 const WorkoutsPage = observer(() => {
   const { user } = useContext(Context)
   const { workout } = useContext(Context)

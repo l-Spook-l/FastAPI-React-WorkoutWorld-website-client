@@ -7,7 +7,7 @@ import style from "./ExerciseImageSlider.module.css";
 import PhotoModal from "../../Modals/PhotoModal/PhotoModal";
 
 
-const ExerciseImageSlider = ({ photos, onSelect }) => {
+const ExerciseImageSlider = ({ photos }) => {
   const [showModalPhoto, setShowModalPhoto] = useState(false)
   const [selectedPhoto, setSelectedPhoto] = useState(0)
 

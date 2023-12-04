@@ -21,7 +21,7 @@ const DeleteModal = ({ show, onClose, deleteValue, value }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
+  )
 }
 
 export default DeleteModal

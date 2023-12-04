@@ -73,9 +73,6 @@ const AddedWorkouts = observer(() => {
           <NavLink className={style.addWorkoutButton} to={WORKOUTS_ROUTE}>Add workout</NavLink>
           <NavLink className={style.addWorkoutButtonIcon} to={WORKOUTS_ROUTE}><IoAdd/></NavLink>
         </div>
-        {/* <SearchBar typeWorkout='Added'/>
-        <DifficultyBar/>
-        <NavLink className={style.addWorkoutButton} to={WORKOUTS_ROUTE}>Add workout</NavLink> */}
       </div>
       
       {workout.addedWorkouts.data.length === 0

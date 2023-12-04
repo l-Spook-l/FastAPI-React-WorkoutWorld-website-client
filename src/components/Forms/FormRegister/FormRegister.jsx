@@ -6,7 +6,6 @@ import { registration } from "../../../http/userAPI";
 import { MAIN_ROUTE } from "../../../utils/consts";
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
-
 const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
 
   const navigate = useNavigate();
@@ -121,7 +120,7 @@ const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
         setEmailDirty(true)
         break;
     }
-  };
+  }
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)

@@ -3,7 +3,6 @@ import style from './FormPhotoEditor.module.css'
 import { addNewPhotos, deletePhotos } from '../../../http/workoutAPI';
 import { MdOutlineRadioButtonUnchecked, MdOutlineRadioButtonChecked  } from "react-icons/md";
 
-
 const FormPhotoEditor = ({ exerciseId, exerciseName, existingPhotos }) => {
 
   const [photos, setPhotos] = useState(existingPhotos)

@@ -3,7 +3,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 
-
 const PhotoModal = ({ image, onClose }) => {
   return (
     <Modal show={true} onHide={onClose}>
@@ -16,7 +15,7 @@ const PhotoModal = ({ image, onClose }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
-};
+  )
+}
 
 export default PhotoModal;

@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
 import { addWorkoutToUser, createSet, deleteSets, deleteAddedWorkout, deleteCreatedWorkout, updateWorkout } from '../../../http/workoutAPI'
 import { Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import ExerciseInfo from '../../../components/ExerciseInfo/ExerciseInfo'
@@ -20,8 +19,6 @@ const AdminGetOneWorkout = observer((workout_id) => {
   const { user } = useContext(Context)
   const { workout } = useContext(Context)
 
-  const navigate = useNavigate()
-
   const [loading, setLoading] = useState(true)
   
   const [editWorkout, setEditWorkout] = useState(false)
@@ -38,8 +35,6 @@ const AdminGetOneWorkout = observer((workout_id) => {
   const [showModalDeleteWorkout, setShowModalDeleteWorkout] = useState(false)
   const [showModalSaveChanges, setShowModalSaveChanges] = useState(false)
 
-  const [workoutAlreadyAdded, setWorkoutAlreadyAdded] = useState(false)
-
   const [updatePage, setUpdatePage] = useState(false)
 
   useEffect(() => {
@@ -51,12 +46,6 @@ const AdminGetOneWorkout = observer((workout_id) => {
       setWorkoutDifficulty(data.data.Workout.difficulty)
       setWorkoutDescription(data.data.Workout.description)
     }).catch((error) => {
-      // if (error.response.status === 403) {
-      //   navigate(PAGE_404_ROUTE)
-      // }
-      // if (error.response.status === 422) {
-      //   navigate(PAGE_404_ROUTE)
-      // }
     }).finally(() => setLoading(false))
   },[workout_id, updatePage, user.isAuth])
 

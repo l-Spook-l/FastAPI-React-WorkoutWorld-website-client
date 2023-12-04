@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const UpdateSetModal = ({ show, onHide, onSubmit }) => {
-  const [weight, setWeight] = useState(0);
-  const [reps, setReps] = useState(0);
+  const [weight, setWeight] = useState(0)
+  const [reps, setReps] = useState(0)
 
   const submitData = () => {
-    // Ваша логіка для збереження нових значень
-    onSubmit(weight, reps);
-  };
+    onSubmit(weight, reps)
+  }
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -36,7 +35,7 @@ const UpdateSetModal = ({ show, onHide, onSubmit }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
-};
+  )
+}
 
 export default UpdateSetModal;

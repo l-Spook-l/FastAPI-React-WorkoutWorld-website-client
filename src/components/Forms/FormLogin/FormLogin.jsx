@@ -162,7 +162,7 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
         
       </Modal.Body>
     </Modal>
-  );
-});
+  )
+})
 
 export default FormLogin;

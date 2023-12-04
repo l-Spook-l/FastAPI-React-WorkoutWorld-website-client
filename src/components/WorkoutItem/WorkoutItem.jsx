@@ -1,11 +1,10 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useEffect, useState } from 'react'
-import { Card, Spinner } from 'react-bootstrap'
+import React, { useContext } from 'react'
+import { Card } from 'react-bootstrap'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { Context } from '../..'
 import style from "./WorkoutItem.module.css"
 import { WORKOUT_ROUTE } from '../../utils/consts'
-
 
 const WorkoutItem = observer(({ selectedWorkout }) => {
   const { user } = useContext(Context)

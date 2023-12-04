@@ -8,8 +8,8 @@ import { Context } from "../../..";
 const IsPublicBar = observer(({ statusWorkout }) => {
   const { workout } = useContext(Context)
 
-  const [show, setShow] = useState(true);
-  const [selectedStatus, setSelectedStatus] = useState();
+  const [show, setShow] = useState(true)
+  const [selectedStatus, setSelectedStatus] = useState()
 
   const statusWorkoutList = [
     {
@@ -29,12 +29,12 @@ const IsPublicBar = observer(({ statusWorkout }) => {
     workout.setSkip(0)
     if (selectedStatus === status.id) {
       setSelectedStatus()
-      statusWorkout();
+      statusWorkout()
     } else {
       setSelectedStatus(status.id)
-      statusWorkout(status.value);
+      statusWorkout(status.value)
     }
-  };
+  }
 
   return (
     <Accordion bsPrefix="my-accordion" className={style.accordion}>
