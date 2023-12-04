@@ -66,6 +66,11 @@ export const resetUserPassword = async (token, password) => {
   return response.data
 }
 
+export const sendMessageToAdmin = async (name, email, message) => {
+  const response = await $host.post(`/send-message-admin`, {name, email, message})
+  return response.data
+}
+
 export const adminPanel = async () => {
   const response = await $authHost.post('admin')
   return response.data
