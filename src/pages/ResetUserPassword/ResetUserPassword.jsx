@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import style from './ResetUserPassword.module.css'
 import { resetUserPassword } from '../../http/userAPI';
+import ChangePasswordConfirmModal from '../../components/Modals/ChangePasswordConfirmModal/ChangePasswordConfirmModal';
+import { MAIN_ROUTE } from '../../utils/consts';
 
 const ResetUserPassword = () => {
   const token = useParams()
+
+  const navigate = useNavigate()
 
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -16,6 +20,8 @@ const ResetUserPassword = () => {
   const [formValid, setFormValid] = useState(false)
   const [passwordDirty, setPasswordDirty] = useState(false)
   const [passwordError, setPasswordError] = useState("Password cannot be empty")
+
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     if (passwordError) {
@@ -50,13 +56,20 @@ const ResetUserPassword = () => {
   }
 
   const resetPassword  = () => {
-    resetUserPassword(token.token, password).catch((error) => {
+    resetUserPassword(token.token, password).then(() => {
+      setShowModal(true)
+    }).catch((error) => {
       if (error.response.data.detail === 'RESET_PASSWORD_BAD_TOKEN' ) {
         setTokenError(true)
       } else {
         setTokenError(false)
       }
     })
+  }
+
+  const closeModal = () => {
+    setShowModal(false)
+    navigate(MAIN_ROUTE)
   }
 
   return (
@@ -99,6 +112,7 @@ const ResetUserPassword = () => {
           </Row>
         </Form>
     </div>
+    <ChangePasswordConfirmModal show={showModal} handleClose={closeModal}/>
     </Container>
   )
 }

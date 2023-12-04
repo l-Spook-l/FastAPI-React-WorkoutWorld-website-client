@@ -10,10 +10,8 @@ import { ADMIN_PANEL_ROUTE } from "../../utils/consts";
 const UserInfo = observer(() => {
   const { user } = useContext(Context);
 
-  const [showModal, setShowModal] = useState(false);
-
-  const [editFirstLastName, setEditFirstLastName] = useState(false);
-  const [editPhoneNumberEmail, setEditPhoneNumberEmail] = useState(false);
+  const [editFirstLastName, setEditFirstLastName] = useState(false)
+  const [editPhoneNumberEmail, setEditPhoneNumberEmail] = useState(false)
   const [editPassword, setEditPassword] = useState(false)
 
   const [firstName, setFirstName] = useState(user.user.first_name)
@@ -22,6 +20,8 @@ const UserInfo = observer(() => {
   const [email, setEmail] = useState(user.user.email)
 
   const [emailError, setEmailError] = useState(false)
+
+  const [messageResetPassword, setMessageResetPassword] = useState(false)
 
   const updateFirstLastName = () => {
     updateUserData({first_name: firstName, last_name: lastName})
@@ -42,6 +42,7 @@ const UserInfo = observer(() => {
   }
 
   const resetPassword = () => {
+    setMessageResetPassword(true)
     forgotUserPassword(email)
   }
 
@@ -122,28 +123,13 @@ const UserInfo = observer(() => {
               </div>
             : <Button onClick={() => setEditPassword(true)} className="mt-4 bg-success">Change password</Button>
             }
-          </Accordion.Body>
-        </Accordion.Item>
-
-        <Accordion.Item eventKey="4" className="mb-2">
-          <Accordion.Header className="border-top">
-            Additional information
-          </Accordion.Header>
-          <Accordion.Body>
-            <div>
-              <input id="legal-entity" type="checkbox" className="me-2" />
-              <label htmlFor="legal-entity">
-                This account is used by a legal entity, company representative
-                or private entrepreneur.
-              </label>
-            </div>
-            <Button onClick={() => setShowModal(true)} className="mt-4 bg-success">Edit</Button>
+            <p>{messageResetPassword && 'We will send you a link to reset your password.'}</p>
           </Accordion.Body>
         </Accordion.Item>
 
       </Accordion>
     </Container>
-  );
-});
+  )
+})
 
 export default UserInfo;

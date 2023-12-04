@@ -31,16 +31,16 @@ const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
   const [passwordError, setPasswordError] = useState("Password cannot be empty")
 
   // Общая проверка валидации формы
-  const [formValid, setFormValid] = useState(false);
+  const [formValid, setFormValid] = useState(false)
 
 
   useEffect(() => {
     if (firstNameError || lastNameError || passwordError || emailError) {
-      setFormValid(false);
+      setFormValid(false)
     } else {
-      setFormValid(true);
+      setFormValid(true)
     }
-  }, [firstNameError, lastNameError, passwordError, emailError]);
+  }, [firstNameError, lastNameError, passwordError, emailError])
 
   const registerUser = () => {
     registration(firstName, lastName, email, password).then((userData) => {
@@ -57,74 +57,74 @@ const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
           setPasswordError(error.response.data['password'][0][0].toUpperCase() + error.response.data['password'][0].slice(1))
           break
       }}
-    );
-  };
+    )
+  }
 
   const emailHandler = (e) => {
     setEmail(e.target.value);
-    const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
     if (!re.test(String(e.target.value).toLowerCase())) {
-      setEmailError("Invalid email");
+      setEmailError("Invalid email")
     } else {
-      setEmailError("");
+      setEmailError("")
     }
-  };
+  }
 
   const firstNameHandler = (e) => {
     setFirstName(e.target.value);
     if (e.target.value.length < 5) {
-      setFirstNameError("First name must be longer than 5 characters");
+      setFirstNameError("First name must be longer than 5 characters")
       if (!e.target.value) {
-        setFirstNameError("First name cannot be empty");
+        setFirstNameError("First name cannot be empty")
       }
     } else {
-      setFirstNameError("");
+      setFirstNameError("")
     }
-  };
+  }
 
   const lastNameHandler = (e) => {
     setLastName(e.target.value);
     if (e.target.value.length < 5) {
-      setLastNameError("Last name must be longer than 5 characters");
+      setLastNameError("Last name must be longer than 5 characters")
       if (!e.target.value) {
-        setLastNameError("Last name cannot be empty");
+        setLastNameError("Last name cannot be empty")
       }
     } else {
-      setLastNameError("");
+      setLastNameError("")
     }
-  };
+  }
 
   const passwordHandler = (e) => {
     setPassword(e.target.value);
     if (e.target.value.length < 8) {
-      setPasswordError("Password must be longer than 8 characters");
+      setPasswordError("Password must be longer than 8 characters")
       if (!e.target.value) {
-        setPasswordError("Password cannot be empty");
+        setPasswordError("Password cannot be empty")
       }
     } else {
-      setPasswordError("");
+      setPasswordError("")
     }
-  };
+  }
 
   const blurHandler = (e) => {
     switch (e.target.name) {
       case "firstName":
-        setFirstNameDirty(true);
+        setFirstNameDirty(true)
         break;
       case "lastName":
-        setLastNameDirty(true);
+        setLastNameDirty(true)
         break;
       case "password":
-        setPasswordDirty(true);
+        setPasswordDirty(true)
         break;
       case "email":
-        setEmailDirty(true);
+        setEmailDirty(true)
         break;
     }
   };
 
   const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
+    setShowPassword(!showPassword)
   }
 
   return (

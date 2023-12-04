@@ -29,9 +29,9 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
 
   useEffect(() => {
     if (emailError || passwordError) {
-      setFormValid(false);
+      setFormValid(false)
     } else {
-      setFormValid(true);
+      setFormValid(true)
     }
   }, [emailError, passwordError])
 
@@ -49,7 +49,7 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
 
   const emailHandler = (e) => {
     setEmail(e.target.value)
-    const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
     if (!re.test(String(e.target.value).toLowerCase())) {
       setEmailError('Invalid email');
     } else {
@@ -58,34 +58,34 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
   }
 
   const passwordHandler = (e) => {
-    setPassword(e.target.value);
+    setPassword(e.target.value)
     if (e.target.value.length < 8) {
-      setPasswordError("Password must be longer than 8 characters");
+      setPasswordError("Password must be longer than 8 characters")
       if (!e.target.value) {
-        setPasswordError("Password cannot be empty");
+        setPasswordError("Password cannot be empty")
       }
     } else {
-      setPasswordError("");
+      setPasswordError("")
     }
   }
 
   const blurHandler = (e) => {
     switch (e.target.name) {
       case "email":
-        setEmailDirty(true);
-        break;
+        setEmailDirty(true)
+        break
       case "password":
-        setPasswordDirty(true);
-        break;
+        setPasswordDirty(true)
+        break
     }
   }
 
   const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
+    setShowPassword(!showPassword)
   }
 
   const showResetPasswordForm = () => {
-    setShowResetPassword(true);
+    setShowResetPassword(true)
   }
 
   const closeModal = () => {
