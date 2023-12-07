@@ -19,6 +19,10 @@ RUN npm run build
 # Этап для запуска React
 FROM nginx:1.22-alpine-slim
 
+RUN rm /etc/nginx/conf.d/default.conf
+# replace with custom one
+COPY nginx/nginx.conf /etc/nginx/conf.d
+
 # Копируем собранные файлы React в Nginx сервер
 COPY --from=0 /app/build /usr/share/nginx/html
 
