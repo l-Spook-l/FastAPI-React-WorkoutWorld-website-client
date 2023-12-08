@@ -44,6 +44,7 @@ const UserInfo = observer(() => {
   const resetPassword = () => {
     setMessageResetPassword(true)
     forgotUserPassword(email)
+    setEditPassword(false)
   }
 
   return (
