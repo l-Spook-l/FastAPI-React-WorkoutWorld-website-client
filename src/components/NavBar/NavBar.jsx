@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useState } from 'react'
 import { Context } from '../..'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { Container, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap'
 import { MAIN_ROUTE, PROFILE_ROUTE, WORKOUTS_ROUTE } from '../../utils/consts'
 import style from "./NavBar.module.css";
@@ -13,16 +13,13 @@ import FormRegister from "../Forms/FormRegister/FormRegister";
 const NavBar = observer(() => {
   const { user } = useContext(Context)
 
-  const navigate = useNavigate()  // для перехода по страницам
-
   const [showLogin, setShowLogin] = useState(true)
   const [showModal, setShowModal] = useState(false)
   
-  // Выход из профиля
   const logOut = () => {
     user.setUser({})
     user.setIsAuth(false)
-    localStorage.setItem("token", null);  // заменить наверно на logout
+    localStorage.setItem("token", null)
   }
 
   const clickLogin = () => {

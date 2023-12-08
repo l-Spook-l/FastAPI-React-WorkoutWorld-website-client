@@ -46,33 +46,35 @@ const FormResetPassword = ({ onClose }) => {
 
   return (
     <Form>
-      <Form.Group controlId="formBasicEmail">
-        {showMessageSuccessReset
+      {showMessageSuccessReset
         ? <p>The password reset link has been successfully sent to the email. You can close the window.'</p>
-        : <p>We will send you a link to reset your password.</p>
-        }
-        
-        <Form.Label>Email Adress</Form.Label>
-        <Form.Control
-          onBlur={(e) => blurHandler(e)}
-          name="email"
-          type="email"
-          placeholder="Enter email"
-          value={email}
-          onChange={(e) => emailHandler(e)}
-        />
-        {emailDirty && emailError && (
-          <Form.Text className="text-danger">{emailError}</Form.Text>
-        )}
-      </Form.Group>
-      <div className={style.blockWithButtons}>
-        <NavLink onClick={() => onClose()}>
-          I remembered my password
-        </NavLink>
-        <Button disabled={!formValid} onClick={() => resetPassword()}>
-          Reset password
-        </Button>
+        : 
+        <div>
+          <Form.Group controlId="formBasicEmail">
+            <p>We will send you a link to reset your password.</p>
+            <Form.Label>Email Adress</Form.Label>
+            <Form.Control
+              onBlur={(e) => blurHandler(e)}
+              name="email"
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => emailHandler(e)}
+            />
+            {emailDirty && emailError && (
+              <Form.Text className="text-danger">{emailError}</Form.Text>
+            )}
+          </Form.Group>
+        <div className={style.blockWithButtons}>
+          <NavLink onClick={() => onClose()}>
+            I remembered my password
+          </NavLink>
+          <Button disabled={!formValid} onClick={() => resetPassword()}>
+            Reset password
+          </Button>
+        </div>
       </div>
+      }
     </Form>
   )
 }

@@ -1,9 +1,8 @@
 import { makeAutoObservable } from "mobx";
 
-// _ - переменная не может быть изменена
 export default class WorkoutStore {
   constructor() {
-    this._workouts = []  // масив для получение тренировок
+    this._workouts = []  // Array for retrieving workouts
     this._selectedWorkout = []
     this._userWorkouts = []
     this._addedWorkouts = []
@@ -11,7 +10,7 @@ export default class WorkoutStore {
     this._difficulties = []
     this._selectedDifficulty = []
 
-    this._searchWorkouts = []  // массив для поиска тренировок по названию
+    this._searchWorkouts = []  // Array for searching workouts by name
     this._selectedSearchWorkouts = ''
 
     this._editWorkout = false

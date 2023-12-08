@@ -15,14 +15,14 @@ const FormLogin = observer(({ onSwitchForm, show, onHide }) => {
   const [showPassword, setShowPassword] = useState(false)
   const [showResetPassword, setShowResetPassword] = useState(false)
 
-  // Были ли мы в ipnut
+  // Have we been in the input?
   const [emailDirty, setEmailDirty] = useState(false)
   const [passwordDirty, setPasswordDirty] = useState(false)
-  // Ошибка полей
+  // Field error
   const [emailError, setEmailError] = useState('Email cannot be empty')
   const [passwordError, setPasswordError] = useState("Password cannot be empty")
 
-  // Общая проверка валидации формы
+  // General form validation check
   const [formValid, setFormValid] = useState(false)
 
   const [loginError, setLoginError] = useState(false)

@@ -2,7 +2,6 @@ import { $authHost, $host } from "./index"
 
 
 export const fetchWorkouts = async(skip, difficulty, limit, name) => {
-  // paramsSerializer - чтобы не было [] в строке запроса
   const response = await $host.get('workouts/', {params: {skip:skip, name:name, difficulty:difficulty, limit:limit}, paramsSerializer: {indexes: null}})
   return response.data
 }
@@ -43,7 +42,6 @@ export const createWorkout = async(name, user_id, description, is_public, diffic
   return response.data
 }
 
-// изменить host - на auhost
 export const createExercise = async(name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photos) => {
   const formData = new FormData()
   formData.append('name', name)

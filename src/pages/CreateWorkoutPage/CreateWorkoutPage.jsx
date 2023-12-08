@@ -18,14 +18,14 @@ const CreateWorkoutPage = observer(() => {
   const [difficulty, setDifficulty] = useState('Easy')
   const [saveLoad, setSaveLoad] = useState(false)
 
-  // Общая проверка валидации формы
+  // Overall form validation check
   const [formValidError, setFormValidError] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0);
    },[])
 
-  // создаем обьект тренировки
+  // Creating a workout object
   const [workoutData, setWorkoutData] = useState({
     title: '',
     description: '',
@@ -34,17 +34,14 @@ const CreateWorkoutPage = observer(() => {
     exercises: [],
   })
 
-  // добавляем значение в обьект workoutData меняя сосояние
-  // ...prevData - добавляем что уже было
+  // Adding a value to the workoutData object, altering the state
   const inputChange = (el) => {
     const { name, value, checked } = el.target;
-    // eсли это чекбокс, используем значение checked
     const newValue = el.target.type === 'checkbox' ? checked : value;
-    setWorkoutData((prevData) => ({ ...prevData, [name]: newValue }))  // [name] - ключем будет именно значение в переменной, а без [] будет - 'name'
+    setWorkoutData((prevData) => ({ ...prevData, [name]: newValue }))
   }
 
-  // добавляем упражнение в обьект как обьект ))
-  // ...prevData.exercises - добавляем что уже было
+  // Adding an exercise to the object as an object
   const addExercise = () => {
     setWorkoutData((prevData) => ({
       ...prevData,
@@ -53,7 +50,7 @@ const CreateWorkoutPage = observer(() => {
     setConfirm(true)
   }
 
-  // отвечает за поля упражнения
+  // Deals with exercise fields
   const exerciseChange = (index, property, value) => {
     const updatedExercises = [...workoutData.exercises]
     switch (property) {
@@ -82,7 +79,6 @@ const CreateWorkoutPage = observer(() => {
     }
   }
 
-  // удалить упражнение
   const removeExercise = (index) => {
     const updatedExercises = [...workoutData.exercises];
     updatedExercises.splice(index, 1);
@@ -90,9 +86,8 @@ const CreateWorkoutPage = observer(() => {
     updatedExercises.length < 1 && setConfirm(false)  // если ничего нет в массив кнопка не активна
   }
 
-  // сохраняем тренировку
   const submitCreateWorkout = () => {
-    // проверяем если ли пустые поля
+    // Checking for empty fields
     const checkDataWorkout = Object.values(workoutData).slice(0, -1).every((value) => value !== '')
     const checkDataExercise = workoutData.exercises.every((el) => Object.values(el).slice(0, -2).every((value) => value !== ''))
 

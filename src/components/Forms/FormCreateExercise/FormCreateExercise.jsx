@@ -14,12 +14,12 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
     setShowFormExercise(showForm)
   },[showForm])
 
-  // Общая проверка валидации формы
+  // General form validation check
   const [formValidError, setFormValidError] = useState(false)
 
   const [newExercises, setNewExercises] = useState([{ name: '', workoutID: 0,  description: '', sets: 1, maximumRepetitions: 1, restTime: 60, video: '', photo: [] }])
 
-  // добавляем упражнение в обьект как обьект ))
+  // We add an exercise to the object as an object
   const addExercise = () => {
     setNewExercises(() => ([
       ...newExercises,
@@ -28,7 +28,7 @@ const FormCreateExercise = ({ showForm, workoutId }) => {
     setConfirm(true)
   }
 
-  // отвечает за поля упражнения
+  // Handles exercise fields
   const exerciseChange = (index, property, value) => {
     const updatedExercises = [...newExercises]
     switch (property) {

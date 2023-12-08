@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx";
 
-// _ - переменная не может быть изменена
 export default class UserStore {
   constructor() {
     this._isAuth = false

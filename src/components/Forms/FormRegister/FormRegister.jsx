@@ -17,19 +17,19 @@ const FormRegister = observer(({ onSwitchForm, show, onHide }) => {
 
   const [showPassword, setShowPassword] = useState(false)
 
-  // Были ли мы в ipnut
+  // Have we been in the input?
   const [firstNameDirty, setFirstNameDirty] = useState(false)
   const [lastNameDirty, setLastNameDirty] = useState(false)
   const [emailDirty, setEmailDirty] = useState(false)
   const [passwordDirty, setPasswordDirty] = useState(false)
   
-  // Ошибка полей
+  // Field error
   const [firstNameError, setFirstNameError] = useState("First name cannot be empty")
   const [lastNameError, setLastNameError] = useState("Last name cannot be empty")
   const [emailError, setEmailError] = useState("Email cannot be empty")
   const [passwordError, setPasswordError] = useState("Password cannot be empty")
 
-  // Общая проверка валидации формы
+  // General form validation check
   const [formValid, setFormValid] = useState(false)
 
 

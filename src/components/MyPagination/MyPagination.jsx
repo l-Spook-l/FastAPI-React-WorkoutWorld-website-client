@@ -4,13 +4,13 @@ import style from "./MyPagination.module.css";
 import { Context } from "../..";
 
 const MyPagination = observer(() => {
-  const { workout } = useContext(Context);
+  const { workout } = useContext(Context)
 
-  const pagesCount = Math.ceil(workout.totalCount / workout.limit);
-  let pages = [];
+  const pagesCount = Math.ceil(workout.totalCount / workout.limit)
+  let pages = []
 
   const selectPage = (page) => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" })
     workout.setPage(page);
     workout.setSkip(workout.limit * (page - 1))
   };
@@ -54,7 +54,7 @@ const MyPagination = observer(() => {
         </button>
       ))}
     </div>
-  );
-});
+  )
+})
 
 export default MyPagination;

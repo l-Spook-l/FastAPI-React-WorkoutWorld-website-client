@@ -13,9 +13,9 @@ import CustomToggleVideo from '../CustomToggles/CustomToggleVideo/CustomToggleVi
 
 const ExerciseInfo = observer(({ exercise, sets, loading, completedExercises }) => {
   
-  // делаем новые обькты, а не ссылки на - sets
+  // We create new objects instead of references to sets
   const [oldSets, setOldSets] = useState(JSON.parse(JSON.stringify(sets)))
-  // в этом обьекте обнуляем значения нужных полей
+  // In this object, we reset the values of the necessary fields to zero
   const [newSets, setNewSets] = useState(JSON.parse(JSON.stringify(sets.map((el) => ({ "Set": { ...el.Set, "repetition": 0, "weight": 0 } })))))
 
   const [modalOpen, setModalOpen] = useState(false)

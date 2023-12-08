@@ -25,7 +25,6 @@ const ActiveWorkoutPage = observer(() => {
   const [exerciseSets, setExerciseSets] = useState([])
   const [completedExercises, setCompletedExercises] = useState([])
 
-  // =============== заменить наверно  на redis или что-то еще, т.к. иногда будет 2 загрузки =====
   const [loadingWorkout, setLoadingWorkout] = useState(true);
   const [loadingSets, setLoadingSets] = useState(true)
 
@@ -36,10 +35,10 @@ const ActiveWorkoutPage = observer(() => {
     .then((data) => {
       workout.setSelectedWorkout(data)
       setWorkoutName(data.data.Workout.name)
-
       setExerciseData(data.data.Workout.exercise[0])
 
-      const arrayOfIds = data.data.Workout.exercise.map((el) => el.id)  // создаем массив из id упражнений
+      // Creating an array of exercise IDs
+      const arrayOfIds = data.data.Workout.exercise.map((el) => el.id)
       fetchSets(user.user.id, arrayOfIds).then((data) => setSets(data.data)).finally(() => setLoadingSets(false))
       
     }).catch((error) => {
@@ -62,27 +61,21 @@ const ActiveWorkoutPage = observer(() => {
   }, [sets, exerciseData])
 
 
-  // ======================================================================================
-  const handleStart = () => {
+  const startWorkoutTimer = () => {
     console.log('Timer started!');
-    // Место для логики, которая должна выполняться при старте таймера
   }
 
-  const handleStop = (elapsedTime) => {
+  const stopWorkoutTimer = (elapsedTime) => {
     console.log(`Timer stopped! Elapsed time: ${elapsedTime} seconds`);
-    // Место для логики, которая должна выполняться при остановке таймера
   }
 
-  const handleReset = () => {
+  const resetWorkoutTimer = () => {
     console.log('Timer reset!');
-    // Место для логики, которая должна выполняться при сбросе таймера
   }
 
-  const handleTimeUpdate = (currentTime) => {
+  const updateWorkoutTimer = (currentTime) => {
     console.log(`Timer updated! Current time: ${currentTime} seconds`);
-    // Место для логики, которая должна выполняться при каждом обновлении времени таймера
   }
-  // ======================================================================================
 
   const selectExercise = (index, exercise) => {
     setActiveTab(index)
@@ -99,10 +92,10 @@ const ActiveWorkoutPage = observer(() => {
       <div className={style.titleWorkout}>
         <div>
           <WorkoutTimeTracker 
-            onStart={handleStart}
-            onStop={handleStop}
-            onReset={handleReset}
-            onTimeUpdate={handleTimeUpdate}
+            onStart={startWorkoutTimer}
+            onStop={stopWorkoutTimer}
+            onReset={resetWorkoutTimer}
+            onTimeUpdate={updateWorkoutTimer}
           />
         </div>
         <div className={style.nameWorkout}>
