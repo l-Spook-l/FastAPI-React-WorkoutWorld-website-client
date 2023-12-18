@@ -2,6 +2,7 @@
 
 ![JS React](https://img.shields.io/badge/JS-React-61DAFB?logo=react)
 ![MobX](https://img.shields.io/badge/MobX-React_State_Management-yellowgreen)
+![CSS3](https://img.shields.io/badge/CSS3-Development-blue?logo=css3)
 ![NGINX](https://img.shields.io/badge/NGINX-Web_Server-green?logo=nginx)
 ![Docker](https://img.shields.io/badge/Docker-Containerization-blue?logo=docker)
 ![RestAPI](https://img.shields.io/badge/RestAPI-Development-yellow)
