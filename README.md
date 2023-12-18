@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# FastAPI React WorkoutWorld website client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![JS React](https://img.shields.io/badge/JS-React-61DAFB?logo=react)
+![MobX](https://img.shields.io/badge/MobX-React_State_Management-yellowgreen)
+![NGINX](https://img.shields.io/badge/NGINX-Web_Server-green?logo=nginx)
+![Docker](https://img.shields.io/badge/Docker-Containerization-blue?logo=docker)
+![RestAPI](https://img.shields.io/badge/RestAPI-Development-yellow)
 
-## Available Scripts
+## Project Description
 
-In the project directory, you can run:
+The Fitness Web Platform is an online service that offers a wide range of workouts and allows users to create and track their individual training programs.
 
-### `npm start`
+This project aims to provide a convenient and flexible platform for everyone who seeks an active lifestyle and cares about their health.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Client-Side Description
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This repository contains the client-side part of the project developed in React. In this project, users can create their own workouts, add existing ones, view information about the last workout, and much more.
 
-### `npm test`
+## Functionality
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Creation and addition of workouts.
+- Viewing information about the last workout.
+- Interface to interact with the FastAPI server.
 
-### `npm run build`
+## Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Installing Dependencies:**
+   - Navigate to the directory with the client-side part of the project.
+      ```bash
+      cd client_directory
+      ```
+   - Execute the command to install all necessary dependencies.
+      ```bash
+      npm install
+      ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Running the Project:**
+   - After successful installation of dependencies, execute the command to start the project.
+      ```bash
+      npm run start
+      ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Accessing the Application:**
+   - Open your browser and go to http://localhost:3000 to view the running application.
 
-### `npm run eject`
+## Planned Changes
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Planned developments for the project:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Forum:** Adding forum functionality for workout discussions, sharing experiences, and tips.
+- **Sporting Goods Store:** Creating a section for sports goods where users can buy necessary equipment and accessories.
+- **Group Workout Organization:** Implementing the feature to organize group sessions with the ability to sign up and manage workout schedules.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Developers
 
-## Learn More
+- https://github.com/l-Spook-l
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Contact
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you have any questions or suggestions for improving the project, please contact uaspookua@gmail.com.
