@@ -42,7 +42,7 @@ export const createWorkout = async(name, user_id, description, is_public, diffic
   return response.data
 }
 
-export const createExercise = async(name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photos) => {
+export const createExercise = async(name, workout_id, description, number_of_sets, maximum_repetitions, rest_time, video, photos, number_in_workout) => {
   const formData = new FormData()
   formData.append('name', name)
   formData.append('workout_id', workout_id)
@@ -52,6 +52,7 @@ export const createExercise = async(name, workout_id, description, number_of_set
   formData.append('rest_time', rest_time)
   formData.append('video', video)
   photos && Object.values(photos).forEach((photo) => formData.append('photos', photo))
+  formData.append('number_in_workout', number_in_workout)
   const response = await $authHost.post('workouts/create_exercise/', formData, )
   return response.data
 }

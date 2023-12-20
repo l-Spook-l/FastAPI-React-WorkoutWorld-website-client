@@ -95,9 +95,10 @@ const CreateWorkoutPage = observer(() => {
       setFormValidError(true) 
     } else {
       setFormValidError(false)
+      console.log('test check data exercise', workoutData)
       createWorkout(workoutData.title, user.user.id, workoutData.description, workoutData.isPublic, difficulty, workoutData.totalTime)
       .then((data) => 
-      workoutData.exercises.map((exercise) => 
+      workoutData.exercises.map((exercise, index) => 
         createExercise( 
           exercise.name, 
           data.workout_ID, 
@@ -106,7 +107,8 @@ const CreateWorkoutPage = observer(() => {
           exercise.maximumRepetitions, 
           exercise.restTime,
           exercise.video,
-          exercise.photo).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0)),
+          exercise.photo,
+          index + 1).then((data) => createSet(exercise.sets, data.exercise_ID, user.user.id, 0, 0)),
       setSaveLoad(true),
       setTimeout(() => {
         setSaveLoad(false)
